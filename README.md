@@ -9,7 +9,9 @@ I've used the [sdl2 android example app](https://github.com/libsdl-org/SDL/tree/
 
 I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk r17 :/) cmake 3.22.1 and openjdk 17.
 
-Currently you need to put the settlers 2 data into the `android-project/app/src/main/assets/share/s25rttr/S2` folder
+Currently you need to put the settlers 2 data into the `android-project/app/src/main/assets/share/s25rttr/S2` folder.
+
+I'll add a file choosing feature in future.
 
 # How to build
 
