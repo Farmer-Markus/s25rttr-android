@@ -20,13 +20,13 @@ If possible place the sdk, ndk's, cmake ... under `~/Android`. (for example `/ho
 
 After that clone this repository with the git command
 
-		git clone --recursive https://github.com/Farmer-Markus/s25rttr-android
+	git clone --recursive https://github.com/Farmer-Markus/s25rttr-android
 
 Then run the build_dependencies.sh script to prebuild all dependencies. (This could take a while)
 If it cannot find your ndk installation please set the NDK23 and NDK27 enviroment variables to the location.
 Another example:
 
-		NDK23="~/Android/ndk/r23" NDK27="~/Android/ndk/r27" ./build_dependencies.sh
+	NDK23="~/Android/ndk/r23" NDK27="~/Android/ndk/r27" ./build_dependencies.sh
 
 After compiling all stuff it should show this message:
 `All dependencies have been build!(I hope :D)`
@@ -34,7 +34,7 @@ If not the build failed! You can open an [issue](https://github.com/Farmer-Marku
 
 Now you only need to patch s25client. Run:
 
-		./patches.sh --apply-patch
+	./patches.sh --apply-patch
 
 And it should ONLY show `patched`. If it shows something else, the files I've edited were changed in an update of rttr. Please also tell me in an [issue](https://github.com/Farmer-Markus/s25rttr-android/issues).
 
@@ -42,7 +42,7 @@ And now you should put the path to your ndk r27 into the `android-project/local.
 
 Now you should be able to run:
 
-		./build.sh buildDebug
+	./build.sh buildDebug
 
 To build debug or `buildRel` to build release. I you want to build the release you need to look a bit deeper into the signing system of android apps good luck.
 
