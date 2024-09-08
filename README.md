@@ -14,9 +14,9 @@ Currently you need to put the settlers 2 data into the `android-project/app/src/
 # How to build
 
 First you will need linux! Ive not tested it on Windows/mac or in wsl. You can try to compile it in wls but please don't report errors if it don't work.
-You java 17(in my case openkjdk) and android sdk 34, Platform-Tools v.35.0.2, ndk r23 and r27. Why? Sadly some dependencies like boost won't compile with ndk 27 so we need some to compile with r23 and the others with r27.
+You java 17(in my case openkjdk), android cmake 3.22.1(or newer), android sdk 34, Platform-Tools v.35.0.2, ndk r23 and r27. Why? Sadly some dependencies like boost won't compile with ndk 27 so we need some to compile with r23 and the others with r27.
 
-If possible place the sdk and ndk's under `~/Android`. (for example `/home/username/Android/ndk/r27`, `/home/username/Android/platforms/android-34`)
+If possible place the sdk, ndk's, cmake ... under `~/Android`. (for example `/home/username/Android/ndk/r27`, `/home/username/Android/platforms/android-34`)
 
 After that clone this repository with the git command
 
