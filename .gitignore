@@ -1,1 +1,3 @@
 /android-project/.gradle/
+/android-project/app/build
+/android-project/app/.cxx
