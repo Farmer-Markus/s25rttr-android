@@ -11,7 +11,7 @@ I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk 
 
 Currently you need to put the settlers 2 data into the `android-project/app/src/main/assets/share/s25rttr/S2` folder.
 
-I'll add a file choosing feature in future.
+I'll add a file choosing feature in the future.
 
 # How to build
 
