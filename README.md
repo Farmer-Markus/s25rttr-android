@@ -42,8 +42,8 @@ And now you should put the path to your ndk r27 into the `android-project/local.
 
 Now you should be able to run:
 
-	./build.sh buildDebug
+	./build.sh assembleDebug
 
-To build debug or `buildRel` to build release. I you want to build the release you need to look a bit deeper into the signing system of android apps good luck.
+To build debug or `assembleRel` to build release. I you want to build the release you need to look a bit deeper into the signing system of android apps good luck.
 
 And please if you have errors -> [Open an Issue](https://github.com/Farmer-Markus/s25rttr-android/issues)
