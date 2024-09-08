@@ -13,7 +13,7 @@ Currently you need to put the settlers 2 data into the `android-project/app/src/
 
 # How to build
 
-First you will need linux! Ive not tested it on Windows/mac or in wsl. You can try to compile it in wls but please don't report errors if it don't work.
+First you need linux! I've not tested it on Windows/mac or in wsl. You can try to compile it in wls but don't be surprised if it doesn't work
 You java 17(in my case openkjdk), android cmake 3.22.1(or newer), android sdk 34, Platform-Tools v.35.0.2, ndk r23 and r27. Why? Sadly some dependencies like boost won't compile with ndk 27 so we need some to compile with r23 and the others with r27.
 
 If possible place the sdk, ndk's, cmake ... under `~/Android`. (for example `/home/username/Android/ndk/r27`, `/home/username/Android/platforms/android-34`)
@@ -45,5 +45,6 @@ Now you should be able to run:
 	./build.sh assembleDebug
 
 To build debug or `assembleRel` to build release. I you want to build the release you need to look a bit deeper into the signing system of android apps good luck.
+You may need to accept some licenses using the sdk-manager.
 
 And please if you have errors -> [Open an Issue](https://github.com/Farmer-Markus/s25rttr-android/issues)
