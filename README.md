@@ -38,7 +38,7 @@ After compiling all stuff it should show this message:
 `All dependencies have been build!(I hope :D)`
 If not the build failed! You can open an [issue](https://github.com/Farmer-Markus/s25rttr-android/issues) here if that happen to you.
 
-Now you only need to patch s25client. Run:
+Now you only need to patch my changes to s25client. Run:
 
 	./patches.sh --apply-patch
 
