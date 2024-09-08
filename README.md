@@ -51,4 +51,6 @@ Now you should be able to run:
 To build debug or `assembleRel` to build release. I you want to build the release you need to look a bit deeper into the signing system of android apps good luck.
 You may need to accept some licenses using the sdk-manager.
 
+Sadly you can't install debug builds on your real phone but you can enable debug mode in your android settings and connect to your pc with usb cable to directly install the debug build on your phone.
+
 And please if you have errors -> [Open an Issue](https://github.com/Farmer-Markus/s25rttr-android/issues)
