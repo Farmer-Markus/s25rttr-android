@@ -12,14 +12,15 @@ public class CopyAssets {
 
     public static void copyAssetsToInternalStorage(Context context) throws IOException {
         AssetManager assetManager = context.getAssets();
-        // Define the destination directory as "share" inside the internal storage
         File destinationDir = new File(context.getFilesDir(), "share");
         // Create the "share" directory if it does not exist
         if (!destinationDir.exists()) {
             destinationDir.mkdirs();
+            // copy assets
+            copyDirectory(assetManager, "share", destinationDir);
         }
         // Start copying assets
-        copyDirectory(assetManager, "share", destinationDir);
+        //copyDirectory(assetManager, "share", destinationDir);
     }
 
     private static void copyDirectory(AssetManager assetManager, String sourceDir, File destinationDir) throws IOException {
