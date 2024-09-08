@@ -21,7 +21,7 @@ What is already working?
 
 - sound
 - ai
-- lan multiplayer(currently only if android player hosts game)
+- lan multiplayer(currently only if android player hosts game.)
 - touch controls (very tricky but playable if you understand how the controls are "bugging". Currently you sadly need to move the map using the minimap)
 
 What is planned?
@@ -31,6 +31,8 @@ What is planned?
 - Resolution fix (gui scale)
 - File picker to store app files in selected folder
 - Better java optimisation
+
+If you know why e.g. the lan multiplayer only works one way please open an issue to let me know. I've never used pull request so I don't know how they work :D
 
 # How to build
 
