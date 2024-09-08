@@ -1,6 +1,8 @@
 # s25rttr-android
 Unofficial Android port of [s25client](https://github.com/Return-To-The-Roots/s25client).
 
+This project is work in progress.
+
 I don't have any experience with android/java programming and much of the project is just a "temporary" solution.
 
 Please DO NOT report bugs of the android port to the original [s25client](https://github.com/Return-To-The-Roots/s25client) github page or discord.
