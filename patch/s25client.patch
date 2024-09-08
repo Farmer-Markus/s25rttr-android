@@ -1,0 +1,1537 @@
+diff -ruN --binary '--exclude=.*' s25client/cmake/Modules/FindSDL2.cmake s25client_patched/cmake/Modules/FindSDL2.cmake
+--- s25client/cmake/Modules/FindSDL2.cmake	2024-09-07 18:12:33.629512930 +0200
++++ s25client_patched/cmake/Modules/FindSDL2.cmake	2024-08-15 11:53:59.145720000 +0200
+@@ -43,6 +43,8 @@
+     PATH_SUFFIXES SDL2 lib ${sdl2_lib_suffix} lib/${sdl2_lib_suffix}
+ )
+ 
++message(ERROR "SDL ist im Ordner: ${SDL2_LIBRARY}")
++
+ if(WIN32 AND SDL2_LIBRARY)
+     find_file(SDL2_RUNTIME_LIBRARY NAMES SDL2.dll libSDL2.dll
+         HINTS ${PC_SDL2_LIBRARY_DIRS} ${PC_SDL2_LIBDIR}
+diff -ruN --binary '--exclude=.*' s25client/CMakeLists.txt s25client_patched/CMakeLists.txt
+--- s25client/CMakeLists.txt	2024-09-07 18:12:33.629512930 +0200
++++ s25client_patched/CMakeLists.txt	2024-09-07 18:19:34.794844938 +0200
+@@ -22,11 +22,25 @@
+     message(STATUS "Used Toolchain definition file '${CMAKE_TOOLCHAIN_FILE}'")
+ endif()
+ 
++
++if(ANDROID)
++
++list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/src/s25client/cmake/Modules" "${CMAKE_SOURCE_DIR}/src/s25client/external/libutil/cmake")
++if(CMAKE_VERSION VERSION_LESS 3.14)#		  --^----^----changed				    --^----^----changed ANDROID
++    list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/src/s25client/external/libutil/cmake/cmake_3.14")
++endif()#					      --^----^----changed ANDROID
++
++else()
++
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules" "${CMAKE_SOURCE_DIR}/external/libutil/cmake")
+ if(CMAKE_VERSION VERSION_LESS 3.14)
+     list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/libutil/cmake/cmake_3.14")
+ endif()
+ 
++endif()
++
++
++
+ include(EnableCCache)
+ 
+ set(checkSubmodules FALSE)
+@@ -274,6 +288,10 @@
+     else()
+         message(FATAL_ERROR "Unknown architecture for sizeof(void*)=${CMAKE_SIZEOF_VOID_P}")
+     endif()
++elseif(ANDROID)
++    message(STATUS "Unofficial build with processor arch: ${CMAKE_SYSTEM_PROCESSOR}. Skipping release scripts and updater.")
++    unset(PLATFORM_ARCH)
++    set(RTTR_BUILD_UPDATER OFF CACHE INTERNAL "Disabled")
+ else()
+     if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "i.86")
+         set(PLATFORM_ARCH "i386")
+@@ -300,7 +318,12 @@
+     set(BOOST_ROOT ${rttrContribBoostDir} CACHE PATH "Path to find boost at")
+ endif()
+ 
++if(ANDROID)
++set(BoostPackages filesystem iostreams locale system thread program_options)
++else()
+ set(BoostPackages filesystem iostreams locale program_options)
++endif()
++
+ if(BUILD_TESTING)
+     # Avoid having to search for this in all tests speeding up configure
+     list(APPEND BoostPackages unit_test_framework)
+diff -ruN --binary '--exclude=.*' s25client/external/CMakeLists.txt s25client_patched/external/CMakeLists.txt
+--- s25client/external/CMakeLists.txt	2024-09-07 18:12:33.745511543 +0200
++++ s25client_patched/external/CMakeLists.txt	2024-09-07 18:20:51.070729613 +0200
+@@ -39,7 +39,11 @@
+ add_subdirectory(libsiedler2)
+ add_subdirectory(libutil)
+ add_subdirectory(mygettext)
++
++if(!ANDROID)
+ add_subdirectory(s25edit)
++endif()
++
+ if(RTTR_BUILD_UPDATER)
+     add_subdirectory(s25update)
+ endif()
+diff -ruN --binary '--exclude=.*' s25client/external/liblobby/CMakeLists.txt s25client_patched/external/liblobby/CMakeLists.txt
+--- s25client/external/liblobby/CMakeLists.txt	2024-09-07 18:12:56.185252006 +0200
++++ s25client_patched/external/liblobby/CMakeLists.txt	2024-08-29 22:18:10.860296000 +0200
+@@ -20,7 +20,7 @@
+ 
+ add_library(lobby STATIC EXCLUDE_FROM_ALL ${SOURCES_LOBBY})
+ target_include_directories(lobby PUBLIC include)
+-target_link_libraries(lobby PUBLIC s25util::common s25util::log s25util::network PRIVATE mygettext)
++target_link_libraries(lobby PUBLIC s25util::common s25util::log s25util::network PRIVATE mygettext log)
+ target_compile_features(lobby PUBLIC cxx_std_17)
+ set_target_properties(lobby PROPERTIES CXX_EXTENSIONS OFF)
+ 
+diff -ruN --binary '--exclude=.*' s25client/external/liblobby/src/LobbyClient.cpp s25client_patched/external/liblobby/src/LobbyClient.cpp
+--- s25client/external/liblobby/src/LobbyClient.cpp	2024-09-07 18:12:56.185252006 +0200
++++ s25client_patched/external/liblobby/src/LobbyClient.cpp	2024-08-29 22:58:53.990496000 +0200
+@@ -3,6 +3,7 @@
+ //
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
++#include <android/log.h>
+ 
+ #include "liblobby/LobbyClient.h"
+ #include "liblobby/LobbyInterface.h"
+@@ -26,6 +27,7 @@
+ 
+ LobbyClient::~LobbyClient()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "LobbyClient::~LobbyClient() tennen von verbindung zum server"); //ANDROID
+     Stop();
+ }
+ 
+@@ -45,12 +47,16 @@
+  */
+ void LobbyClient::Run()
+ {
+-    if(state == CS_STOPPED)
++    if(state == CS_STOPPED) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "LobbyClient::Run() lobbyclient state is stopped returning"); //ANDROID
+         return;
++    }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "LobbyClient::Run()"); //ANDROID
+     // nachrichten empfangen
+     if(recv_queue.recvAll(socket) < 0)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "LobbyClient::Run()"); //ANDROID
+         LOG.write("Receiving Message from server failed\n");
+         ServerLost();
+         return;
+diff -ruN --binary '--exclude=.*' s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake
+--- s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-07 18:12:56.225251559 +0200
++++ s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-07 18:23:52.158740980 +0200
+@@ -282,6 +282,8 @@
+   endif()
+ endif()
+ 
++message(FATAL_ERROR "Boost NICHT found.")
++
+ 
+ #-------------------------------------------------------------------------------
+ #  FindBoost functions & macros
+diff -ruN --binary '--exclude=.*' s25client/external/libutil/cmake/FindMiniupnpc.cmake s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake
+--- s25client/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-07 18:12:56.225251559 +0200
++++ s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake	2024-08-15 11:33:37.331149000 +0200
+@@ -9,6 +9,7 @@
+ #  MINIUPNPC_LIBRARY     - Library to link to libminiupnpc.
+ #  MINIUPNPC_FOUND       - True if libminiupnpc found.
+ 
++
+ FIND_PATH(MINIUPNPC_INCLUDE_DIR NAMES miniupnpc/miniupnpc.h PATHS
+ 	${MINIUPNPC_DIR_SEARCH}/miniupnpc/include
+ 	/usr/include
+@@ -21,6 +22,10 @@
+ 	/usr/local/lib
+ )
+ 
++#set(MINIUPNPC_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/miniupnpc/include/miniupnpc" CACHE)
++#set(MINIUPNPC_LIBRARY "${CMAKE_SOURCE_DIR}/miniupnpc/lib/${CMAKE_ANDROID_ARCH_ABI}/libminiupnpc.so" CACHE)
++
++
+ INCLUDE(FindPackageHandleStandardArgs)
+ FIND_PACKAGE_HANDLE_STANDARD_ARGS(Miniupnpc DEFAULT_MSG MINIUPNPC_INCLUDE_DIR MINIUPNPC_LIBRARY)
+ 
+diff -ruN --binary '--exclude=.*' s25client/external/libutil/libs/common/CMakeLists.txt s25client_patched/external/libutil/libs/common/CMakeLists.txt
+--- s25client/external/libutil/libs/common/CMakeLists.txt	2024-09-07 18:12:56.225251559 +0200
++++ s25client_patched/external/libutil/libs/common/CMakeLists.txt	2024-08-31 13:29:47.604930000 +0200
+@@ -2,6 +2,8 @@
+ #
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ 
++find_library(SDL2 SDL2) #ANDROID
++
+ set(_BoostComponents filesystem)
+ if(WIN32)
+     # Locale only on windows
+@@ -19,7 +21,7 @@
+ add_library(s25util::common ALIAS s25util_common)
+ 
+ target_include_directories(s25util_common PUBLIC include PRIVATE include/s25util)
+-target_link_libraries(s25util_common PUBLIC endian::static Boost::nowide Boost::filesystem)
++target_link_libraries(s25util_common PUBLIC endian::static Boost::nowide Boost::filesystem SDL2)
+ target_compile_features(s25util_common PUBLIC cxx_std_17)
+ # PIC Required for linking into shared libs
+ set_target_properties(s25util_common PROPERTIES CXX_EXTENSIONS OFF POSITION_INDEPENDENT_CODE ON)
+diff -ruN --binary '--exclude=.*' s25client/external/libutil/libs/common/src/System_Other.cpp s25client_patched/external/libutil/libs/common/src/System_Other.cpp
+--- s25client/external/libutil/libs/common/src/System_Other.cpp	2024-09-07 18:12:56.225251559 +0200
++++ s25client_patched/external/libutil/libs/common/src/System_Other.cpp	2024-08-31 13:29:06.767816000 +0200
+@@ -2,12 +2,21 @@
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ 
++#include <SDL.h>
++#include <android/log.h>
++
+ #include "System.h"
+ #include <stdexcept>
+ 
++
+ boost::filesystem::path System::getHomePath()
+ {
++    #ifdef ANDROID
++    boost::filesystem::path homePath = SDL_AndroidGetInternalStoragePath();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "System::getHomePath() HomePath: %s", homePath.c_str()); //ANDROID
++    #else
+     boost::filesystem::path homePath = getPathFromEnvVar("HOME");
++    #endif
+     // Emergency fallback. Should never happen but prevents "~/foo"->"/foo"
+     if(homePath.empty())
+     {
+@@ -17,9 +26,14 @@
+     return homePath;
+ }
+ 
++
+ std::string System::getUserName()
+ {
++    #ifdef ANDROID
++    std::string name = "android";
++    #else
+     std::string name = getEnvVar("USER");
++    #endif
+     if(name.empty())
+         throw std::runtime_error("Could not get username");
+     return name;
+diff -ruN --binary '--exclude=.*' s25client/extras/ai-battle/CMakeLists.txt s25client_patched/extras/ai-battle/CMakeLists.txt
+--- s25client/extras/ai-battle/CMakeLists.txt	2024-09-07 18:12:33.749511496 +0200
++++ s25client_patched/extras/ai-battle/CMakeLists.txt	2024-08-18 01:56:39.961361000 +0200
+@@ -2,7 +2,7 @@
+ #
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ 
+-add_executable(ai-battle main.cpp HeadlessGame.cpp)
++add_library(ai-battle main.cpp HeadlessGame.cpp)
+ target_link_libraries(ai-battle PRIVATE s25Main Boost::program_options Boost::nowide)
+ 
+ if(WIN32)
+diff -ruN --binary '--exclude=.*' s25client/extras/audioDrivers/SDL/CMakeLists.txt s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt
+--- s25client/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-07 18:12:33.749511496 +0200
++++ s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt	2024-08-31 20:15:49.645236000 +0200
+@@ -20,9 +20,12 @@
+     target_link_libraries(audioSDL PRIVATE audiodrv SDL_mixer::SDL_mixer)
+     enable_warnings(audioSDL)
+ 
++    if(!ANDROID)
+     install(TARGETS audioSDL
+       RUNTIME DESTINATION ${RTTR_DRIVERDIR}/audio
+       LIBRARY DESTINATION ${RTTR_DRIVERDIR}/audio
+     )
++    endif()
++    
+     add_dependencies(drivers audioSDL)
+ endif()
+diff -ruN --binary '--exclude=.*' s25client/extras/videoDrivers/SDL2/CMakeLists.txt s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt
+--- s25client/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-07 18:12:33.749511496 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-07 10:50:55.950808000 +0200
+@@ -7,7 +7,7 @@
+ 
+ if(SDL2_FOUND)
+     add_library(videoSDL2 SHARED ${RTTR_DRIVER_INTERFACE} VideoSDL2.cpp VideoSDL2.h icon.h icon.cpp)
+-    target_link_libraries(videoSDL2 PRIVATE videodrv s25util::common glad Boost::nowide SDL2::SDL2)
++    target_link_libraries(videoSDL2 PRIVATE videodrv s25util::common glad Boost::nowide SDL2::SDL2 log GL)
+     enable_warnings(videoSDL2)
+ 
+     if(WIN32)
+@@ -15,9 +15,11 @@
+         gather_dll_by_name(SDL2 SDL2.dll)
+     endif()
+ 
++    if (!ANDROID)
+     install(TARGETS videoSDL2
+       RUNTIME DESTINATION ${RTTR_DRIVERDIR}/video
+       LIBRARY DESTINATION ${RTTR_DRIVERDIR}/video
+     )
++    endif()
+     add_dependencies(drivers videoSDL2)
+ endif()
+diff -ruN --binary '--exclude=.*' s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp
+--- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-07 18:12:33.749511496 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-08-30 22:09:49.531442000 +0200
+@@ -1,6 +1,8 @@
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
++#include <gl4esinit.h>
+ 
+ #include "VideoSDL2.h"
+ #include "driver/Interface.h"
+@@ -109,6 +111,7 @@
+ 
+ bool VideoSDL2::CreateScreen(const std::string& title, const VideoMode& size, bool fullscreen)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen initialized? %d", initialized); //ANDROID
+     if(!initialized)
+         return false;
+ 
+@@ -116,12 +119,26 @@
+     CHECK_SDL(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, RTTR_OGL_MAJOR));
+     CHECK_SDL(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, RTTR_OGL_MINOR));
+     SDL_GLprofile profile;
+-    if((RTTR_OGL_ES))
++
++    /*
++    #ifdef ANDROID
++    profile = SDL_GL_CONTEXT_PROFILE_ES;
++    #else
++    */
++    
++    /*if((RTTR_OGL_ES)) {
+         profile = SDL_GL_CONTEXT_PROFILE_ES;
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen Using OpenGl-ES"); //ANDROID
++    }
++    
+     else if((RTTR_OGL_COMPAT))
+         profile = SDL_GL_CONTEXT_PROFILE_COMPATIBILITY;
+     else
+         profile = SDL_GL_CONTEXT_PROFILE_CORE;
++    */
++
++    profile = SDL_GL_CONTEXT_PROFILE_ES;
++    
+     CHECK_SDL(SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, profile));
+ 
+     CHECK_SDL(SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8));
+@@ -129,7 +146,9 @@
+     CHECK_SDL(SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8));
+     CHECK_SDL(SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1));
+ 
+-    int wndPos = SDL_WINDOWPOS_CENTERED;
++    int wndPos = SDL_WINDOWPOS_UNDEFINED;
++
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen window pos. undefined"); //ANDROID
+ 
+     const auto requestedSize = fullscreen ? FindClosestVideoMode(size) : size;
+     unsigned commonFlags = SDL_WINDOW_OPENGL;
+@@ -144,31 +163,43 @@
+     // Fallback to non-fullscreen
+     if(!window && fullscreen)
+     {
++       __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen sdlwindow with fullscreen"); //ANDROID
+         window = SDL_CreateWindow(title.c_str(), wndPos, wndPos, requestedSize.width, requestedSize.height,
+                                   commonFlags | SDL_WINDOW_RESIZABLE);
+     }
+ 
+     if(!window)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen window could not be created !window %s", SDL_GetError()); //ANDROID
+         PrintError(SDL_GetError());
+         return false;
+     }
+ 
++    //#ifndef ANDROID
+     isFullscreen_ = (SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN) != 0;
+     UpdateCurrentSizes();
+ 
+-    if(!isFullscreen_)
++    if(!isFullscreen_) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen is not fullscreen. moveWindowToCenter"); //ANDROID
+         MoveWindowToCenter();
++    }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen sdl create rgb surface"); //ANDROID
+     SDL_Surface* iconSurf =
+       SDL_CreateRGBSurfaceFrom(image.data(), 48, 48, 32, 48 * 4, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+     if(iconSurf)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen set window icon"); //ANDROID
+         SDL_SetWindowIcon(window, iconSurf);
+         SDL_FreeSurface(iconSurf);
+-    } else
++    } else {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen %s", SDL_GetError()); //ANDROID
+         PrintError(SDL_GetError());
++    }
++
++    //#endif
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen creating sdl-gl context"); //ANDROID
+     context = SDL_GL_CreateContext(window);
+ 
+ #ifdef _WIN32
+@@ -178,6 +209,7 @@
+     std::fill(keyboard.begin(), keyboard.end(), false);
+ 
+     SDL_ShowCursor(0);
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoSDL2::CreateScreen Hidecursor"); //ANDROID
+ 
+     return true;
+ }
+@@ -437,7 +469,11 @@
+ 
+ OpenGL_Loader_Proc VideoSDL2::GetLoaderFunction() const
+ {
++    #ifdef ANDROID
++    return gl4es_GetProcAddress;
++    #else
+     return SDL_GL_GetProcAddress;
++    #endif
+ }
+ 
+ void VideoSDL2::SetMousePos(Position pos)
+diff -ruN --binary '--exclude=.*' s25client/libs/rttrConfig/CMakeLists.txt s25client_patched/libs/rttrConfig/CMakeLists.txt
+--- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-08-20 16:00:06.519302000 +0200
+@@ -11,7 +11,7 @@
+ )
+ target_include_directories(rttrConfig INTERFACE src)
+ target_link_libraries(rttrConfig
+-    PUBLIC s25util::common Boost::filesystem
++    PUBLIC s25util::common Boost::filesystem log
+     PRIVATE s25Common
+ )
+ set_property(TARGET rttrConfig PROPERTY POSITION_INDEPENDENT_CODE ON)
+diff -ruN --binary '--exclude=.*' s25client/libs/rttrConfig/src/RttrConfig.cpp s25client_patched/libs/rttrConfig/src/RttrConfig.cpp
+--- s25client/libs/rttrConfig/src/RttrConfig.cpp	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/rttrConfig/src/RttrConfig.cpp	2024-08-28 22:53:29.964249000 +0200
+@@ -1,6 +1,7 @@
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
+ 
+ #include "RttrConfig.h"
+ #include "RTTR_Assert.h"
+@@ -33,9 +34,11 @@
+ 
+ bfs::path RttrConfig::GetPrefixPath()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::getPrefixPath() need to get prefix path"); //ANDROID
+     // Determine install prefix
+     // Get path to current executable (at least for checks)
+     bfs::path fullExeFilepath = System::getExecutablePath();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::getPrefixPath() executablePath %s", fullExeFilepath.c_str()); //ANDROID
+     // This should always work unless we have some missing implementation or a bad error
+     if(fullExeFilepath.empty())
+     {
+@@ -89,22 +92,27 @@
+ 
+ boost::filesystem::path RttrConfig::ExpandPath(const std::string& path) const
+ {
+-    if(path.empty())
+-        return prefixPath_;
++    if(path.empty()) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::ExpandPath  path is empty using prefixPath"); //ANDROID
++        return prefixPath_; }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::ExpandPath  expanding path: %s", path.c_str()); //ANDROID
+     bfs::path outPath;
+     if(path[0] == '<')
+     {
+         static const char rttrPathId[] = "<RTTR_";
+         size_t startPos = path.find(rttrPathId);
+-        if(startPos > 0u)
++        if(startPos > 0u) {
+             throw std::runtime_error("<RTTR_X> placeholders only allowed at start of path");
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::ExpandPath  <RTTR_X> placeholders only allowed at start of path"); } //ANDROID
+         size_t endPos = path.find('>');
+-        if(endPos == std::string::npos)
++        if(endPos == std::string::npos) {
+             throw std::runtime_error("Incomplete <RTTR_X> placeholder found!");
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::ExpandPath  Incomplete <RTTR_X> placeholder found!"); } //ANDROID
+         std::string entry = path.substr(sizeof(rttrPathId) - 1, endPos - startPos - sizeof(rttrPathId) + 1);
+         auto it = pathMappings.find(entry);
+-        if(it == pathMappings.end())
++        if(it == pathMappings.end()) {
+             throw std::runtime_error("Invalid <RTTR_X> placeholder found!");
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::ExpandPath  Invalid <RTTR_X> placeholder found!"); } //ANDROID
+         outPath = bfs::path(it->second) / path.substr(endPos + 1);
+     } else
+         outPath = path;
+@@ -112,6 +120,7 @@
+         outPath = homePath / outPath.string().substr(2);
+ 
+     outPath = bfs::absolute(outPath, prefixPath_).lexically_normal();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttrConfig::ExpandPath returning path: %s", outPath.c_str()); //ANDROID
+     return outPath.make_preferred();
+ }
+ 
+@@ -123,7 +132,11 @@
+ 
+ bool RttrConfig::Init()
+ {
++    #ifdef ANDROID
++    prefixPath_ = System::getHomePath();
++    #else
+     prefixPath_ = GetPrefixPath();
++    #endif
+     if(prefixPath_.empty())
+         return false;
+     // Make the prefix path our working directory as all other paths are relative to that
+diff -ruN --binary '--exclude=.*' s25client/libs/s25client/CMakeLists.txt s25client_patched/libs/s25client/CMakeLists.txt
+--- s25client/libs/s25client/CMakeLists.txt	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/s25client/CMakeLists.txt	2024-09-07 10:18:00.897291000 +0200
+@@ -18,32 +18,37 @@
+     set(s25client_RC )
+ endif()
+ 
++if(ANDROID)
++add_library(main SHARED s25client.cpp commands.cpp ${s25client_RC})
++else()
+ add_executable(s25client s25client.cpp commands.cpp ${s25client_RC})
+-target_link_libraries(s25client PRIVATE s25Main Boost::program_options Boost::nowide rttr::vld)
+-add_dependencies(s25client drivers)
++endif()
++
++target_link_libraries(main PRIVATE s25Main Boost::program_options Boost::nowide rttr::vld log)
++add_dependencies(main drivers)
+ 
+ if(WIN32)
+     target_include_directories(s25client PRIVATE ${rcDir})
+-    target_link_libraries(s25client PRIVATE ole32 ws2_32 shlwapi imagehlp)
++    target_link_libraries(main PRIVATE ole32 ws2_32 shlwapi imagehlp)
+     if(MSVC)
+-        set_target_properties(s25client PROPERTIES LINK_FLAGS /MANIFEST:NO)
++        set_target_properties(main PROPERTIES LINK_FLAGS /MANIFEST:NO)
+     endif()
+     if(CMAKE_COMPILER_IS_GNUCXX)
+-        set_target_properties(s25client PROPERTIES LINK_FLAGS -Wl,--stack,8388608)
++        set_target_properties(main PROPERTIES LINK_FLAGS -Wl,--stack,8388608)
+     endif()
+ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+-    target_link_libraries(s25client PRIVATE pthread)
++    target_link_libraries(main PRIVATE pthread)
+ elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+-    target_link_libraries(s25client PRIVATE execinfo)
++    target_link_libraries(main PRIVATE execinfo)
+ ENDif()
+ 
+ if(MSVC)
+-    set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT s25client)
++    set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT main)
+ endif()
+ 
+ if(WIN32)
+     include(GatherDll)
+-    gather_dll_copy(s25client)
++    gather_dll_copy(main)
+ endif()
+ 
+-INSTALL(TARGETS s25client RUNTIME DESTINATION ${RTTR_BINDIR})
++#INSTALL(TARGETS s25client RUNTIME DESTINATION ${RTTR_BINDIR})
+diff -ruN --binary '--exclude=.*' s25client/libs/s25client/commands.cpp s25client_patched/libs/s25client/commands.cpp
+--- s25client/libs/s25client/commands.cpp	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/s25client/commands.cpp	2024-08-20 18:56:41.343822000 +0200
+@@ -1,6 +1,8 @@
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
++
+ 
+ #include "commands.h"
+ #include "RttrConfig.h"
+diff -ruN --binary '--exclude=.*' s25client/libs/s25client/s25client.cpp s25client_patched/libs/s25client/s25client.cpp
+--- s25client/libs/s25client/s25client.cpp	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/s25client/s25client.cpp	2024-08-31 13:21:06.586518000 +0200
+@@ -1,6 +1,8 @@
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <SDL.h>
++#include <android/log.h>
+ 
+ #include "Debug.h"
+ #include "GameManager.h"
+@@ -85,6 +87,7 @@
+     if(waited)
+         return;
+     waited = true;
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Press ENTER to close this window . . ."); //ANDROID
+     bnw::cout << "\n\nPress ENTER to close this window . . ." << std::endl;
+     bnw::cin.clear();
+     bnw::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+@@ -142,6 +145,7 @@
+ 
+ void showCrashMessage()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RttR crashed. Please restart the application!"); //ANDROID
+     std::string text = gettext_noop("RttR crashed. Please restart the application!");
+     std::string errorTxt = gettext_noop("Error");
+     try
+@@ -363,6 +367,7 @@
+ 
+ bool InitDirectories()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() funktion"); //ANDROID
+     // Note: Do not use logger yet. Filepath may not exist
+     const auto curPath = bfs::current_path();
+     LOG.write("Starting in %1%\n", LogTarget::Stdout) % curPath;
+@@ -370,14 +375,23 @@
+     if(!MigrateFilesAndDirectories())
+         return false;
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() Creating all folders"); //ANDROID
+     // Create all required/useful folders
+     const std::array<std::string, 10> dirs = {
+       {s25::folders::config, s25::folders::logs, s25::folders::mapsOwn, s25::folders::mapsPlayed, s25::folders::replays,
+        s25::folders::save, s25::folders::assetsUserOverrides, s25::folders::screenshots, s25::folders::playlists}};
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() done creating folders"); //ANDROID
++    
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() s25::folders::config %s", s25::folders::config  ); //ANDROID
+ 
+     for(const std::string& rawDir : dirs)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() %s", rawDir.c_str()); //ANDROID
++        
+         const bfs::path dir = RTTRCONFIG.ExpandPath(rawDir);
++        
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() %s", dir.c_str()); //ANDROID
++        
+         boost::system::error_code ec;
+         bfs::create_directories(dir, ec);
+         if(ec != boost::system::errc::success)
+@@ -386,6 +400,7 @@
+             // Make sure we catch that
+             try
+             {
++                __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() folders could not be created"); //ANDROID
+                 s25util::error(std::string("Directory ") + dir.string() + " could not be created.");
+                 s25util::error("Failed to start the game");
+             } catch(const std::runtime_error& error)
+@@ -395,10 +410,12 @@
+             return false;
+         }
+     }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() Writing log: Directory for user data (config etc.):"); //ANDROID
+     LOG.write("Directory for user data (config etc.): %1%\n", LogTarget::Stdout)
+       % RTTRCONFIG.ExpandPath(s25::folders::config);
+ 
+     // Write this to file too, after folders are created
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() set log filepath"); //ANDROID
+     LOG.setLogFilepath(RTTRCONFIG.ExpandPath(s25::folders::logs));
+     try
+     {
+@@ -407,15 +424,18 @@
+         LOG.write("Starting in %1%\n", LogTarget::File) % curPath;
+     } catch(const std::exception& e)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() Error initializing log: \n" ); //ANDROID
+         LOG.write("Error initializing log: %1%\nSystem reports: %2%\n", LogTarget::Stderr) % e.what()
+           % LOG.getLastError();
+         return false;
+     }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitDirectories() Returning TRUE"); //ANDROID
+     return true;
+ }
+ 
+ bool InitGame(GameManager& gameManager)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "InitGame Funktion"); //ANDROID
+     libsiedler2::setAllocator(new GlAllocator());
+ 
+     // Socketzeug initialisieren
+@@ -425,10 +445,11 @@
+         s25util::error("Failed to start the game");
+         return false;
+     }
+-
++__android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "SPIEL STARTEN!!"); //ANDROID
+     // Spiel starten
+     if(!gameManager.Start())
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Failed to start the game"); //ANDROID
+         s25util::error("Failed to start the game");
+         return false;
+     }
+@@ -450,6 +471,7 @@
+         return 1;
+ 
+     // Zufallsgenerator initialisieren (Achtung: nur für Animations-Offsets interessant, für alles andere
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RunProgram() Directories created successfully!"); //ANDROID
+     // (spielentscheidende) wird unser Generator verwendet)
+     srand(static_cast<unsigned>(std::time(nullptr)));
+ 
+@@ -457,10 +479,12 @@
+     {
+         try
+         {
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Convert sounds"); //ANDROID
+             convertAndSaveSounds(RTTRCONFIG, RTTRCONFIG.ExpandPath("<RTTR_USERDATA>/convertedSoundeffects"));
+             return 0;
+         } catch(const std::runtime_error& e)
+         {
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RunProgram() Error: %s", e.what()); //ANDROID
+             bnw::cerr << "Error: " << e.what() << "\n";
+             return 1;
+         }
+@@ -470,9 +494,11 @@
+                                                       WINDOWMANAGER);
+     try
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RunProgram() running initgame(gamemanager)"); //ANDROID
+         if(!InitGame(gameManager))
+             return 2;
+ 
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RunProgram() if(options.count(map))"); //ANDROID
+         if(options.count("map"))
+         {
+             std::vector<std::string> aiPlayers;
+@@ -484,6 +510,8 @@
+         }
+ 
+         // Hauptschleife
++        
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RunProgram() Hauptschleife..."); //ANDROID
+ 
+         while(gameManager.Run())
+         {
+@@ -492,6 +520,8 @@
+ #endif // !_WIN32
+         }
+ 
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "RunProgram() Killing game"); //ANDROID
++
+         // Spiel beenden
+         gameManager.Stop();
+         libsiedler2::setAllocator(nullptr);
+@@ -520,8 +550,15 @@
+  */
+ // Exceptions handled by registred global handlers
+ // NOLINTNEXTLINE(bugprone-exception-escape)
++//extern "C"
+ int main(int argc, char** argv)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Starting Main function, %s", SDL_AndroidGetInternalStoragePath()); //ANDROID
++    //dlopen("libGL.so", RTLD_LAZY);
++    
++    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "1");  // Converts touch events to mouse events
++    SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");  // Converts mouse events to touch events
++
+     bnw::args _(argc, argv);
+ 
+     po::options_description desc("Allowed options");
+@@ -570,11 +607,13 @@
+         result = e.code;
+     } catch(const std::exception& e)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "An exception occurred: %s", e.what()); //ANDROID
+         bnw::cerr << "An exception occurred: " << e.what() << "\n\n";
+         handleException(nullptr);
+         result = 1;
+     } catch(...)
+     {
++                __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "An unknown exception occurred!"); //ANDROID
+         bnw::cerr << "An unknown exception occurred\n";
+         handleException(nullptr);
+         result = 1;
+@@ -582,5 +621,6 @@
+     if(result)
+         WaitForEnter();
+ 
++    exit(result); //to full close android app
+     return result;
+ }
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/CMakeLists.txt s25client_patched/libs/s25main/CMakeLists.txt
+--- s25client/libs/s25main/CMakeLists.txt	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/s25main/CMakeLists.txt	2024-08-31 13:22:58.277652000 +0200
+@@ -61,8 +61,9 @@
+     gamedata
+     glad
+     driver
++    iconv
+     Boost::filesystem Boost::disable_autolinking
+-    PRIVATE BZip2::BZip2 Boost::iostreams Boost::locale Boost::nowide samplerate_cpp
++    PRIVATE BZip2::BZip2 Boost::iostreams Boost::locale Boost::system Boost::thread Boost::nowide samplerate_cpp log
+ )
+ 
+ if(WIN32)
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/Debug.cpp s25client_patched/libs/s25main/Debug.cpp
+--- s25client/libs/s25main/Debug.cpp	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/s25main/Debug.cpp	2024-08-17 18:38:34.222910000 +0200
+@@ -149,8 +149,13 @@
+ #else
+ void captureBacktrace(std::vector<void*>& stacktrace) noexcept
+ {
++    #ifdef ANDROID
++    (void)stacktrace;
++    return;
++    #else
+     unsigned num_frames = backtrace(&stacktrace[0], stacktrace.size());
+     stacktrace.resize(num_frames);
++    #endif
+ }
+ #endif
+ } // namespace
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/drivers/DriverWrapper.cpp s25client_patched/libs/s25main/drivers/DriverWrapper.cpp
+--- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-07 18:12:33.769511257 +0200
++++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-08-23 19:14:20.756990000 +0200
+@@ -1,6 +1,9 @@
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
++#include <SDL.h>
++#include <jni.h>
+ 
+ #include "DriverWrapper.h"
+ #include "ListDir.h"
+@@ -44,17 +47,25 @@
+ bool DriverWrapper::Load(const DriverType dt, std::string& preference)
+ {
+     // ggf. aufräumen vorher
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::Load() unloading driver(if needed) "); //ANDROID
+     Unload();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::Load() driver unloaded "); //ANDROID
++
+     /// Verfügbare Treiber auflisten
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::Load() list drivers "); //ANDROID
+     std::vector<DriverItem> drivers = LoadDriverList(dt);
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::Load() writing to log what drivers are found "); //ANDROID
+     LOG.write("%u %s drivers found!\n") % drivers.size() % getName(dt);
+ 
+     // Welche gefunden?
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::Load() treiber gefunden? "); //ANDROID
+     if(drivers.empty())
+         return false;
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::Load() Ja treiber gefunden "); //ANDROID
++
+     /// Suche, ob der Treiber dabei ist, den wir wünschen
+     const auto it = helpers::find_if(drivers, [preference](const auto& it) { return it.GetName() == preference; });
+     if(it != drivers.end())
+@@ -129,10 +140,17 @@
+     return true;
+ }
+ 
++
+ std::vector<DriverWrapper::DriverItem> DriverWrapper::LoadDriverList(const DriverType dt)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::LoadDriverList() searching for drivers"); //ANDROID
+     std::vector<DriverItem> driver_list;
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::LoadDriverList() searching for drivers"); //ANDROID
++
++    //const std::string driverDir = SDL_AndroidGetInternalStoragePath() / "lib/s25rttr/driver/";
++    
++    //driverDir = driverDir / getName(dt);
+     const auto driverDir = RTTRCONFIG.ExpandPath(s25::folders::driver) / getName(dt);
+     std::string extension =
+ #ifdef _WIN32
+@@ -145,6 +163,7 @@
+ #    endif // !__APPLE__
+ #endif     // !_WIN32
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::LoadDriverList() searching for drivers in %s", driverDir.c_str()); //ANDROID
+     LOG.write(_("Searching for drivers in %s\n")) % driverDir;
+     const std::vector<boost::filesystem::path> driver_files = ListDir(driverDir, extension, false);
+ 
+@@ -166,10 +185,14 @@
+             continue;
+ #endif
+         std::string nameOrError;
+-        if(!CheckLibrary(path, dt, nameOrError))
++        if(!CheckLibrary(path, dt, nameOrError)) {
+             LOG.write(_("Skipping %s: %s\n")) % path % nameOrError;
+-        else
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::LoadDriverList() Skipping %s: %s",path.c_str(), nameOrError.c_str()); //ANDROID
++        }
++        else {
+             driver_list.push_back(DriverItem(path, nameOrError));
++             __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "DriverWrapper::LoadDriverList() error else %s", nameOrError.c_str()); //ANDROID
++        }
+     }
+     return driver_list;
+ }
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/drivers/VideoDriverWrapper.cpp s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp
+--- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-07 18:12:33.769511257 +0200
++++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-08-30 17:04:11.958140000 +0200
+@@ -1,6 +1,8 @@
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
++#include <gl4esinit.h>
+ 
+ #include "VideoDriverWrapper.h"
+ #include "FrameCounter.h"
+@@ -35,10 +37,14 @@
+ 
+ VideoDriverWrapper::~VideoDriverWrapper()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::~VideoDriverWrapper()  cleanup"); //ANDROID
+     CleanUp();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::~VideoDriverWrapper()  unload driver"); //ANDROID
+     UnloadDriver();
+ }
+ 
++void initialize_gl4es();
++
+ bool VideoDriverWrapper::Initialize()
+ {
+     if(!videodriver || !videodriver->Initialize())
+@@ -57,18 +63,24 @@
+ 
+ bool VideoDriverWrapper::LoadDriver(IVideoDriver* existingDriver)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadDriver() unloading driver"); //ANDROID
+     UnloadDriver();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadDriver() initialize ivideodriver"); //ANDROID
+     videodriver = Handle(existingDriver, [](IVideoDriver* p) { delete p; });
+     return Initialize();
+ }
+ 
+ bool VideoDriverWrapper::LoadDriver(std::string& preference)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadDriver(anderer)() unload driver "); //ANDROID
+     UnloadDriver();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadDriver(anderer)() driver unloaded "); //ANDROID
+     // DLL laden
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadDriver(anderer)() load driver video "); //ANDROID
+     if(!driver_wrapper.Load(drivers::DriverType::Video, preference))
+         return false;
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadDriver(anderer)() driver loaded "); //ANDROID
+     auto createVideoInstance = driver_wrapper.GetFunction<CreateVideoInstance_t>("CreateVideoInstance");
+     auto freeVideoInstance = driver_wrapper.GetFunction<FreeVideoInstance_t>("FreeVideoInstance");
+     RTTR_Assert(createVideoInstance && freeVideoInstance);
+@@ -96,32 +108,45 @@
+ {
+     if(!videodriver)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen No video driver selected!"); //ANDROID
+         s25util::fatal_error("No video driver selected!");
+         return false;
+     }
+ 
+     if(!videodriver->CreateScreen(rttr::version::GetTitle(), size, fullscreen))
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen Could not create window!"); //ANDROID
+         s25util::fatal_error("Could not create window!");
+         return false;
+     }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen Window created"); //ANDROID
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen loading extensions"); //ANDROID
+     // DriverWrapper Initialisieren
+     // Extensions laden
++    
++    void initialize_gl4es();
++    
+     if(!LoadAllExtensions())
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen ERROR! failed to initialize the opengl context!"); //ANDROID
+         s25util::fatal_error("Failed to initialize the OpenGL context!");
+         return false;
+     }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen Renew Viewport..."); //ANDROID
+     RenewViewport();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen Swapping buffers"); //ANDROID
+     // Buffer swappen um den leeren Buffer darzustellen
+     SwapBuffers();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen windowmanager msg screenresize(getrendersize())"); //ANDROID
+     // WindowManager informieren
+     WINDOWMANAGER.Msg_ScreenResize(GetRenderSize());
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::CreateScreen returning true"); //ANDROID
++
+     return true;
+ }
+ 
+@@ -136,8 +161,11 @@
+  */
+ bool VideoDriverWrapper::ResizeScreen(const VideoMode size, const bool fullscreen)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::ResizeScreen"); //ANDROID
++    
+     if(!videodriver)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::ResizeScreen No video driver selected!"); //ANDROID
+         s25util::fatal_error("No video driver selected!");
+         return false;
+     }
+@@ -257,8 +285,10 @@
+ 
+ void VideoDriverWrapper::SwapBuffers()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::SwapBuffers()"); //ANDROID
+     if(!videodriver)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR VideoDriverWrapper::SwapBuffers() No video driver selected!"); //ANDROID
+         s25util::fatal_error("No video driver selected!");
+         return;
+     }
+@@ -271,6 +301,7 @@
+ 
+ void VideoDriverWrapper::ClearScreen()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::ClearScreen"); //ANDROID
+     glClear(GL_COLOR_BUFFER_BIT);
+ }
+ 
+@@ -278,10 +309,12 @@
+ {
+     if(!videodriver)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR VideoDriverWrapper::Run No video driver selected!"); //ANDROID
+         s25util::fatal_error("No video driver selected!");
+         return false;
+     }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO VideoDriverWrapper::Run returning videodriver->MessageLoop()"); //ANDROID
+     return videodriver->MessageLoop();
+ }
+ 
+@@ -302,9 +335,11 @@
+  */
+ void VideoDriverWrapper::RenewViewport()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport"); //ANDROID
+     if(!videodriver->IsOpenGL() || !renderer_)
+         return;
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport is video driver not opengl"); //ANDROID
+     const Extent renderSize = videodriver->GetRenderSize();
+     const VideoMode windowSize = videodriver->GetWindowSize();
+ 
+@@ -312,9 +347,12 @@
+     glViewport(0, 0, windowSize.width, windowSize.height);
+     glScissor(0, 0, windowSize.width, windowSize.height);
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport Orthogonale Matrix erstellen"); //ANDROID
+     // Orthogonale Matrix erstellen
+     glMatrixMode(GL_PROJECTION);
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport matrix mode"); //ANDROID
+     glLoadIdentity();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport load identity"); //ANDROID
+ 
+     // 0,0 should be top left corner
+     glOrtho(0, renderSize.x, renderSize.y, 0, -100, 100);
+@@ -322,6 +360,7 @@
+     glMatrixMode(GL_MODELVIEW);
+     glLoadIdentity();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport Depthbuffer und Colorbuffer einstellen"); //ANDROID
+     // Depthbuffer und Colorbuffer einstellen
+     glClearColor(0.0, 0.0, 0.0, 1.0);
+ 
+@@ -331,6 +370,7 @@
+     glEnable(GL_ALPHA_TEST);
+     glAlphaFunc(GL_GREATER, 0.0f);
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport Alphablending an"); //ANDROID
+     // Alphablending an
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+     glEnable(GL_BLEND);
+@@ -348,12 +388,15 @@
+     // Scissoring aktivieren
+     glEnable(GL_SCISSOR_TEST);
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport Nur obere Seite von Dreiecke rendern --> Performance"); //ANDROID
+     // Nur obere Seite von Dreiecke rendern --> Performance
+     glEnable(GL_CULL_FACE);
+ 
+     glEnableClientState(GL_VERTEX_ARRAY);
+     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::RenewViewport clearing screen"); //ANDROID
++
+     ClearScreen();
+ }
+ 
+@@ -362,19 +405,28 @@
+  */
+ bool VideoDriverWrapper::LoadAllExtensions()
+ {
+-    if(videodriver->IsOpenGL())
++    if(videodriver->IsOpenGL()) {
+         renderer_ = std::make_unique<OpenGLRenderer>();
+-    else
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadAllExtensions OpenGL wrapper"); //ANDROID
++    }
++    else{
+         renderer_ = std::make_unique<DummyRenderer>();
+-    if(!renderer_->initOpenGL(videodriver->GetLoaderFunction()))
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadAllExtensions dummy wrapper"); //ANDROID
++    }
++    if(!renderer_->initOpenGL(videodriver->GetLoaderFunction())) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadAllExtensions renderer is not initopengl! error"); //ANDROID
+         return false;
++    }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadAllExtensions OpenGL supported!"); //ANDROID
+     LOG.write(_("OpenGL %1%.%2% supported\n")) % GLVersion.major % GLVersion.minor;
+     if(GLVersion.major < RTTR_OGL_MAJOR || (GLVersion.major == RTTR_OGL_MAJOR && GLVersion.minor < RTTR_OGL_MINOR))
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadAllExtensions OpenGL not supported try updating gpu drivers"); //ANDROID
+         LOG.write(_("OpenGL %1% %2%.%3% is not supported. Try updating your GPU drivers or hardware!"))
+           % ((RTTR_OGL_ES) ? "ES" : "") % RTTR_OGL_MAJOR % RTTR_OGL_MINOR;
+         return false;
+     }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadAllExtensions auf vsync testen"); //ANDROID
+ 
+ // auf VSync-Extension testen
+ #ifdef _WIN32
+@@ -383,6 +435,7 @@
+     wglSwapIntervalEXT = reinterpret_cast<SwapIntervalExt_t*>(loadExtension("glXSwapIntervalSGI"));
+ #endif
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::LoadAllExtensions returning true"); //ANDROID
+     return true;
+ }
+ 
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/GameManager.cpp s25client_patched/libs/s25main/GameManager.cpp
+--- s25client/libs/s25main/GameManager.cpp	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/s25main/GameManager.cpp	2024-08-30 16:55:43.774698000 +0200
+@@ -1,6 +1,7 @@
+ // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
+ 
+ #include "GameManager.h"
+ #include "GlobalVars.h"
+@@ -38,11 +39,14 @@
+ bool GameManager::Start()
+ {
+     // Einstellungen laden
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart() Lade Einstellungen "); //ANDROID
+     settings_.Load();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart() Videotreiber laden "); //ANDROID
+     /// Videotreiber laden
+     if(!videoDriver_.LoadDriver(settings_.driver.video))
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR GameManagerStart() Video treiber konnte nicht geladen werden! "); //ANDROID
+         s25util::error(_("Video driver couldn't be loaded!"));
+         return false;
+     }
+@@ -59,6 +63,7 @@
+     /// Audiodriver laden
+     if(!audioDriver_.LoadDriver(settings_.driver.audio))
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WARNING GameManagerStart() Audio driver couldn't be loaded!"); //ANDROID
+         s25util::warning(_("Audio driver couldn't be loaded!"));
+         // return false;
+     }
+@@ -67,10 +72,12 @@
+     audioDriver_.SetMasterEffectVolume(settings_.sound.effectsVolume); //-V807
+     audioDriver_.SetMusicVolume(settings_.sound.musicVolume);
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WARNING GameManagerStart() Saving driver settings"); //ANDROID
+     // Treibereinstellungen abspeichern
+     settings_.Save();
+ 
+     log_.write(_("\nStarting the game\n"));
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WARNING GameManagerStart() Starting the game..."); //ANDROID
+     return ShowSplashscreen();
+ }
+ 
+@@ -94,21 +101,29 @@
+  */
+ bool GameManager::Run()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run()"); //ANDROID
+     // Nachrichtenschleife
+-    if(!videoDriver_.Run())
++    if(!videoDriver_.Run()) {
+         GLOBALVARS.notdone = false;
++         __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() video driver returns 0"); //ANDROID
++    }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() run lobbyclient"); //ANDROID
+     LOBBYCLIENT.Run();
+ 
+     // Get this before the run so we know if we are currently skipping
+     const unsigned targetSkipGF = GAMECLIENT.skiptogf;
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() run gameclient"); //ANDROID
+     GAMECLIENT.Run();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() run gameserver"); //ANDROID
+     GAMESERVER.Run();
+ 
+     if(targetSkipGF)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() skip drawing"); //ANDROID
+         // if we skip drawing write a comment every 5k gf
+         unsigned current_time = videoDriver_.GetTickCount();
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() video driver get tick count"); //ANDROID
+         const unsigned curGF = GAMECLIENT.GetGFNumber();
+         if(targetSkipGF > curGF)
+         {
+@@ -139,21 +154,26 @@
+                 lastSkipReport.reset();
+             } else
+             {
++                __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() jump to gameframe completed"); //ANDROID
+                 log_.write(_("jump to gf %1% complete\n")) % targetSkipGF;
+             }
+         }
+     } else
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() video driver clearscreen,  windowmanager draw, videodriver swapbuffers"); //ANDROID
+         videoDriver_.ClearScreen();
+         windowManager_.Draw();
+         videoDriver_.SwapBuffers();
+     }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() gfcounter update"); //ANDROID
+     gfCounter_.update();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() clean up window manager"); //ANDROID
+     // Fenstermanager aufräumen
+     if(!GLOBALVARS.notdone)
+         windowManager_.CleanUp();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameManagerStart::Run() return GLOBALVARS.notdone done? %d", GLOBALVARS.notdone); //ANDROID
+     return GLOBALVARS.notdone;
+ }
+ 
+@@ -165,10 +185,13 @@
+     auto image = boost::dynamic_pointer_cast<glArchivItem_Bitmap>(arSplash.release(0));
+     if(!image)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR GameManager::ShowSplashscreen() Splash screen couldn't be loaded! ABORTING"); //ANDROID
+         s25util::error(_("Splash screen couldn't be loaded!"));
+         return false;
+     }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO GameManager::ShowSplashscreen() Splash screen loaded(i guess)"); //ANDROID
+     windowManager_.Switch(std::make_unique<dskSplash>(std::move(image)));
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO GameManager::ShowSplashscreen() returning true"); //ANDROID
+     return true;
+ }
+ 
+@@ -177,6 +200,7 @@
+  */
+ bool GameManager::ShowMenu()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO GameManager::ShowMenu()"); //ANDROID
+     GAMECLIENT.Stop();
+     GAMESERVER.Stop();
+ 
+@@ -192,6 +216,7 @@
+ 
+ void GameManager::ResetAverageGFPS()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR GameManager::ResetAverageGFPS()"); //ANDROID
+     gfCounter_ = FrameCounter(FrameCounter::clock::duration::max()); // Never update
+ }
+ 
+@@ -199,9 +224,12 @@
+ 
+ GameManager& getGlobalGameManager()
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR GameManager::getGlobalGameManager() return global gamemanager"); //ANDROID
+     return *globalGameManager;
+ }
+ void setGlobalGameManager(GameManager* gameManager)
+ {
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO GameManager::setglobalgamemanager"); //ANDROID
+     globalGameManager = gameManager;
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO GameManager::setglobalgamemanager globalgamemanager = gameManager"); //ANDROID
+ }
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/GameManager.h s25client_patched/libs/s25main/GameManager.h
+--- s25client/libs/s25main/GameManager.h	2024-09-07 18:12:33.753511448 +0200
++++ s25client_patched/libs/s25main/GameManager.h	2024-08-20 19:19:53.092216000 +0200
+@@ -26,7 +26,7 @@
+ 
+     bool ShowMenu();
+ 
+-    /// Average FPS Zähler zurücksetzen.
++    // Average FPS Zähler zurücksetzen.
+     void ResetAverageGFPS();
+     FrameCounter::clock::duration GetRuntime() { return gfCounter_.getCurIntervalLength(); }
+     unsigned GetNumFrames() { return gfCounter_.getCurNumFrames(); }
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/network/GameClient.cpp s25client_patched/libs/s25main/network/GameClient.cpp
+--- s25client/libs/s25main/network/GameClient.cpp	2024-09-07 18:12:33.785511066 +0200
++++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-08-29 22:52:36.048570000 +0200
+@@ -1,6 +1,7 @@
+ // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
+ 
+ #include "GameClient.h"
+ #include "CreateServerInfo.h"
+@@ -149,50 +150,64 @@
+  */
+ void GameClient::Run()
+ {
+-    if(state == ClientState::Stopped)
++    if(state == ClientState::Stopped) {
++         __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run clientstate is stopped returning"); //ANDROID
+         return;
++    }
+ 
+     SocketSet set;
+ 
+     // erstmal auf Daten überprüfen
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run clear socketset"); //ANDROID
+     set.Clear();
+ 
+     // zum set hinzufügen
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run adding mainplayer to socket"); //ANDROID
+     set.Add(mainPlayer.socket);
+     if(set.Select(0, 0) > 0)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run mainplayer empfangen?"); //ANDROID
+         // nachricht empfangen
+         if(!mainPlayer.receiveMsgs())
+         {
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR GameClient::Run receiving message from server failed"); //ANDROID
+             LOG.write("Receiving Message from server failed\n");
+             ServerLost();
+         }
+     }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run suche nach fehlern"); //ANDROID
+     // nun auf Fehler prüfen
+     set.Clear();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run player zum socket hizufügen(wieder)"); //ANDROID
+     // zum set hinzufügen
+     set.Add(mainPlayer.socket);
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run suche nach fehlern(2)"); //ANDROID
+     // auf fehler prüfen
+     if(set.Select(0, 2) > 0)
+     {
+         if(set.InSet(mainPlayer.socket))
+         {
++            __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run Server weg(lost)"); //ANDROID
+             // Server ist weg
+             LOG.write("Error on socket to server\n");
+             ServerLost();
+         }
+     }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run ist cflient loaded?"); //ANDROID
+     if(state == ClientState::Loaded)
+     {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run yes"); //ANDROID
+         // All players ready?
+         if(nwfInfo->isReady())
+             OnGameStart();
+-    } else if(state == ClientState::Game)
++    } else if(state == ClientState::Game){
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run executing game frame"); //ANDROID
+         ExecuteGameFrame();
++    }
+ 
+     // maximal 10 Pakete verschicken
+     mainPlayer.sendMsgs(10);
+@@ -205,8 +220,11 @@
+  */
+ void GameClient::Stop()
+ {
+-    if(state == ClientState::Stopped)
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Stop"); //ANDROID
++    if(state == ClientState::Stopped) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Stop client stopped. returning"); //ANDROID
+         return;
++    }
+ 
+     if(game)
+         ExitGame();
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/network/GameServer.cpp s25client_patched/libs/s25main/network/GameServer.cpp
+--- s25client/libs/s25main/network/GameServer.cpp	2024-09-07 18:12:33.785511066 +0200
++++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-08-29 23:01:18.722293000 +0200
+@@ -1,6 +1,7 @@
+ // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
+ 
+ #include "GameServer.h"
+ #include "Debug.h"
+@@ -277,8 +278,10 @@
+ // Hauptschleife
+ void GameServer::Run()
+ {
+-    if(state == ServerState::Stopped)
++    if(state == ServerState::Stopped) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run serverstate is stopped returning"); //ANDROID
+         return;
++    }
+ 
+     // auf tote Clients prüfen
+     ClientWatchDog();
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/Window.cpp s25client_patched/libs/s25main/Window.cpp
+--- s25client/libs/s25main/Window.cpp	2024-09-07 18:12:33.757511400 +0200
++++ s25client_patched/libs/s25main/Window.cpp	2024-08-30 18:25:28.872886000 +0200
+@@ -1,6 +1,7 @@
+ // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
+ 
+ #include "Window.h"
+ #include "CollisionDetection.h"
+@@ -35,8 +36,11 @@
+  */
+ void Window::Draw()
+ {
+-    if(visible_)
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::draw() is visible?"); //ANDROID
++    if(visible_) {
++         __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::draw() yes drawing window draw_"); //ANDROID
+         Draw_();
++    }
+ }
+ 
+ DrawPoint Window::GetPos() const
+@@ -513,8 +517,11 @@
+ 
+ void Window::Draw_()
+ {
+-    for(Window* control : childIdToWnd_ | boost::adaptors::map_values)
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::Draw_"); //ANDROID
++    for(Window* control : childIdToWnd_ | boost::adaptors::map_values) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::Draw_ control->Draw()"); //ANDROID
+         control->Draw();
++    }
+ }
+ 
+ void Window::Msg_ScreenResize(const ScreenResizeEvent& sr)
+diff -ruN --binary '--exclude=.*' s25client/libs/s25main/WindowManager.cpp s25client_patched/libs/s25main/WindowManager.cpp
+--- s25client/libs/s25main/WindowManager.cpp	2024-09-07 18:12:33.757511400 +0200
++++ s25client_patched/libs/s25main/WindowManager.cpp	2024-08-30 19:12:33.991792000 +0200
+@@ -1,6 +1,9 @@
+ // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
+ //
+ // SPDX-License-Identifier: GPL-2.0-or-later
++#include <android/log.h>
++#include <sstream>
++#include <string>
+ 
+ #include "WindowManager.h"
+ #include "CollisionDetection.h"
+@@ -64,19 +67,37 @@
+  */
+ void WindowManager::Draw()
+ {
++    
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw"); //ANDROID
++    
+     // ist ein neuer Desktop eingetragen? Wenn ja, wechseln
+-    if(nextdesktop)
++    if(nextdesktop){
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw switching desktop"); //ANDROID
+         DoDesktopSwitch();
++    }
+ 
+-    if(!curDesktop)
++    std::ostringstream oss;
++    oss << curDesktop.get();
++    std::string pointerStr = oss.str();
++    
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw curdesktop: %s", pointerStr.c_str()); //ANDROID
++
++    if(!curDesktop) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw not desktop return"); //ANDROID
+         return;
++    }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw msg paintBefore() to desktop"); //ANDROID
+     curDesktop->Msg_PaintBefore();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw desktop draw"); //ANDROID  ABSTURZ HIER!!!!!!!!!!!!
+     curDesktop->Draw();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw msg painAfter() to desktop"); //ANDROID
+     curDesktop->Msg_PaintAfter();
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw close marked windows"); //ANDROID
+     // First close all marked windows
+     CloseMarkedIngameWnds();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw done closing marked windows"); //ANDROID
+     for(auto& wnd : windows)
+     {
+         // If the window is not minimized, call paintAfter
+@@ -88,7 +109,9 @@
+             wnd->Msg_PaintAfter();
+     }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw drawtooltip"); //ANDROID
+     DrawToolTip();
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw drawcursor"); //ANDROID
+     DrawCursor();
+ }
+ 
+@@ -100,8 +123,11 @@
+  */
+ bool WindowManager::IsDesktopActive()
+ {
+-    if(curDesktop)
++    if(curDesktop){
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO WindowManager::IsDesktopActive() desktop is active"); //ANDROID
+         return curDesktop->IsActive();
++    }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR WindowManager::Draw desktop not active"); //ANDROID
+ 
+     return false;
+ }
+@@ -713,28 +739,41 @@
+  */
+ void WindowManager::DoDesktopSwitch()
+ {
++    //return; android
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch()"); //ANDROID
+     RTTR_Assert(nextdesktop);
+     VIDEODRIVER.ClearScreen();
+ 
+     SetToolTip(nullptr, "");
+ 
+     // If we have a current desktop close all windows
+-    if(curDesktop)
++    if(curDesktop){
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() closing all windows cause of current desktop"); //ANDROID
+         windows.clear();
++    }
+ 
+     // Do the switch
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() do the desktop switch. move nextdesktop"); //ANDROID
+     curDesktop = std::move(nextdesktop);
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() desktop -> set active(true)"); //ANDROID
+     curDesktop->SetActive(true);
+ 
+-    for(auto& nextWnd : nextWnds)
++    for(auto& nextWnd : nextWnds){
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() show next window"); //ANDROID
+         Show(std::move(nextWnd));
++    }
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() clear next window"); //ANDROID
+     nextWnds.clear();
+ 
+-    if(!VIDEODRIVER.IsLeftDown())
++    if(!VIDEODRIVER.IsLeftDown()) {
++        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() enable mouse"); //ANDROID
+         disable_mouse = false;
++    }
+ 
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() dummy mouse"); //ANDROID
+     // Dummy mouse move to init hovering etc
+     Msg_MouseMove(MouseCoords(VIDEODRIVER.GetMousePos()));
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() returning"); //ANDROID
+ }
+ 
+ void WindowManager::CloseMarkedIngameWnds()

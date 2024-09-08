@@ -1,0 +1,24 @@
+diff -ruN include/boost/container_hash/hash.hpp include_patched/boost/container_hash/hash.hpp
+--- include/boost/container_hash/hash.hpp	2024-09-08 00:39:18.010235000 +0200
++++ include_patched/boost/container_hash/hash.hpp	2024-08-18 03:18:20.847710000 +0200
+@@ -128,7 +128,7 @@
+         };
+ #else
+         template <typename T>
+-        struct hash_base : std::unary_function<T, std::size_t> {};
++        struct hash_base : std::__unary_function<T, std::size_t> {};
+ #endif
+ 
+         struct enable_hash_value { typedef std::size_t type; };
+diff -ruN include/boost/mpl/aux_/integral_wrapper.hpp include_patched/boost/mpl/aux_/integral_wrapper.hpp
+--- include/boost/mpl/aux_/integral_wrapper.hpp	2024-09-08 00:39:19.533804000 +0200
++++ include_patched/boost/mpl/aux_/integral_wrapper.hpp	2024-08-18 03:22:38.490037000 +0200
+@@ -70,7 +70,7 @@
+     typedef AUX_WRAPPER_INST( BOOST_MPL_AUX_STATIC_CAST(AUX_WRAPPER_VALUE_TYPE, (N - 1)) ) prior;
+ #else
+     typedef AUX_WRAPPER_INST( BOOST_MPL_AUX_STATIC_CAST(AUX_WRAPPER_VALUE_TYPE, (value + 1)) ) next;
+-    typedef AUX_WRAPPER_INST( BOOST_MPL_AUX_STATIC_CAST(AUX_WRAPPER_VALUE_TYPE, (value - 1)) ) prior;
++    typedef AUX_WRAPPER_INST(BOOST_MPL_AUX_STATIC_CAST(AUX_WRAPPER_VALUE_TYPE, (value > 0 ? value - 1 : 0))) prior;
+ #endif
+ 
+     // enables uniform function call syntax for families of overloaded 
