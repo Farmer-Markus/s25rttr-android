@@ -1,6 +1,8 @@
 # s25rttr-android
 Unofficial Android port of [s25client](https://github.com/Return-To-The-Roots/s25client).
 
+![Screenshot_20240908-234846_s25rttr](https://github.com/user-attachments/assets/12fee08c-5d90-430c-9be0-94597ca69273)
+
 This project is work in progress.
 
 I don't have any experience with android/java programming and much of the project is just a "temporary" solution.
@@ -31,6 +33,8 @@ What is planned?
 - Resolution fix (gui scale)
 - File picker to store app files in selected folder
 - Better java optimisation
+- Fix color
+- Make fog working
 
 If you know why e.g. the lan multiplayer only works one way please open an issue to let me know. I've never used pull request so I don't know how they work :D
 
@@ -73,3 +77,14 @@ You may need to accept some licenses using the sdk-manager.
 Sadly you can't install debug builds on your real phone but you can enable debug mode in your android settings and connect to your pc with usb cable to directly install the debug build on your phone.
 
 And please if you have errors -> [Open an Issue](https://github.com/Farmer-Markus/s25rttr-android/issues)
+
+# Some more screenshots (actual gameplay)
+![splashscreen](https://github.com/user-attachments/assets/6f91a771-c61f-4eac-9b38-ea76b4637bdc)
+
+![Screenshot_20240830-221959_s25rttr](https://github.com/user-attachments/assets/c72a0a02-94fb-49fb-bcf1-21ef12a5cab8)
+
+![Screenshot_20240908-234706_s25rttr](https://github.com/user-attachments/assets/8aabc7f4-d591-45e6-9e4b-5d0b92e66356)
+
+![Screenshot_20240831-111408_s25rttr](https://github.com/user-attachments/assets/5e1c24ee-024b-45d8-801f-78af74d43e23)
+
+![mainmenuhori](https://github.com/user-attachments/assets/3070cd40-29a2-426c-8355-58d700ffb179)
