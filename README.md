@@ -17,6 +17,21 @@ I'll add a file choosing feature in the future.
 
 The controls are very ugly at the moment. I'll try to fix that.
 
+What is already working?
+
+- sound
+- ai
+- lan multiplayer(currently only if android player hosts game)
+- touch controls (very tricky but playable if you understand how the controls are "bugging". Currently you sadly need to move the map using the minimap)
+
+What is planned?
+
+- Better touch control
+- Correct working multiplayer
+- Resolution fix (gui scale)
+- File picker to store app files in selected folder
+- Better java optimisation
+
 # How to build
 
 First you need linux! I've not tested it on Windows/mac or in wsl. You can try to compile it in wls but don't be surprised if it doesn't work
