@@ -13,6 +13,8 @@ Currently you need to put the settlers 2 data into the `android-project/app/src/
 
 I'll add a file choosing feature in the future.
 
+The controls are very ugly at the moment. I'll try to fix that.
+
 # How to build
 
 First you need linux! I've not tested it on Windows/mac or in wsl. You can try to compile it in wls but don't be surprised if it doesn't work
