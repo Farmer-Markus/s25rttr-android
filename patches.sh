@@ -15,7 +15,7 @@ if [ "$1" == "--create-patch" ]
    	   	exit
    	   	
    	   else
-   		diff -ruN s25client/ s25client_patched/ > s25client.patch
+   		diff -ruN --binary -x '.*' -x 'patched'  s25client/ s25client_patched/ > s25client.patch
    		echo "Saved patch in current folder as 's25client.patch'"
    		exit
    	fi
