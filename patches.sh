@@ -2,6 +2,11 @@
 
 if [ "$1" == "--apply-patch" ]
    then
+	if [ -e "s25client/patched" ]
+	   then
+	   	echo "Already Patched!"
+	   	exit
+	fi
 	patch -s -p0 < patch/s25client.patch
 	echo "patched" > s25client/patched
 	echo "patched"
