@@ -21,10 +21,11 @@ The controls are very ugly at the moment. I'll try to fix that.
 
 What is already working?
 
-- sound
-- ai
-- lan multiplayer(currently only if android player hosts game.)
-- touch controls (very tricky but playable if you understand how the controls are "bugging". Currently you sadly need to move the map using the minimap)
+- Latest versions
+- Sound
+- Ai
+- Lan multiplayer(currently only if android player hosts game.)
+- Touch controls (very tricky but playable if you understand how the controls are "bugging". Currently you sadly need to move the map using the minimap)
 
 What is planned?
 
