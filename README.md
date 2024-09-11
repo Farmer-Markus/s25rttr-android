@@ -66,7 +66,7 @@ Now you only need to patch my changes to s25client. Run:
 
 And it should ONLY show `patched`. If it shows something else, the files I've edited were changed in an update of rttr. Please also tell me in an [issue](https://github.com/Farmer-Markus/s25rttr-android/issues).
 
-And now you should put the path to your ndk r27 into the `android-project/local.properties` file to make gradle use ndkr27, put the path to your java 17 installation into the `build.sh` file (e.g. `/usr/lib/jvm/java-1.17.0-openjdk-amd64`) and finally also the sdk installation path into the `build.sh` file.
+And now you should put the path of your java 17 installation into the `build.sh` file (e.g. `/usr/lib/jvm/java-1.17.0-openjdk-amd64`) and finally also the sdk installation path into the `build.sh` file.
 
 Now you should be able to run:
 
