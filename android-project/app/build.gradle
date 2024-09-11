@@ -7,6 +7,8 @@ else {
     apply plugin: 'com.android.library'
 }
 
+android.ndkVersion '27.0.12077973'
+
 android {
     if (buildAsApplication) {
         namespace "org.libsdl.app"
