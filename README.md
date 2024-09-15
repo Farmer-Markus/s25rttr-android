@@ -32,7 +32,7 @@ What is planned?
 - Better touch control
 - Correct working multiplayer
 - Resolution fix (gui scale)
-- File picker to store app files in selected folder
+- File picker to store app files in selected folder (coming soon!)
 - Better java optimisation
 - Fix color
 - Make fog working
