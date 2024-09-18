@@ -13,7 +13,7 @@ I've used the [sdl2 android example app](https://github.com/libsdl-org/SDL/tree/
 
 I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk r17 :/) cmake 3.22.1 and openjdk 27.
 
-Currently you need to put the settlers 2 data into the `android-project/app/src/main/assets/share/s25rttr/S2` folder.
+When starting the App it will ask for file permission. After allow that you'll be able to pick a folder on your internal storage or sdcard. All app files will be stored in there. After choosing the folder, the game should give you an error that you need to put the orignal settlers 2 files into a folder(the one you picked). Put the game files into the folder in `share/s25rttr/S2`. After that the game should start normally.
 
 I'll add a file choosing feature in the future.
 
