@@ -15,8 +15,6 @@ I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk 
 
 When starting the App it will ask for file permission. After allow that you'll be able to pick a folder on your internal storage or sdcard. All app files will be stored in there. After choosing the folder, the game should give you an error that you need to put the orignal settlers 2 files into a folder(the one you picked). Put the game files into the folder in `share/s25rttr/S2`. After that the game should start normally.
 
-I'll add a file choosing feature in the future.
-
 The controls are very ugly at the moment. I'll try to fix that.
 
 What is already working?
