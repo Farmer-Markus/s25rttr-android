@@ -11,7 +11,7 @@ Please DO NOT report bugs of the android port to the original [s25client](https:
 
 I've used the [sdl2 android example app](https://github.com/libsdl-org/SDL/tree/SDL2/android-project) as base of my rttr port.
 
-I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk r17 :/) cmake 3.22.1 and openjdk 27.
+I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk r27 :/) cmake 3.22.1 and openjdk 17.
 
 When starting the App it will ask for file permission. After allowing you'll be able to pick/create a folder on your internal storage or sdcard. All app files will be stored in there. After choosing the folder, the game should give you an error that you need to put the orignal settlers 2 files into a folder(the one you picked). Put the game files into the folder in `share/s25rttr/S2`. After that the game should start normally.
 
@@ -70,10 +70,10 @@ Now you should be able to run:
 
 	./build.sh assembleDebug
 
-To build debug or `assembleRel` to build release. I you want to build the release you need to look a bit deeper into the signing system of android apps good luck.
+To build debug or `assembleRel` to build release. I you want to build the release you need to look a bit deeper into the signing system of android apps, good luck.
 You may need to accept some licenses using the sdk-manager.
 
-Sadly you can't install debug builds on your real phone but you can enable debug mode in your android settings and connect to your pc with usb cable to directly install the debug build on your phone.
+Sadly you can't install debug builds on your real phone but you can enable debug mode in your android settings and connect to your pc with usb cable to directly install the debug build on your phone(installDebug).
 
 And please if you have errors -> [Open an Issue](https://github.com/Farmer-Markus/s25rttr-android/issues)
 
