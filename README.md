@@ -26,13 +26,13 @@ What is already working?
 - Ai
 - Lan multiplayer(currently only if android player hosts game.)
 - Touch controls (very tricky but playable if you understand how the controls are "bugging". Currently you sadly need to move the map using the minimap)
+- File picker to store app files in selected folder
 
 What is planned?
 
 - Better touch control
 - Correct working multiplayer
 - Resolution fix (gui scale)
-- File picker to store app files in selected folder (coming soon!)
 - Better java optimisation
 - Fix color
 - Make fog working
