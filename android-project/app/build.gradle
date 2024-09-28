@@ -21,6 +21,7 @@ android {
     compileSdkVersion 34
     defaultConfig {
     applicationId "org.s25rttr.sdl"
+    archivesBaseName = "s25rttr"
         minSdkVersion 28
         targetSdkVersion 28
         versionCode 1
