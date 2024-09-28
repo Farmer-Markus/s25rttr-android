@@ -1,9 +1,5 @@
 package org.libsdl.app;
 
-import org.libsdl.app.NativeLibraryHelper;
-import org.libsdl.app.CopyAssets;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -58,9 +54,6 @@ import java.util.Hashtable;
 import java.util.Locale;
 
 
-
-
-
 /**
     SDL Activity
 */
@@ -69,7 +62,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
     private static final int SDL_MAJOR_VERSION = 2;
     private static final int SDL_MINOR_VERSION = 31;
     private static final int SDL_MICRO_VERSION = 0;
-
 /*
     // Display InputType.SOURCE/CLASS of events and devices
     //
@@ -337,14 +329,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         } catch (Exception e) {
             Log.v(TAG, "modify thread properties failed " + e.toString());
         }
-        
-        NativeLibraryHelper.createDirectory(this);
-        try {
-            CopyAssets.copyAssetsToInternalStorage(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-       	//CopyAssets.copyAssetsToInternalStorage(this);
 
         // Load shared libraries
         String errorMsgBrokenLib = "";

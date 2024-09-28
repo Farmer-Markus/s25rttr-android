@@ -46,6 +46,9 @@ public class NativeLibraryHelper {
 	if (!sourceFile.exists()) {
 	    Log.e(TAG, "Source file does not exist: " + sourceFile.getAbsolutePath());
 	    return false;
+	} else if (destFile.exists()) {
+	    Log.e(TAG, "Destination file already exist: " + destFile.getAbsolutePath());
+	    return true;
 	}
 
 	try (FileInputStream in = new FileInputStream(sourceFile);

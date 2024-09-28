@@ -71,7 +71,7 @@ public class FileUtils extends AppCompatActivity {
 	    String line = br.readLine();
 	    if (line == null)
 		return "";
-	    Log.e(TAG, "org.libsdl.app Config file Path is: " + line);
+	    Log.e(TAG, "org.libsdl.app path in Config file is: " + line);
 	    return line;
 	} catch (IOException e) {
 	    return "";
