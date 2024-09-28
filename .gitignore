@@ -1,6 +1,13 @@
+boost
+bzip2
+iconv
+lua
+miniupnpc
+SDL
+SDL_mixer
+
+ignore
+
 /android-project/.gradle/
 /android-project/app/build
 /android-project/app/.cxx
-ignore
-android-project/app/src/main/assets/share/s25rttr/S2/DATA
-android-project/app/src/main/assets/share/s25rttr/S2/GFX
