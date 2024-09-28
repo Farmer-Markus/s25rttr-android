@@ -33,7 +33,7 @@ What is planned?
 - Resolution fix (gui scale)
 - Better java optimisation
 - Fix color
-- Make fog working
+- Working fog
 
 If you know why e.g. the lan multiplayer only works one way please open an issue to let me know. I've never used pull request so I don't know how they work :D
 
