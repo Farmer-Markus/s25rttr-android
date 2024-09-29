@@ -1,6 +1,6 @@
 diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched/CMakeLists.txt
---- s25client/CMakeLists.txt	2024-09-29 22:16:56.335718782 +0200
-+++ s25client_patched/CMakeLists.txt	2024-09-29 20:16:58.605846000 +0200
+--- s25client/CMakeLists.txt	2024-09-09 22:27:18.785435000 +0200
++++ s25client_patched/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -22,9 +22,17 @@
      message(STATUS "Used Toolchain definition file '${CMAKE_TOOLCHAIN_FILE}'")
  endif()
@@ -48,8 +48,8 @@ diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched
      # Avoid having to search for this in all tests speeding up configure
      list(APPEND BoostPackages unit_test_framework)
 diff -ruN --binary -x '.*' -x patched s25client/external/CMakeLists.txt s25client_patched/external/CMakeLists.txt
---- s25client/external/CMakeLists.txt	2024-09-29 22:16:56.623725774 +0200
-+++ s25client_patched/external/CMakeLists.txt	2024-09-29 20:16:58.605846000 +0200
+--- s25client/external/CMakeLists.txt	2024-09-09 22:27:18.937439000 +0200
++++ s25client_patched/external/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -39,7 +39,11 @@
  add_subdirectory(libsiedler2)
  add_subdirectory(libutil)
@@ -64,8 +64,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/CMakeLists.txt s25clien
      add_subdirectory(s25update)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/CMakeLists.txt s25client_patched/external/liblobby/CMakeLists.txt
---- s25client/external/liblobby/CMakeLists.txt	2024-09-29 22:17:14.284154394 +0200
-+++ s25client_patched/external/liblobby/CMakeLists.txt	2024-09-29 20:16:58.605846000 +0200
+--- s25client/external/liblobby/CMakeLists.txt	2024-09-09 22:27:35.181845000 +0200
++++ s25client_patched/external/liblobby/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -20,7 +20,13 @@
  
  add_library(lobby STATIC EXCLUDE_FROM_ALL ${SOURCES_LOBBY})
@@ -82,8 +82,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/CMakeLists.txt
  set_target_properties(lobby PROPERTIES CXX_EXTENSIONS OFF)
  
 diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/src/LobbyClient.cpp s25client_patched/external/liblobby/src/LobbyClient.cpp
---- s25client/external/liblobby/src/LobbyClient.cpp	2024-09-29 22:17:14.284154394 +0200
-+++ s25client_patched/external/liblobby/src/LobbyClient.cpp	2024-09-29 20:16:58.605846000 +0200
+--- s25client/external/liblobby/src/LobbyClient.cpp	2024-09-09 22:27:35.181845000 +0200
++++ s25client_patched/external/liblobby/src/LobbyClient.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -3,6 +3,9 @@
  //
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
@@ -132,8 +132,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/src/LobbyClien
          ServerLost();
          return;
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake
---- s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-29 22:17:14.376156627 +0200
-+++ s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-29 20:16:58.605846000 +0200
+--- s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-09 22:27:35.221846000 +0200
++++ s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-14 18:03:28.605406000 +0200
 @@ -283,6 +283,7 @@
  endif()
  
@@ -143,8 +143,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/cmake_3.1
  #  FindBoost functions & macros
  #
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/FindMiniupnpc.cmake s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake
---- s25client/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-29 22:17:14.376156627 +0200
-+++ s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-29 20:16:58.609846000 +0200
+--- s25client/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-09 22:27:35.221846000 +0200
++++ s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-14 18:03:28.605406000 +0200
 @@ -9,6 +9,7 @@
  #  MINIUPNPC_LIBRARY     - Library to link to libminiupnpc.
  #  MINIUPNPC_FOUND       - True if libminiupnpc found.
@@ -162,8 +162,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/FindMiniu
  FIND_PACKAGE_HANDLE_STANDARD_ARGS(Miniupnpc DEFAULT_MSG MINIUPNPC_INCLUDE_DIR MINIUPNPC_LIBRARY)
  
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/CMakeLists.txt s25client_patched/external/libutil/libs/common/CMakeLists.txt
---- s25client/external/libutil/libs/common/CMakeLists.txt	2024-09-29 22:17:14.380156724 +0200
-+++ s25client_patched/external/libutil/libs/common/CMakeLists.txt	2024-09-29 20:16:58.609846000 +0200
+--- s25client/external/libutil/libs/common/CMakeLists.txt	2024-09-09 22:27:35.221846000 +0200
++++ s25client_patched/external/libutil/libs/common/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -2,6 +2,10 @@
  #
  # SPDX-License-Identifier: GPL-2.0-or-later
@@ -191,8 +191,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/CMa
  # PIC Required for linking into shared libs
  set_target_properties(s25util_common PROPERTIES CXX_EXTENSIONS OFF POSITION_INDEPENDENT_CODE ON)
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/src/System_Other.cpp s25client_patched/external/libutil/libs/common/src/System_Other.cpp
---- s25client/external/libutil/libs/common/src/System_Other.cpp	2024-09-29 22:17:14.380156724 +0200
-+++ s25client_patched/external/libutil/libs/common/src/System_Other.cpp	2024-09-29 20:16:58.609846000 +0200
+--- s25client/external/libutil/libs/common/src/System_Other.cpp	2024-09-09 22:27:35.225846000 +0200
++++ s25client_patched/external/libutil/libs/common/src/System_Other.cpp	2024-09-16 16:31:11.692303000 +0200
 @@ -2,9 +2,14 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -224,8 +224,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/src
          throw std::runtime_error("Could not get username");
      return name;
 diff -ruN --binary -x '.*' -x patched s25client/extras/ai-battle/CMakeLists.txt s25client_patched/extras/ai-battle/CMakeLists.txt
---- s25client/extras/ai-battle/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/ai-battle/CMakeLists.txt	2024-09-29 20:16:58.609846000 +0200
+--- s25client/extras/ai-battle/CMakeLists.txt	2024-09-09 22:27:18.937439000 +0200
++++ s25client_patched/extras/ai-battle/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -2,7 +2,12 @@
  #
  # SPDX-License-Identifier: GPL-2.0-or-later
@@ -240,8 +240,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/ai-battle/CMakeLists.txt 
  
  if(WIN32)
 diff -ruN --binary -x '.*' -x patched s25client/extras/audioDrivers/SDL/CMakeLists.txt s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt
---- s25client/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-29 20:16:58.609846000 +0200
+--- s25client/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-09 22:27:18.937439000 +0200
++++ s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -20,9 +20,11 @@
      target_link_libraries(audioSDL PRIVATE audiodrv SDL_mixer::SDL_mixer)
      enable_warnings(audioSDL)
@@ -259,8 +259,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/audioDrivers/SDL/CMakeLis
      add_dependencies(drivers audioSDL)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLists.txt s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt
---- s25client/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-29 20:16:58.609846000 +0200
+--- s25client/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-09 22:27:18.941439000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -7,7 +7,13 @@
  
  if(SDL2_FOUND)
@@ -293,8 +293,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLi
      add_dependencies(drivers videoSDL2)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp
---- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 20:16:58.609846000 +0200
+--- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-09 22:27:18.941439000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -2,6 +2,11 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -369,8 +369,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
  
  void VideoSDL2::SetMousePos(Position pos)
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s25client_patched/libs/rttrConfig/CMakeLists.txt
---- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-09-29 20:16:58.609846000 +0200
+--- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-09 22:27:18.945439000 +0200
++++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -10,10 +10,19 @@
    src/RttrConfig.h
  )
@@ -396,8 +396,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s
  
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build_paths.h.cmake build_paths.h @ONLY)
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/src/RttrConfig.cpp s25client_patched/libs/rttrConfig/src/RttrConfig.cpp
---- s25client/libs/rttrConfig/src/RttrConfig.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/rttrConfig/src/RttrConfig.cpp	2024-09-29 20:16:58.609846000 +0200
+--- s25client/libs/rttrConfig/src/RttrConfig.cpp	2024-09-09 22:27:18.945439000 +0200
++++ s25client_patched/libs/rttrConfig/src/RttrConfig.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -2,6 +2,10 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -511,8 +511,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/src/RttrConfig.c
          return false;
      // Make the prefix path our working directory as all other paths are relative to that
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s25client_patched/libs/s25client/CMakeLists.txt
---- s25client/libs/s25client/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25client/CMakeLists.txt	2024-09-29 20:16:58.613846000 +0200
+--- s25client/libs/s25client/CMakeLists.txt	2024-09-09 22:27:18.945439000 +0200
++++ s25client_patched/libs/s25client/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -18,9 +18,16 @@
      set(s25client_RC )
  endif()
@@ -542,8 +542,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s2
 +    INSTALL(TARGETS s25client RUNTIME DESTINATION ${RTTR_BINDIR})
 +endif()
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25client_patched/libs/s25client/s25client.cpp
---- s25client/libs/s25client/s25client.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25client/s25client.cpp	2024-09-29 20:16:58.613846000 +0200
+--- s25client/libs/s25client/s25client.cpp	2024-09-09 22:27:18.945439000 +0200
++++ s25client_patched/libs/s25client/s25client.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -1,6 +1,10 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -789,8 +789,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25
      return result;
  }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/CMakeLists.txt s25client_patched/libs/s25main/CMakeLists.txt
---- s25client/libs/s25main/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25main/CMakeLists.txt	2024-09-29 20:16:58.613846000 +0200
+--- s25client/libs/s25main/CMakeLists.txt	2024-09-09 22:27:18.945439000 +0200
++++ s25client_patched/libs/s25main/CMakeLists.txt	2024-09-14 18:03:28.605406000 +0200
 @@ -50,20 +50,37 @@
  set_target_properties(s25Main PROPERTIES CXX_EXTENSIONS OFF)
  target_compile_features(s25Main PUBLIC cxx_std_17)
@@ -843,8 +843,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/CMakeLists.txt s25c
  if(WIN32)
      include(CheckIncludeFiles)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client_patched/libs/s25main/Debug.cpp
---- s25client/libs/s25main/Debug.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25main/Debug.cpp	2024-09-29 20:16:58.613846000 +0200
+--- s25client/libs/s25main/Debug.cpp	2024-09-09 22:27:18.945439000 +0200
++++ s25client_patched/libs/s25main/Debug.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -149,8 +149,13 @@
  #else
  void captureBacktrace(std::vector<void*>& stacktrace) noexcept
@@ -859,340 +859,9 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client
  }
  #endif
  } // namespace
-diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.cpp s25client_patched/libs/s25main/desktops/dskGameInterface.cpp
---- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726357 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 21:52:39.402179000 +0200
-@@ -99,6 +99,10 @@
- };
- }
- 
-+bool mouseMove;
-+bool leftButtonDown;
-+unsigned long leftDownStart;
-+
- dskGameInterface::dskGameInterface(std::shared_ptr<Game> game, std::shared_ptr<const NWFInfo> nwfInfo,
-                                    unsigned playerIdx, bool initOGL)
-     : Desktop(nullptr), game_(std::move(game)), nwfInfo_(std::move(nwfInfo)),
-@@ -209,6 +213,7 @@
- 
- void dskGameInterface::StopScrolling()
- {
-+    mouseMove = false;
-     isScrolling = false;
-     WINDOWMANAGER.SetCursor(road.mode == RoadBuildMode::Disabled ? Cursor::Hand : Cursor::Remove);
- }
-@@ -450,6 +455,267 @@
-         iconPos -= DrawPoint(magnifierImg->getWidth() + 4, 0);
-     }
- }
-+#ifdef ANDROID
-+bool dskGameInterface::simpleLeftClick(const MouseCoords& mc)
-+{
-+    DrawPoint btOrig(VIDEODRIVER.GetRenderSize().x / 2 - LOADER.GetImageN("resource", 29)->getWidth() / 2 + 44,
-+                     VIDEODRIVER.GetRenderSize().y - LOADER.GetImageN("resource", 29)->getHeight() + 4);
-+    Extent btSize = Extent(37, 32) * 4u;
-+    if(IsPointInRect(mc.GetPos(), Rect(btOrig, btSize)))
-+        return false;
-+
-+    // Start scrolling also on Ctrl + left click
-+    if(VIDEODRIVER.GetModKeyState().ctrl)
-+    {
-+        Msg_RightDown(mc);
-+        return true;
-+    } else if(isScrolling)
-+        StopScrolling();
-+
-+    // Unterscheiden je nachdem Straäcnbaumodus an oder aus ist
-+    if(road.mode != RoadBuildMode::Disabled)
-+    {
-+        // in "richtige" Map-Koordinaten Konvertieren, den aktuellen selektierten Punkt
-+        const MapPoint selPt = gwv.GetSelectedPt();
-+
-+        if(selPt == road.point)
-+        {
-+            // Selektierter Punkt ist der gleiche wie der Straßenpunkt --> Fenster mit Wegbau abbrechen
-+            ShowRoadWindow(mc.GetPos());
-+        } else
-+        {
-+            // altes Roadwindow schließen
-+            WINDOWMANAGER.Close((unsigned)CGI_ROADWINDOW);
-+
-+            // Ist das ein gültiger neuer Wegpunkt?
-+            if(worldViewer.IsRoadAvailable(road.mode == RoadBuildMode::Boat, selPt)
-+               && worldViewer.IsPlayerTerritory(selPt))
-+            {
-+                MapPoint targetPt = selPt;
-+                if(!BuildRoadPart(targetPt))
-+                    ShowRoadWindow(mc.GetPos());
-+            } else if(worldViewer.GetBQ(selPt) != BuildingQuality::Nothing)
-+            {
-+                // Wurde bereits auf das gebaute Stück geklickt?
-+                unsigned idOnRoad = GetIdInCurBuildRoad(selPt);
-+                if(idOnRoad)
-+                    DemolishRoad(idOnRoad);
-+                else
-+                {
-+                    MapPoint targetPt = selPt;
-+                    if(BuildRoadPart(targetPt))
-+                    {
-+                        // Ist der Zielpunkt der gleiche geblieben?
-+                        if(selPt == targetPt)
-+                            GI_BuildRoad();
-+                    } else if(selPt == targetPt)
-+                        ShowRoadWindow(mc.GetPos());
-+                }
-+            }
-+            // Wurde auf eine Flagge geklickt und ist diese Flagge nicht der Weganfangspunkt?
-+            else if(worldViewer.GetWorld().GetNO(selPt)->GetType() == NodalObjectType::Flag && selPt != road.start)
-+            {
-+                MapPoint targetPt = selPt;
-+                if(BuildRoadPart(targetPt))
-+                {
-+                    if(selPt == targetPt)
-+                        GI_BuildRoad();
-+                } else if(selPt == targetPt)
-+                    ShowRoadWindow(mc.GetPos());
-+            } else
-+            {
-+                unsigned tbr = GetIdInCurBuildRoad(selPt);
-+                // Wurde bereits auf das gebaute Stück geklickt?
-+                if(tbr)
-+                    DemolishRoad(tbr);
-+                else
-+                    ShowRoadWindow(mc.GetPos());
-+            }
-+        }
-+    } else
-+    {
-+        bool enable_military_buildings = false;
-+
-+        iwAction::Tabs action_tabs;
-+
-+        const MapPoint cSel = gwv.GetSelectedPt();
-+
-+        // Vielleicht steht hier auch ein Schiff?
-+        if(const noShip* ship = worldViewer.GetShip(cSel))
-+        {
-+            WINDOWMANAGER.Show(std::make_unique<iwShip>(gwv, GAMECLIENT, ship));
-+            return true;
-+        }
-+
-+        // Evtl ists nen Haus? (unser Haus)
-+        const noBase& selObj = *worldViewer.GetWorld().GetNO(cSel);
-+        if(selObj.GetType() == NodalObjectType::Building && worldViewer.IsOwner(cSel))
-+        {
-+            if(auto* wnd = WINDOWMANAGER.FindNonModalWindow(CGI_BUILDING + MapBase::CreateGUIID(cSel)))
-+            {
-+                WINDOWMANAGER.SetActiveWindow(*wnd);
-+                return true;
-+            }
-+            BuildingType bt = static_cast<const noBuilding&>(selObj).GetBuildingType();
-+            // HQ
-+            if(bt == BuildingType::Headquarters)
-+                WINDOWMANAGER.Show(
-+                  std::make_unique<iwHQ>(gwv, GAMECLIENT, worldViewer.GetWorldNonConst().GetSpecObj<nobHQ>(cSel)));
-+            // Lagerhäuser
-+            else if(bt == BuildingType::Storehouse)
-+                WINDOWMANAGER.Show(std::make_unique<iwBaseWarehouse>(
-+                  gwv, GAMECLIENT, worldViewer.GetWorldNonConst().GetSpecObj<nobStorehouse>(cSel)));
-+            // Hafengebäude
-+            else if(bt == BuildingType::HarborBuilding)
-+                WINDOWMANAGER.Show(std::make_unique<iwHarborBuilding>(
-+                  gwv, GAMECLIENT, worldViewer.GetWorldNonConst().GetSpecObj<nobHarborBuilding>(cSel)));
-+            // Militärgebäude
-+            else if(BuildingProperties::IsMilitary(bt))
-+                WINDOWMANAGER.Show(std::make_unique<iwMilitaryBuilding>(
-+                  gwv, GAMECLIENT, worldViewer.GetWorldNonConst().GetSpecObj<nobMilitary>(cSel)));
-+            else if(bt == BuildingType::Temple)
-+                WINDOWMANAGER.Show(std::make_unique<iwTempleBuilding>(
-+                  gwv, GAMECLIENT, worldViewer.GetWorldNonConst().GetSpecObj<nobTemple>(cSel)));
-+            else
-+                WINDOWMANAGER.Show(std::make_unique<iwBuilding>(
-+                  gwv, GAMECLIENT, worldViewer.GetWorldNonConst().GetSpecObj<nobUsual>(cSel)));
-+            return true;
-+        }
-+        // oder vielleicht eine Baustelle?
-+        else if(selObj.GetType() == NodalObjectType::Buildingsite && worldViewer.IsOwner(cSel))
-+        {
-+            if(!WINDOWMANAGER.FindNonModalWindow(CGI_BUILDING + MapBase::CreateGUIID(cSel)))
-+                WINDOWMANAGER.Show(
-+                  std::make_unique<iwBuildingSite>(gwv, worldViewer.GetWorld().GetSpecObj<noBuildingSite>(cSel)));
-+            return true;
-+        }
-+
-+        action_tabs.watch = true;
-+        // Unser Land
-+        if(worldViewer.IsOwner(cSel))
-+        {
-+            const BuildingQuality bq = worldViewer.GetBQ(cSel);
-+            // Kann hier was gebaut werden?
-+            if(bq >= BuildingQuality::Mine)
-+            {
-+                action_tabs.build = true;
-+
-+                // Welches Gebäude kann gebaut werden?
-+                switch(bq)
-+                {
-+                    case BuildingQuality::Mine: action_tabs.build_tabs = iwAction::BuildTab::Mine; break;
-+                    case BuildingQuality::Hut: action_tabs.build_tabs = iwAction::BuildTab::Hut; break;
-+                    case BuildingQuality::House: action_tabs.build_tabs = iwAction::BuildTab::House; break;
-+                    case BuildingQuality::Castle: action_tabs.build_tabs = iwAction::BuildTab::Castle; break;
-+                    case BuildingQuality::Harbor: action_tabs.build_tabs = iwAction::BuildTab::Harbor; break;
-+                    default: break;
-+                }
-+
-+                if(!worldViewer.GetWorld().IsFlagAround(cSel))
-+                    action_tabs.setflag = true;
-+
-+                // Prüfen, ob sich Militärgebäude in der Nähe befinden, wenn nein, können auch eigene
-+                // Militärgebäude gebaut werden
-+                enable_military_buildings =
-+                  !worldViewer.GetWorld().IsMilitaryBuildingNearNode(cSel, worldViewer.GetPlayerId());
-+            } else if(bq == BuildingQuality::Flag)
-+                action_tabs.setflag = true;
-+            else if(selObj.GetType() == NodalObjectType::Flag)
-+                action_tabs.flag = true;
-+
-+            if(selObj.GetType() != NodalObjectType::Flag && selObj.GetType() != NodalObjectType::Building)
-+            {
-+                // Check if there are roads
-+                for(const Direction dir : helpers::EnumRange<Direction>{})
-+                {
-+                    const PointRoad curRoad = worldViewer.GetVisiblePointRoad(cSel, dir);
-+                    if(curRoad != PointRoad::None)
-+                    {
-+                        action_tabs.cutroad = true;
-+                        action_tabs.upgradeRoad |= (curRoad == PointRoad::Normal);
-+                    }
-+                }
-+            }
-+        }
-+        // evtl ists ein feindliches Militärgebäude, welches NICHT im Nebel liegt?
-+        else if(worldViewer.GetVisibility(cSel) == Visibility::Visible)
-+        {
-+            if(selObj.GetType() == NodalObjectType::Building)
-+            {
-+                const auto* building = worldViewer.GetWorld().GetSpecObj<noBuilding>(cSel); //-V807
-+                BuildingType bt = building->GetBuildingType();
-+
-+                // Only if trade is enabled
-+                if(worldViewer.GetWorld().GetGGS().isEnabled(AddonId::TRADE))
-+                {
-+                    // Allied warehouse? -> Show trade window
-+                    if(BuildingProperties::IsWareHouse(bt) && worldViewer.GetPlayer().IsAlly(building->GetPlayer()))
-+                    {
-+                        WINDOWMANAGER.Show(std::make_unique<iwTrade>(*static_cast<const nobBaseWarehouse*>(building),
-+                                                                     worldViewer, GAMECLIENT));
-+                        return true;
-+                    }
-+                }
-+
-+                // Ist es ein gewöhnliches Militärgebäude?
-+                if(BuildingProperties::IsMilitary(bt))
-+                {
-+                    // Dann darf es nicht neu gebaut sein!
-+                    if(!static_cast<const nobMilitary*>(building)->IsNewBuilt())
-+                        action_tabs.attack = true;
-+                }
-+                // oder ein HQ oder Hafen?
-+                else if(bt == BuildingType::Headquarters || bt == BuildingType::HarborBuilding)
-+                    action_tabs.attack = true;
-+                action_tabs.sea_attack =
-+                  action_tabs.attack && worldViewer.GetWorld().GetGGS().isEnabled(AddonId::SEA_ATTACK);
-+            }
-+        }
-+
-+        // Bisheriges Actionfenster schließen, falls es eins gab
-+        // aktuelle Mausposition merken, da diese durch das Schließen verändert werden kann
-+        if(actionwindow)
-+            actionwindow->Close();
-+        VIDEODRIVER.SetMousePos(mc.GetPos());
-+
-+        ShowActionWindow(action_tabs, cSel, mc.GetPos(), enable_military_buildings);
-+    }
-+
-+    return true;
-+}
-+
-+bool dskGameInterface::Msg_LeftDown(const MouseCoords& mc)
-+{
-+    leftButtonDown = true;
-+    leftDownStart = VIDEODRIVER.GetTickCount();
-+     
-+    if(mouseMove)
-+    {
-+        Msg_RightDown(mc);
-+        return true;
-+    } else if(isScrolling)
-+        StopScrolling();
-+    
-+    //return simpleLeftClick(mc);
-+    return true;
-+}
-+
-+bool dskGameInterface::Msg_LeftUp(const MouseCoords& mc)
-+{
-+    leftButtonDown = false;
-+    unsigned long leftDownDuration = VIDEODRIVER.GetTickCount() - leftDownStart;
-+    
-+    if(leftDownDuration < 100)
-+	simpleLeftClick(mc);
-+    
-+    if(isScrolling)
-+    {
-+        StopScrolling();
-+        return true;
-+    }
-+    return false;
-+}
-+#else
- 
- bool dskGameInterface::Msg_LeftDown(const MouseCoords& mc)
- {
-@@ -688,9 +954,12 @@
-     }
-     return false;
- }
-+#endif
- 
- bool dskGameInterface::Msg_MouseMove(const MouseCoords& mc)
- {
-+    mouseMove = true;
-+    
-     if(!isScrolling)
-         return false;
- 
-@@ -698,9 +967,13 @@
- 
-     if(SETTINGS.interface.invertMouse)
-         acceleration = -acceleration;
--
-+    
-+    #ifdef ANDROID
-+    gwv.MoveBy((mc.GetPos() - startScrollPt) * acceleration);
-+    #else
-     gwv.MoveBy((mc.GetPos() - startScrollPt) * acceleration);
-     VIDEODRIVER.SetMousePos(startScrollPt);
-+    #endif
- 
-     if(!SETTINGS.global.smartCursor)
-         startScrollPt = mc.GetPos();
-diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.h s25client_patched/libs/s25main/desktops/dskGameInterface.h
---- s25client/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:16:56.647726357 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.h	2024-09-29 21:29:19.328325000 +0200
-@@ -117,6 +117,9 @@
-     void Msg_PaintBefore() override;
-     void Msg_PaintAfter() override;
-     bool Msg_LeftDown(const MouseCoords& mc) override;
-+    #ifdef ANDROID
-+    bool simpleLeftClick(const MouseCoords& mc);
-+    #endif
-     bool Msg_LeftUp(const MouseCoords& mc) override;
-     bool Msg_MouseMove(const MouseCoords& mc) override;
-     bool Msg_RightDown(const MouseCoords& mc) override;
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapper.cpp s25client_patched/libs/s25main/drivers/DriverWrapper.cpp
---- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:16:56.651726453 +0200
-+++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 20:16:58.613846000 +0200
+--- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-09 22:27:18.961439000 +0200
++++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-09-16 16:30:07.778019000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1297,8 +966,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapp
      return driver_list;
  }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriverWrapper.cpp s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp
---- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 22:16:56.651726453 +0200
-+++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 20:16:58.613846000 +0200
+--- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-09 22:27:18.961439000 +0200
++++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1618,8 +1287,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
  }
  
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.cpp s25client_patched/libs/s25main/network/GameClient.cpp
---- s25client/libs/s25main/network/GameClient.cpp	2024-09-29 22:16:56.667726843 +0200
-+++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-09-29 20:16:58.613846000 +0200
+--- s25client/libs/s25main/network/GameClient.cpp	2024-09-09 22:27:18.977440000 +0200
++++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1743,8 +1412,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.
      if(game)
          ExitGame();
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.cpp s25client_patched/libs/s25main/network/GameServer.cpp
---- s25client/libs/s25main/network/GameServer.cpp	2024-09-29 22:16:56.667726843 +0200
-+++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-09-29 20:16:58.617846000 +0200
+--- s25client/libs/s25main/network/GameServer.cpp	2024-09-09 22:27:18.977440000 +0200
++++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-09-14 18:03:28.605406000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1771,24 +1440,9 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.
  
      // auf tote Clients prüfen
      ClientWatchDog();
-diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Settings.cpp s25client_patched/libs/s25main/Settings.cpp
---- s25client/libs/s25main/Settings.cpp	2024-09-29 22:16:56.635726066 +0200
-+++ s25client_patched/libs/s25main/Settings.cpp	2024-09-29 21:10:02.566783000 +0200
-@@ -73,7 +73,11 @@
-     // 0 = ask user at start, 1 = enabled, 2 = always ask
-     global.submit_debug_data = 0;
-     global.use_upnp = false;
-+    #ifdef ANDROID
-+    global.smartCursor = false;
-+    #else
-     global.smartCursor = true;
-+    #endif
-     global.debugMode = false;
-     global.showGFInfo = false;
-     // }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25client_patched/libs/s25main/Window.cpp
---- s25client/libs/s25main/Window.cpp	2024-09-29 22:16:56.639726162 +0200
-+++ s25client_patched/libs/s25main/Window.cpp	2024-09-29 20:16:58.617846000 +0200
+--- s25client/libs/s25main/Window.cpp	2024-09-09 22:27:18.949439000 +0200
++++ s25client_patched/libs/s25main/Window.cpp	2024-09-14 18:03:28.609406000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1834,8 +1488,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25clien
  
  void Window::Msg_ScreenResize(const ScreenResizeEvent& sr)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s25client_patched/libs/s25main/WindowManager.cpp
---- s25client/libs/s25main/WindowManager.cpp	2024-09-29 22:16:56.639726162 +0200
-+++ s25client_patched/libs/s25main/WindowManager.cpp	2024-09-29 20:16:58.617846000 +0200
+--- s25client/libs/s25main/WindowManager.cpp	2024-09-09 22:27:18.949439000 +0200
++++ s25client_patched/libs/s25main/WindowManager.cpp	2024-09-14 18:03:28.609406000 +0200
 @@ -1,6 +1,11 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
