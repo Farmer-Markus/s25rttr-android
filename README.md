@@ -25,7 +25,7 @@ What is already working?
 - Sound
 - Ai
 - Lan multiplayer(currently only if android player hosts game.)
-- Touch controls (very tricky but playable if you understand how the controls are "bugging". Currently you sadly need to move the map using the minimap)
+- Touch controls (currently zooming not supported)
 - File picker to store app files in selected folder
 
 What is planned?
