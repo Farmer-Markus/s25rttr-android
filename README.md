@@ -11,13 +11,13 @@ Please DO NOT report bugs of the android port to the original [s25client](https:
 
 Please don't upload my app on google play, fdroid. I want to do this later.
 
-I've used the [sdl2 android example app](https://github.com/libsdl-org/SDL/tree/SDL2/android-project) as base of my rttr port.
+I've used the [sdl2 android-project](https://github.com/libsdl-org/SDL/tree/SDL2/android-project) as base of my rttr port.
 
 I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk r27 :/) cmake 3.22.1 and openjdk 17.
 
 When starting the App it will ask for file permission. After allowing you'll be able to pick/create a folder on your internal storage or sdcard. All app files will be stored in there. After choosing the folder, the game should give you an error that you need to put the orignal settlers 2 files into a folder(the one you picked). Put the game files into the folder in `share/s25rttr/S2`. After that the game should start normally.
 
-The controls are very ugly at the moment. I'll try to fix that.
+You can't zoom in with touch controls yet but I'll try to fix that.
 
 What is already working?
 
@@ -25,7 +25,7 @@ What is already working?
 - Sound
 - Ai
 - Lan multiplayer(currently only if android player hosts game.)
-- Touch controls (currently zooming not supported)
+- Touch controls (currently zooming on touch not supported, same controls as on Pc with external mouse)
 - File picker to store app files in selected folder
 
 What is planned?
