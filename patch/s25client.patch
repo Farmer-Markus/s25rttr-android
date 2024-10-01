@@ -294,7 +294,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLi
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp
 --- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:25:02.403153000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-01 19:43:20.292448000 +0200
 @@ -2,6 +2,11 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -356,7 +356,67 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
          PrintError(SDL_GetError());
  
      context = SDL_GL_CreateContext(window);
-@@ -437,7 +454,11 @@
+@@ -268,6 +285,9 @@
+ 
+ bool VideoSDL2::MessageLoop()
+ {
++    int windowW, windowH;
++    SDL_GetWindowSize(window, &windowW, &windowH);
++    
+     SDL_Event ev;
+     while(SDL_PollEvent(&ev))
+     {
+@@ -405,6 +425,49 @@
+                 mouse_xy.pos = getGuiScale().screenToView(Position(ev.motion.x, ev.motion.y));
+                 CallBack->Msg_MouseMove(mouse_xy);
+                 break;
++            #ifdef ANDROID
++            case SDL_FINGERDOWN:
++                ev.tfinger.x = ev.tfinger.x * windowW;
++                ev.tfinger.y = ev.tfinger.y * windowH;
++                
++                mouse_xy.pos = getGuiScale().screenToView(Position((int)ev.tfinger.x, (int)ev.tfinger.y));
++                mouse_xy.ldown = true;
++                CallBack->Msg_LeftDown(mouse_xy);
++                break;
++            case SDL_FINGERUP:
++                ev.tfinger.x = ev.tfinger.x * windowW;
++                ev.tfinger.y = ev.tfinger.y * windowH;
++                
++                mouse_xy.pos = getGuiScale().screenToView(Position((int)ev.tfinger.x, (int)ev.tfinger.y));
++                mouse_xy.ldown = false;
++                CallBack->Msg_LeftUp(mouse_xy);
++                break;
++            case SDL_MULTIGESTURE:
++            {
++                if( fabs( ev.mgesture.dDist ) > 0.002 )
++                {
++                    ev.mgesture.x = ev.mgesture.x * windowW;
++                    ev.mgesture.y = ev.mgesture.y * windowH;
++                    
++                    mouse_xy.pos = getGuiScale().screenToView(Position((int)ev.mgesture.x, (int)ev.mgesture.y));
++                            
++                    
++                    if( ev.mgesture.dDist > 0 ) { 	//Pinch open
++                        CallBack->Msg_WheelUp(mouse_xy);
++                    } else { 				//Pinch close
++                        CallBack->Msg_WheelDown(mouse_xy);
++                    }
++                }
++            }
++                break;
++            case SDL_FINGERMOTION:
++                ev.tfinger.x = ev.tfinger.x * windowW;
++                ev.tfinger.y = ev.tfinger.y * windowH;
++                
++                mouse_xy.pos = getGuiScale().screenToView(Position((int)ev.tfinger.x, (int)ev.tfinger.y));
++                CallBack->Msg_MouseMove(mouse_xy);
++                break;
++            #endif
+         }
+     }
+ 
+@@ -437,7 +500,11 @@
  
  OpenGL_Loader_Proc VideoSDL2::GetLoaderFunction() const
  {
@@ -543,7 +603,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s2
 +endif()
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25client_patched/libs/s25client/s25client.cpp
 --- s25client/libs/s25client/s25client.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25client/s25client.cpp	2024-09-29 22:25:02.407153000 +0200
++++ s25client_patched/libs/s25client/s25client.cpp	2024-10-01 19:26:35.691703000 +0200
 @@ -1,6 +1,10 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -754,7 +814,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25
 +    #endif
 +    
 +    #ifdef ANDROID
-+    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "1");  // Converts touch events to mouse events
++    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");  // Converts touch events to mouse events
 +    SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");  // Converts mouse events to touch events
 +    #endif
 +
@@ -861,7 +921,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client
  } // namespace
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.cpp s25client_patched/libs/s25main/desktops/dskGameInterface.cpp
 --- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726357 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-01 18:19:56.982646000 +0200
++++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-01 18:35:31.535474000 +0200
 @@ -99,6 +99,12 @@
  };
  }
@@ -1181,6 +1241,15 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
  
      if(!SETTINGS.global.smartCursor)
          startScrollPt = mc.GetPos();
+@@ -917,7 +1194,7 @@
+     return false;
+ }
+ 
+-bool dskGameInterface::Msg_WheelUp(const MouseCoords&)
++bool dskGameInterface::Msg_WheelUp(const MouseCoords&) //ANDROID ZOOM TESTING 
+ {
+     WheelZoom(ZOOM_WHEEL_INCREMENT);
+     return true;
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.h s25client_patched/libs/s25main/desktops/dskGameInterface.h
 --- s25client/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:16:56.647726357 +0200
 +++ s25client_patched/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:25:02.407153000 +0200
