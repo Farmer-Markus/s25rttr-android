@@ -294,7 +294,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLi
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp
 --- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-01 19:43:20.292448000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-03 13:14:39.014589000 +0200
 @@ -2,6 +2,11 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -356,17 +356,25 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
          PrintError(SDL_GetError());
  
      context = SDL_GL_CreateContext(window);
-@@ -268,6 +285,9 @@
+@@ -268,6 +285,17 @@
  
  bool VideoSDL2::MessageLoop()
  {
 +    int windowW, windowH;
 +    SDL_GetWindowSize(window, &windowW, &windowH);
 +    
++    #ifdef ANDROID
++    /*float finger1x = 0;
++    float finger1y = 0;
++    float finger2x = 0;
++    float finger2y = 0;*/
++    SDL_TouchID touchDevice = SDL_GetTouchDevice(1);
++    #endif
++    
      SDL_Event ev;
      while(SDL_PollEvent(&ev))
      {
-@@ -405,6 +425,49 @@
+@@ -405,6 +433,61 @@
                  mouse_xy.pos = getGuiScale().screenToView(Position(ev.motion.x, ev.motion.y));
                  CallBack->Msg_MouseMove(mouse_xy);
                  break;
@@ -380,6 +388,9 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
 +                CallBack->Msg_LeftDown(mouse_xy);
 +                break;
 +            case SDL_FINGERUP:
++                if(!SDL_GetNumTouchFingers(touchDevice))
++                    isMultigesture = false;
++                
 +                ev.tfinger.x = ev.tfinger.x * windowW;
 +                ev.tfinger.y = ev.tfinger.y * windowH;
 +                
@@ -389,25 +400,34 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
 +                break;
 +            case SDL_MULTIGESTURE:
 +            {
-+                if( fabs( ev.mgesture.dDist ) > 0.002 )
-+                {
-+                    ev.mgesture.x = ev.mgesture.x * windowW;
-+                    ev.mgesture.y = ev.mgesture.y * windowH;
-+                    
-+                    mouse_xy.pos = getGuiScale().screenToView(Position((int)ev.mgesture.x, (int)ev.mgesture.y));
-+                            
-+                    
-+                    if( ev.mgesture.dDist > 0 ) { 	//Pinch open
++                isMultigesture = true;
++                if( fabs( ev.mgesture.dDist ) > 0.001 ) {
++                    if( ev.mgesture.dDist > 0 ) {
 +                        CallBack->Msg_WheelUp(mouse_xy);
-+                    } else { 				//Pinch close
++                    } else {
 +                        CallBack->Msg_WheelDown(mouse_xy);
 +                    }
 +                }
 +            }
 +                break;
 +            case SDL_FINGERMOTION:
-+                ev.tfinger.x = ev.tfinger.x * windowW;
-+                ev.tfinger.y = ev.tfinger.y * windowH;
++                if (isMultigesture || SDL_GetNumTouchFingers(touchDevice) > 1) {
++                    break;
++                    
++                    /*SDL_Finger* finger1 = SDL_GetTouchFinger(touchDevice, 0);
++                    finger1x = finger1->x;
++                    finger1y = finger1->y;
++                    
++                    SDL_Finger* finger2 = SDL_GetTouchFinger(touchDevice, 1);
++                    finger2x = finger2->x;
++                    finger2y = finger2->y;
++                    
++                    ev.tfinger.x = (finger1x + finger2x) / 2.0f * windowW;
++                    ev.tfinger.y = (finger1y + finger2y) / 2.0f * windowH;*/
++                } else {
++                    ev.tfinger.x = ev.tfinger.x * windowW;
++                    ev.tfinger.y = ev.tfinger.y * windowH;
++                }
 +                
 +                mouse_xy.pos = getGuiScale().screenToView(Position((int)ev.tfinger.x, (int)ev.tfinger.y));
 +                CallBack->Msg_MouseMove(mouse_xy);
@@ -416,7 +436,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
          }
      }
  
-@@ -437,7 +500,11 @@
+@@ -437,7 +520,11 @@
  
  OpenGL_Loader_Proc VideoSDL2::GetLoaderFunction() const
  {
@@ -428,6 +448,19 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
  }
  
  void VideoSDL2::SetMousePos(Position pos)
+diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.h s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.h
+--- s25client/extras/videoDrivers/SDL2/VideoSDL2.h	2024-09-29 22:16:56.627725872 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.h	2024-10-03 13:08:01.184298000 +0200
+@@ -58,6 +58,9 @@
+     void HandlePaste();
+     void UpdateCurrentSizes();
+     void MoveWindowToCenter();
++    #ifdef ANDROID
++    bool isMultigesture;
++    #endif
+ 
+     SDL_Window* window;
+     SDL_GLContext context;
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s25client_patched/libs/rttrConfig/CMakeLists.txt
 --- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
 +++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:25:02.403153000 +0200
@@ -603,7 +636,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s2
 +endif()
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25client_patched/libs/s25client/s25client.cpp
 --- s25client/libs/s25client/s25client.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25client/s25client.cpp	2024-10-01 19:26:35.691703000 +0200
++++ s25client_patched/libs/s25client/s25client.cpp	2024-10-01 20:23:51.373508000 +0200
 @@ -1,6 +1,10 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -921,31 +954,26 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client
  } // namespace
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.cpp s25client_patched/libs/s25main/desktops/dskGameInterface.cpp
 --- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726357 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-01 18:35:31.535474000 +0200
-@@ -99,6 +99,12 @@
++++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-01 20:37:35.005997000 +0200
+@@ -98,7 +98,6 @@
+     ID_txtNumMsg
  };
  }
- 
-+#ifdef ANDROID
-+bool mouseMove;
-+bool leftButtonDown;
-+unsigned long leftDownStart;
-+#endif
-+
+-
  dskGameInterface::dskGameInterface(std::shared_ptr<Game> game, std::shared_ptr<const NWFInfo> nwfInfo,
                                     unsigned playerIdx, bool initOGL)
      : Desktop(nullptr), game_(std::move(game)), nwfInfo_(std::move(nwfInfo)),
-@@ -209,6 +215,9 @@
+@@ -209,6 +208,9 @@
  
  void dskGameInterface::StopScrolling()
  {
 +    #ifdef ANDROID
-+    mouseMove = false;
++    //mouseMove = false;
 +    #endif
      isScrolling = false;
      WINDOWMANAGER.SetCursor(road.mode == RoadBuildMode::Disabled ? Cursor::Hand : Cursor::Remove);
  }
-@@ -450,6 +459,267 @@
+@@ -450,6 +452,267 @@
          iconPos -= DrawPoint(magnifierImg->getWidth() + 4, 0);
      }
  }
@@ -1199,7 +1227,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
 +    leftButtonDown = false;
 +    unsigned long leftDownDuration = VIDEODRIVER.GetTickCount() - leftDownStart;
 +    
-+    if(leftDownDuration < 100)
++    if(leftDownDuration < 125)
 +	simpleLeftClick(mc);
 +    
 +    if(isScrolling)
@@ -1213,7 +1241,15 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
  
  bool dskGameInterface::Msg_LeftDown(const MouseCoords& mc)
  {
-@@ -688,9 +958,12 @@
+@@ -681,6 +944,7 @@
+ 
+ bool dskGameInterface::Msg_LeftUp(const MouseCoords&)
+ {
++    mouseMove = false;
+     if(isScrolling)
+     {
+         StopScrolling();
+@@ -688,9 +952,12 @@
      }
      return false;
  }
@@ -1226,7 +1262,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
      if(!isScrolling)
          return false;
  
-@@ -698,9 +971,13 @@
+@@ -698,9 +965,13 @@
  
      if(SETTINGS.interface.invertMouse)
          acceleration = -acceleration;
@@ -1241,7 +1277,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
  
      if(!SETTINGS.global.smartCursor)
          startScrollPt = mc.GetPos();
-@@ -917,7 +1194,7 @@
+@@ -917,7 +1188,7 @@
      return false;
  }
  
@@ -1252,7 +1288,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
      return true;
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.h s25client_patched/libs/s25main/desktops/dskGameInterface.h
 --- s25client/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:16:56.647726357 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:25:02.407153000 +0200
++++ s25client_patched/libs/s25main/desktops/dskGameInterface.h	2024-10-01 20:01:12.531686000 +0200
 @@ -117,6 +117,9 @@
      void Msg_PaintBefore() override;
      void Msg_PaintAfter() override;
@@ -1263,6 +1299,17 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
      bool Msg_LeftUp(const MouseCoords& mc) override;
      bool Msg_MouseMove(const MouseCoords& mc) override;
      bool Msg_RightDown(const MouseCoords& mc) override;
+@@ -164,4 +167,10 @@
+     bool isCheatModeOn;
+     std::string curCheatTxt;
+     Subscription evBld;
++    
++    #ifdef ANDROID
++    bool mouseMove;
++    bool leftButtonDown;
++    unsigned long leftDownStart;
++    #endif
+ };
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapper.cpp s25client_patched/libs/s25main/drivers/DriverWrapper.cpp
 --- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:16:56.651726453 +0200
 +++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:25:02.411153000 +0200
