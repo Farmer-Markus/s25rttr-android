@@ -8,9 +8,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
-import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -78,9 +80,9 @@ public class FileUtils extends AppCompatActivity {
 	}
     }
     
-    public static File getConfFile(Context context) {
+    public static File getConfFile(String ConfFileName, Context context) {
         String InternalStoragePath = context.getFilesDir() + "/";
-        File ConfFile = new File(InternalStoragePath, "AppPathConfig.conf");
+        File ConfFile = new File(InternalStoragePath, ConfFileName);
         
         return ConfFile;
     }
@@ -99,4 +101,31 @@ public class FileUtils extends AppCompatActivity {
         }
         return false;
     }
+    
+    /*
+    public static boolean checkIfUpdated(Context context) throws NameNotFoundException {
+        File ConfFile = getConfFile("AppLastUpdate", context);
+        if(!ConfFile.exists()) {
+            WriteConfig(ConfFile, Long.toString(context.getPackageManager().getPackageInfo(context.getPackageName(), 0).firstInstallTime)); //thanks https://stackoverflow.com/questions/26352881/detect-if-new-install-or-updated-version-android-app
+        } else {
+            String latestUpdateFromFile = ReadConfig(ConfFile);
+            if(latestUpdateFromFile == "")
+                return false;
+            
+            String latestUpdate = Long.toString(context.getPackageManager().getPackageInfo(context.getPackageName(), 0).lastUpdateTime);
+            
+             Log.e(TAG, "org.libsdl.app Latest update is: " + latestUpdate + " update from file is: " + latestUpdateFromFile);
+            
+            if(latestUpdateFromFile.equals(latestUpdate)) {
+               Log.e(TAG, "org.libsdl.app App was NOT updated");
+               return false;
+            } else {
+                Log.e(TAG, "org.libsdl.app App was recently updated");
+                WriteConfig(ConfFile, latestUpdate); //.toString);
+                return true;
+            }
+        }
+        return false;
+    }
+    */
 }

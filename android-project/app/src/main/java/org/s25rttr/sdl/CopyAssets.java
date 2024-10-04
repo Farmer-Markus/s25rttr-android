@@ -22,7 +22,12 @@ public class CopyAssets {
             Log.e(TAG, "org.libsdl.app Copying assets... from " + assetManager + " to " + destinationDir);
             copyDirectory(assetManager, "share", destinationDir);
         }
-        //copyDirectory(assetManager, "share", destinationDir);
+        
+        /*
+        destinationDir.mkdirs();
+        Log.e(TAG, "org.libsdl.app Copying assets... from " + assetManager + " to " + destinationDir);
+        copyDirectory(assetManager, "share", destinationDir);
+        */
     }
 
     private static void copyDirectory(AssetManager assetManager, String sourceDir, File destinationDir) throws IOException {
@@ -43,10 +48,15 @@ public class CopyAssets {
                 }
                 copyDirectory(assetManager, assetPath, outFile);
             } else {
-                try (InputStream in = assetManager.open(assetPath);
-                     OutputStream out = new FileOutputStream(outFile)) {
-                    copyFile(in, out);
-                }
+                /*
+                if(outFile.exists())
+                    deleteDirectory(outFile);
+                    */
+                
+                InputStream in = assetManager.open(assetPath);
+                OutputStream out = new FileOutputStream(outFile);
+                
+                copyFile(in, out);
             }
         }
     }
@@ -58,5 +68,19 @@ public class CopyAssets {
             out.write(buffer, 0, bytesRead);
         }
     }
+    
+    /*
+    private static void deleteDirectory(File dir) {
+        if (dir.isDirectory()) {
+            File[] children = dir.listFiles();
+            if (children != null) {
+                for (File child : children) {
+                    deleteDirectory(child);
+                }
+            }
+        }
+        dir.delete();
+    }
+    */
 }
 

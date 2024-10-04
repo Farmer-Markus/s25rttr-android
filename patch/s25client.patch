@@ -1,5 +1,5 @@
 diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched/CMakeLists.txt
---- s25client/CMakeLists.txt	2024-09-29 22:16:56.335718782 +0200
+--- s25client/CMakeLists.txt	2024-09-29 22:16:56.335718000 +0200
 +++ s25client_patched/CMakeLists.txt	2024-10-04 16:51:34.342566000 +0200
 @@ -22,9 +22,17 @@
      message(STATUS "Used Toolchain definition file '${CMAKE_TOOLCHAIN_FILE}'")
@@ -48,7 +48,7 @@ diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched
      # Avoid having to search for this in all tests speeding up configure
      list(APPEND BoostPackages unit_test_framework)
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayout.txt s25client_patched/data/RTTR/texte/de/keyboardlayout.txt
---- s25client/data/RTTR/texte/de/keyboardlayout.txt	2024-09-29 22:16:56.623725774 +0200
+--- s25client/data/RTTR/texte/de/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
 +++ s25client_patched/data/RTTR/texte/de/keyboardlayout.txt	2024-10-04 18:23:46.702754000 +0200
 @@ -2,6 +2,19 @@
  ------------------------------------------------------------------------
@@ -71,7 +71,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayou
  
  P:.................... Pause
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s25client_patched/data/RTTR/texte/de/readme.txt
---- s25client/data/RTTR/texte/de/readme.txt	2024-09-29 22:16:56.623725774 +0200
+--- s25client/data/RTTR/texte/de/readme.txt	2024-09-29 22:16:56.623725000 +0200
 +++ s25client_patched/data/RTTR/texte/de/readme.txt	2024-10-04 18:22:46.793443000 +0200
 @@ -12,6 +12,7 @@
    2. Multiplayer-Spiele
@@ -131,7 +131,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s2
  --------------------------------------------------------------------------------
  
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.txt s25client_patched/data/RTTR/texte/keyboardlayout.txt
---- s25client/data/RTTR/texte/keyboardlayout.txt	2024-09-29 22:16:56.623725774 +0200
+--- s25client/data/RTTR/texte/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
 +++ s25client_patched/data/RTTR/texte/keyboardlayout.txt	2024-10-04 18:25:02.868455000 +0200
 @@ -2,6 +2,19 @@
  ------------------------------------------------------------------------
@@ -154,7 +154,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.t
  
  P:.................... Pause
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/readme.txt s25client_patched/data/RTTR/texte/readme.txt
---- s25client/data/RTTR/texte/readme.txt	2024-09-29 22:16:56.623725774 +0200
+--- s25client/data/RTTR/texte/readme.txt	2024-09-29 22:16:56.623725000 +0200
 +++ s25client_patched/data/RTTR/texte/readme.txt	2024-10-04 18:15:33.469020000 +0200
 @@ -12,6 +12,7 @@
    2. Multiplayer game
@@ -212,7 +212,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/readme.txt s25cl
  
  D. Crash and bugs
 diff -ruN --binary -x '.*' -x patched s25client/external/CMakeLists.txt s25client_patched/external/CMakeLists.txt
---- s25client/external/CMakeLists.txt	2024-09-29 22:16:56.623725774 +0200
+--- s25client/external/CMakeLists.txt	2024-09-29 22:16:56.623725000 +0200
 +++ s25client_patched/external/CMakeLists.txt	2024-10-04 16:51:34.342566000 +0200
 @@ -39,7 +39,11 @@
  add_subdirectory(libsiedler2)
@@ -228,7 +228,7 @@ diff -ruN --binary -x '.*' -x patched s25client/external/CMakeLists.txt s25clien
      add_subdirectory(s25update)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/CMakeLists.txt s25client_patched/external/liblobby/CMakeLists.txt
---- s25client/external/liblobby/CMakeLists.txt	2024-09-29 22:17:14.284154394 +0200
+--- s25client/external/liblobby/CMakeLists.txt	2024-09-29 22:17:14.284154000 +0200
 +++ s25client_patched/external/liblobby/CMakeLists.txt	2024-10-04 16:51:34.342566000 +0200
 @@ -20,7 +20,13 @@
  
@@ -246,7 +246,7 @@ diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/CMakeLists.txt
  set_target_properties(lobby PROPERTIES CXX_EXTENSIONS OFF)
  
 diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/src/LobbyClient.cpp s25client_patched/external/liblobby/src/LobbyClient.cpp
---- s25client/external/liblobby/src/LobbyClient.cpp	2024-09-29 22:17:14.284154394 +0200
+--- s25client/external/liblobby/src/LobbyClient.cpp	2024-09-29 22:17:14.284154000 +0200
 +++ s25client_patched/external/liblobby/src/LobbyClient.cpp	2024-10-04 16:51:34.342566000 +0200
 @@ -3,6 +3,9 @@
  //
@@ -296,7 +296,7 @@ diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/src/LobbyClien
          ServerLost();
          return;
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake
---- s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-29 22:17:14.376156627 +0200
+--- s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-29 22:17:14.376156000 +0200
 +++ s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-10-04 16:51:34.342566000 +0200
 @@ -283,6 +283,7 @@
  endif()
@@ -307,7 +307,7 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/cmake_3.1
  #  FindBoost functions & macros
  #
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/FindMiniupnpc.cmake s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake
---- s25client/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-29 22:17:14.376156627 +0200
+--- s25client/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-29 22:17:14.376156000 +0200
 +++ s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake	2024-10-04 16:51:34.342566000 +0200
 @@ -9,6 +9,7 @@
  #  MINIUPNPC_LIBRARY     - Library to link to libminiupnpc.
@@ -326,7 +326,7 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/FindMiniu
  FIND_PACKAGE_HANDLE_STANDARD_ARGS(Miniupnpc DEFAULT_MSG MINIUPNPC_INCLUDE_DIR MINIUPNPC_LIBRARY)
  
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/CMakeLists.txt s25client_patched/external/libutil/libs/common/CMakeLists.txt
---- s25client/external/libutil/libs/common/CMakeLists.txt	2024-09-29 22:17:14.380156724 +0200
+--- s25client/external/libutil/libs/common/CMakeLists.txt	2024-09-29 22:17:14.380156000 +0200
 +++ s25client_patched/external/libutil/libs/common/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -2,6 +2,10 @@
  #
@@ -354,41 +354,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/CMa
  target_compile_features(s25util_common PUBLIC cxx_std_17)
  # PIC Required for linking into shared libs
  set_target_properties(s25util_common PROPERTIES CXX_EXTENSIONS OFF POSITION_INDEPENDENT_CODE ON)
-diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/src/System_Other.cpp s25client_patched/external/libutil/libs/common/src/System_Other.cpp
---- s25client/external/libutil/libs/common/src/System_Other.cpp	2024-09-29 22:17:14.380156724 +0200
-+++ s25client_patched/external/libutil/libs/common/src/System_Other.cpp	2024-10-04 16:51:34.346566000 +0200
-@@ -2,9 +2,14 @@
- //
- // SPDX-License-Identifier: GPL-2.0-or-later
- 
-+#ifdef ANDROID
-+#include <android/log.h>
-+#endif
-+
- #include "System.h"
- #include <stdexcept>
- 
-+
- boost::filesystem::path System::getHomePath()
- {
-     boost::filesystem::path homePath = getPathFromEnvVar("HOME");
-@@ -17,9 +22,14 @@
-     return homePath;
- }
- 
-+
- std::string System::getUserName()
- {
-+    #ifdef ANDROID
-+    std::string name = "android";
-+    #else
-     std::string name = getEnvVar("USER");
-+    #endif
-     if(name.empty())
-         throw std::runtime_error("Could not get username");
-     return name;
 diff -ruN --binary -x '.*' -x patched s25client/extras/ai-battle/CMakeLists.txt s25client_patched/extras/ai-battle/CMakeLists.txt
---- s25client/extras/ai-battle/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
+--- s25client/extras/ai-battle/CMakeLists.txt	2024-09-29 22:16:56.627725000 +0200
 +++ s25client_patched/extras/ai-battle/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -2,7 +2,12 @@
  #
@@ -404,7 +371,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/ai-battle/CMakeLists.txt 
  
  if(WIN32)
 diff -ruN --binary -x '.*' -x patched s25client/extras/audioDrivers/SDL/CMakeLists.txt s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt
---- s25client/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
+--- s25client/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-29 22:16:56.627725000 +0200
 +++ s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -20,9 +20,11 @@
      target_link_libraries(audioSDL PRIVATE audiodrv SDL_mixer::SDL_mixer)
@@ -423,7 +390,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/audioDrivers/SDL/CMakeLis
      add_dependencies(drivers audioSDL)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLists.txt s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt
---- s25client/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
+--- s25client/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-29 22:16:56.627725000 +0200
 +++ s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -7,7 +7,13 @@
  
@@ -457,7 +424,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLi
      add_dependencies(drivers videoSDL2)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp
---- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725872 +0200
+--- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725000 +0200
 +++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -2,6 +2,11 @@
  //
@@ -613,7 +580,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
  
  void VideoSDL2::SetMousePos(Position pos)
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.h s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.h
---- s25client/extras/videoDrivers/SDL2/VideoSDL2.h	2024-09-29 22:16:56.627725872 +0200
+--- s25client/extras/videoDrivers/SDL2/VideoSDL2.h	2024-09-29 22:16:56.627725000 +0200
 +++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.h	2024-10-04 16:51:34.346566000 +0200
 @@ -58,6 +58,9 @@
      void HandlePaste();
@@ -626,7 +593,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
      SDL_Window* window;
      SDL_GLContext context;
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s25client_patched/libs/rttrConfig/CMakeLists.txt
---- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
+--- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:16:56.631725000 +0200
 +++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -10,10 +10,19 @@
    src/RttrConfig.h
@@ -653,7 +620,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s
  
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build_paths.h.cmake build_paths.h @ONLY)
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/src/RttrConfig.cpp s25client_patched/libs/rttrConfig/src/RttrConfig.cpp
---- s25client/libs/rttrConfig/src/RttrConfig.cpp	2024-09-29 22:16:56.631725968 +0200
+--- s25client/libs/rttrConfig/src/RttrConfig.cpp	2024-09-29 22:16:56.631725000 +0200
 +++ s25client_patched/libs/rttrConfig/src/RttrConfig.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -2,6 +2,10 @@
  //
@@ -768,7 +735,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/src/RttrConfig.c
          return false;
      // Make the prefix path our working directory as all other paths are relative to that
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s25client_patched/libs/s25client/CMakeLists.txt
---- s25client/libs/s25client/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
+--- s25client/libs/s25client/CMakeLists.txt	2024-09-29 22:16:56.631725000 +0200
 +++ s25client_patched/libs/s25client/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -18,9 +18,16 @@
      set(s25client_RC )
@@ -799,7 +766,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s2
 +    INSTALL(TARGETS s25client RUNTIME DESTINATION ${RTTR_BINDIR})
 +endif()
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25client_patched/libs/s25client/s25client.cpp
---- s25client/libs/s25client/s25client.cpp	2024-09-29 22:16:56.631725968 +0200
+--- s25client/libs/s25client/s25client.cpp	2024-09-29 22:16:56.631725000 +0200
 +++ s25client_patched/libs/s25client/s25client.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -1,6 +1,10 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
@@ -1046,7 +1013,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25
      return result;
  }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/CMakeLists.txt s25client_patched/libs/s25main/CMakeLists.txt
---- s25client/libs/s25main/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
+--- s25client/libs/s25main/CMakeLists.txt	2024-09-29 22:16:56.631725000 +0200
 +++ s25client_patched/libs/s25main/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -50,20 +50,37 @@
  set_target_properties(s25Main PROPERTIES CXX_EXTENSIONS OFF)
@@ -1100,7 +1067,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/CMakeLists.txt s25c
  if(WIN32)
      include(CheckIncludeFiles)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client_patched/libs/s25main/Debug.cpp
---- s25client/libs/s25main/Debug.cpp	2024-09-29 22:16:56.631725968 +0200
+--- s25client/libs/s25main/Debug.cpp	2024-09-29 22:16:56.631725000 +0200
 +++ s25client_patched/libs/s25main/Debug.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -149,8 +149,13 @@
  #else
@@ -1117,7 +1084,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client
  #endif
  } // namespace
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.cpp s25client_patched/libs/s25main/desktops/dskGameInterface.cpp
---- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726357 +0200
+--- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726000 +0200
 +++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -98,7 +98,6 @@
      ID_txtNumMsg
@@ -1451,7 +1418,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
      WheelZoom(ZOOM_WHEEL_INCREMENT);
      return true;
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.h s25client_patched/libs/s25main/desktops/dskGameInterface.h
---- s25client/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:16:56.647726357 +0200
+--- s25client/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:16:56.647726000 +0200
 +++ s25client_patched/libs/s25main/desktops/dskGameInterface.h	2024-10-04 16:51:34.350566000 +0200
 @@ -117,6 +117,9 @@
      void Msg_PaintBefore() override;
@@ -1475,7 +1442,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
 +    #endif
  };
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapper.cpp s25client_patched/libs/s25main/drivers/DriverWrapper.cpp
---- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:16:56.651726453 +0200
+--- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:16:56.651726000 +0200
 +++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
@@ -1581,7 +1548,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapp
      return driver_list;
  }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriverWrapper.cpp s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp
---- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 22:16:56.651726453 +0200
+--- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 22:16:56.651726000 +0200
 +++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
@@ -1902,7 +1869,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
  }
  
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.cpp s25client_patched/libs/s25main/network/GameClient.cpp
---- s25client/libs/s25main/network/GameClient.cpp	2024-09-29 22:16:56.667726843 +0200
+--- s25client/libs/s25main/network/GameClient.cpp	2024-09-29 22:16:56.667726000 +0200
 +++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
@@ -2027,7 +1994,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.
      if(game)
          ExitGame();
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.cpp s25client_patched/libs/s25main/network/GameServer.cpp
---- s25client/libs/s25main/network/GameServer.cpp	2024-09-29 22:16:56.667726843 +0200
+--- s25client/libs/s25main/network/GameServer.cpp	2024-09-29 22:16:56.667726000 +0200
 +++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-10-04 16:51:34.354566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
@@ -2056,7 +2023,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.
      // auf tote Clients prüfen
      ClientWatchDog();
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Settings.cpp s25client_patched/libs/s25main/Settings.cpp
---- s25client/libs/s25main/Settings.cpp	2024-09-29 22:16:56.635726066 +0200
+--- s25client/libs/s25main/Settings.cpp	2024-09-29 22:16:56.635726000 +0200
 +++ s25client_patched/libs/s25main/Settings.cpp	2024-10-04 16:51:34.354566000 +0200
 @@ -73,7 +73,11 @@
      // 0 = ask user at start, 1 = enabled, 2 = always ask
@@ -2071,7 +2038,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Settings.cpp s25cli
      global.showGFInfo = false;
      // }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25client_patched/libs/s25main/Window.cpp
---- s25client/libs/s25main/Window.cpp	2024-09-29 22:16:56.639726162 +0200
+--- s25client/libs/s25main/Window.cpp	2024-09-29 22:16:56.639726000 +0200
 +++ s25client_patched/libs/s25main/Window.cpp	2024-10-04 16:51:34.354566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
@@ -2118,7 +2085,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25clien
  
  void Window::Msg_ScreenResize(const ScreenResizeEvent& sr)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s25client_patched/libs/s25main/WindowManager.cpp
---- s25client/libs/s25main/WindowManager.cpp	2024-09-29 22:16:56.639726162 +0200
+--- s25client/libs/s25main/WindowManager.cpp	2024-09-29 22:16:56.639726000 +0200
 +++ s25client_patched/libs/s25main/WindowManager.cpp	2024-10-04 16:51:34.354566000 +0200
 @@ -1,6 +1,11 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
