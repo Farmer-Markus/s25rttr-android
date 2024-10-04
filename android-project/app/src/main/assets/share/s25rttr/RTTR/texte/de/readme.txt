@@ -12,6 +12,7 @@ C. Spiel
   2. Multiplayer-Spiele
   3. Replays
   4. Optionen
+  5. Android
 D. Abstürze und Fehler
 E. Übersicht: Updates und Änderungen
 
@@ -206,6 +207,48 @@ C. Spiel
 
     Die Einstellungen im Optionsmenü sollten so weit selbsterklärend sein.
 
+  6. Android
+
+    Diese android version von RTTR ist nicht offiziell und ich als
+    Entwickler dieser Portierung stehe nicht mit den
+    Entwicklern von RTTR in Verbindung!
+
+    Es musste einiges an RTTR verändert werden, damit es auf Android
+    funktioniert. Wichtige Änderungen werde ich hier aufzählen.
+
+    a) Bildschirmausrichtung
+       Die Bildschirmausrichtung hängt von der Ausrichtung des
+       Handys ab.
+       Um RTTR automatisch im Querformat zu starten, muss
+       der Vollbildmodus in den Einstellungen aktiviert
+       und die App einmal neu gestartet werden.
+
+    b) Steuerung
+       Wenn sie eine externe Maus benutzen, sollte die Steuerung
+       exakt gleich wie auf dem Computer funktionieren.
+
+       Die Touch Steuerung funktioniert ähnlich wie bei den meisten
+       Handy spielen:
+
+       -Mit dem Finger über die Karte wischen, um sie zu verschieben.
+
+       -Einmal tippen wird wie ein Linksklick der Maus gewertet.
+
+       -Mit 2 Fingern zoomen.
+
+       -Doppelt tippen, um Fenster schneller zu schließen.
+       (noch nicht verfügbar)
+
+    c) Texteingaben
+       Um Text in ein Textfeld einzugeben einfach darauf tippen und die
+       eingebaute system Tastatur sollte erscheinen.(noch nicht verfügbar)
+
+    d) Multiplayer
+       Der Multiplayer funktioniert zurzeit leider noch nicht.
+       Es ist zwar möglich, im selben Netzwerk zu spielen, wenn ein Spieler 
+       am Handy den Server hostet und andere Spieler über den PC beitreten.
+       Ich werde jedoch versuchen, den Multiplayer vollständig
+       zu implementieren.
 
 --------------------------------------------------------------------------------
 

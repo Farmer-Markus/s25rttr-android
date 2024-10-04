@@ -2,6 +2,19 @@
 ------------------------------------------------------------------------
 Globale Tastaturbelegung im Spiel:
 
+---------
+Android
+---------
+
+-Mit dem Finger über die Karte wischen, um sie zu verschieben
+
+-Einmal tippen wird wie ein Linksklick der Maus gewertet
+
+-Mit 2 Fingern zoomen
+
+-Doppelt tippen, um Fenster schneller zu schließen(noch nicht verfügbar)
+
+
 Eingeklammerte Belegungen funktionieren noch nicht.
 
 P:.................... Pause
