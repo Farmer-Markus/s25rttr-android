@@ -12,6 +12,7 @@ import android.util.Log;
 import android.content.Intent;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.app.AlertDialog;
 import android.widget.Toast;
 import android.net.Uri;
@@ -47,7 +48,7 @@ public class GameFiles extends AppCompatActivity {
                     Path = FileUtils.OutputFullPath(Path);
                     Toast.makeText(this, "Selected folder: " + Path, Toast.LENGTH_SHORT).show();
                     
-                    FileUtils.WriteConfig(FileUtils.getConfFile(this), Path);
+                    FileUtils.WriteConfig(FileUtils.getConfFile("AppPathConfig.conf", this), Path);
                     checkForFileDir();
                     startRTTR();
                     
@@ -137,7 +138,7 @@ public class GameFiles extends AppCompatActivity {
     }
     
     private boolean checkForFileDir() {
-        String Path = FileUtils.ReadConfig(FileUtils.getConfFile(this));
+        String Path = FileUtils.ReadConfig(FileUtils.getConfFile("AppPathConfig.conf", this));
         if (Path.isEmpty() || Path == null)
             return false;
         
@@ -165,18 +166,64 @@ public class GameFiles extends AppCompatActivity {
         }
         
         try {
-            CopyAssets.copyAssetsToDataStorage(this, Path);
+            Os.setenv("USER", "android", true);
         } catch (Exception e) {
             e.printStackTrace();
             
             String dialogTitel = "Error";
-            String dialogMessage = "RTTR crashed while trying to copy asset files into picked folder!";
+            String dialogMessage = "RTTR crashed while setting USER variable to 'android'!";
             showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
                 @Override
                 public void onOkPressed() {
                     finishAffinity(); //exit whole app
             	}
        	    });
+        }
+        
+        /*
+        try {
+            if(FileUtils.checkIfUpdated(this)) {
+                Log.e(TAG, "org.libsdl.app App was recently updated(GAMEFILES)");
+                Toast.makeText(this, "RTTR was updated. Please wait...", Toast.LENGTH_LONG).show();
+                try {
+                    CopyAssets.copyAssetsToDataStorage(this, Path);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    String dialogTitel = "Error";
+                    String dialogMessage = "RTTR crashed while trying to copy asset files into picked folder!";
+                    showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
+                        @Override
+                        public void onOkPressed() {
+                            finishAffinity(); //exit whole app
+                        }
+                    });
+                }
+            }
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+	    
+	    String dialogTitel = "Info";
+            String dialogMessage = "RTTR failed to check if app was updated recently!";
+            showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
+                @Override
+                public void onOkPressed() {
+            	}
+       	    });
+        }
+        */
+        
+        try {
+            CopyAssets.copyAssetsToDataStorage(this, Path);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String dialogTitel = "Error";
+            String dialogMessage = "RTTR crashed while trying to copy asset files into picked folder!";
+            showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
+                @Override
+                public void onOkPressed() {
+                    finishAffinity(); //exit whole app
+                }
+            });
         }
         
         try {
