@@ -12,7 +12,7 @@ Android
 
 -Zoom with two fingers
 
--Double tap to close windows faster (not yet available)
+-Double tap to close windows faster
 
 
 Bracketed keys do not work yet.

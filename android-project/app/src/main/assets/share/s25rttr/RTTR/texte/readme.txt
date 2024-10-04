@@ -224,7 +224,7 @@ C. Game
 
        -Zoom with two fingers.
 
-       -Double tap to close windows faster. (not yet available)
+       -Double tap to close windows faster.
 
     c) Text input
        To enter text into a text field, simply tap on it, and the

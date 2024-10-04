@@ -237,7 +237,6 @@ C. Spiel
        -Mit 2 Fingern zoomen.
 
        -Doppelt tippen, um Fenster schneller zu schließen.
-       (noch nicht verfügbar)
 
     c) Texteingaben
        Um Text in ein Textfeld einzugeben einfach darauf tippen und die
