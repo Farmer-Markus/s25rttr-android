@@ -49,7 +49,7 @@ diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched
      list(APPEND BoostPackages unit_test_framework)
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayout.txt s25client_patched/data/RTTR/texte/de/keyboardlayout.txt
 --- s25client/data/RTTR/texte/de/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/de/keyboardlayout.txt	2024-10-04 18:23:46.702754000 +0200
++++ s25client_patched/data/RTTR/texte/de/keyboardlayout.txt	2024-10-04 21:43:38.453830070 +0200
 @@ -2,6 +2,19 @@
  ------------------------------------------------------------------------
  Globale Tastaturbelegung im Spiel:
@@ -64,7 +64,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayou
 +
 +-Mit 2 Fingern zoomen
 +
-+-Doppelt tippen, um Fenster schneller zu schließen(noch nicht verfügbar)
++-Doppelt tippen, um Fenster schneller zu schließen
 +
 +
  Eingeklammerte Belegungen funktionieren noch nicht.
@@ -72,7 +72,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayou
  P:.................... Pause
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s25client_patched/data/RTTR/texte/de/readme.txt
 --- s25client/data/RTTR/texte/de/readme.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/de/readme.txt	2024-10-04 18:22:46.793443000 +0200
++++ s25client_patched/data/RTTR/texte/de/readme.txt	2024-10-04 21:43:46.202006345 +0200
 @@ -12,6 +12,7 @@
    2. Multiplayer-Spiele
    3. Replays
@@ -81,7 +81,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s2
  D. Abstürze und Fehler
  E. Übersicht: Updates und Änderungen
  
-@@ -206,6 +207,48 @@
+@@ -206,6 +207,47 @@
  
      Die Einstellungen im Optionsmenü sollten so weit selbsterklärend sein.
  
@@ -115,7 +115,6 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s2
 +       -Mit 2 Fingern zoomen.
 +
 +       -Doppelt tippen, um Fenster schneller zu schließen.
-+       (noch nicht verfügbar)
 +
 +    c) Texteingaben
 +       Um Text in ein Textfeld einzugeben einfach darauf tippen und die
@@ -132,7 +131,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s2
  
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.txt s25client_patched/data/RTTR/texte/keyboardlayout.txt
 --- s25client/data/RTTR/texte/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/keyboardlayout.txt	2024-10-04 18:25:02.868455000 +0200
++++ s25client_patched/data/RTTR/texte/keyboardlayout.txt	2024-10-04 21:43:21.437443306 +0200
 @@ -2,6 +2,19 @@
  ------------------------------------------------------------------------
  Global keyboard layout in game:
@@ -147,7 +146,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.t
 +
 +-Zoom with two fingers
 +
-+-Double tap to close windows faster (not yet available)
++-Double tap to close windows faster
 +
 +
  Bracketed keys do not work yet.
@@ -155,7 +154,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.t
  P:.................... Pause
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/readme.txt s25client_patched/data/RTTR/texte/readme.txt
 --- s25client/data/RTTR/texte/readme.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/readme.txt	2024-10-04 18:15:33.469020000 +0200
++++ s25client_patched/data/RTTR/texte/readme.txt	2024-10-04 21:43:31.249666266 +0200
 @@ -12,6 +12,7 @@
    2. Multiplayer game
    3. Replays
@@ -196,7 +195,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/readme.txt s25cl
 +
 +       -Zoom with two fingers.
 +
-+       -Double tap to close windows faster. (not yet available)
++       -Double tap to close windows faster.
 +
 +    c) Text input
 +       To enter text into a text field, simply tap on it, and the
@@ -592,6 +591,18 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
  
      SDL_Window* window;
      SDL_GLContext context;
+diff -ruN --binary -x '.*' -x patched s25client/libs/driver/include/driver/MouseCoords.h s25client_patched/libs/driver/include/driver/MouseCoords.h
+--- s25client/libs/driver/include/driver/MouseCoords.h	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/driver/include/driver/MouseCoords.h	2024-10-04 21:34:00.877131000 +0200
+@@ -32,4 +32,8 @@
+ };
+ 
+ /// Maximale Zeitdifferenz in ms für einen Doppeklick
++#ifdef ANDROID
++const unsigned DOUBLE_CLICK_INTERVAL = 150;
++#else
+ const unsigned DOUBLE_CLICK_INTERVAL = 500;
++#endif
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s25client_patched/libs/rttrConfig/CMakeLists.txt
 --- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:16:56.631725000 +0200
 +++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
@@ -2086,7 +2097,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25clien
  void Window::Msg_ScreenResize(const ScreenResizeEvent& sr)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s25client_patched/libs/s25main/WindowManager.cpp
 --- s25client/libs/s25main/WindowManager.cpp	2024-09-29 22:16:56.639726000 +0200
-+++ s25client_patched/libs/s25main/WindowManager.cpp	2024-10-04 16:51:34.354566000 +0200
++++ s25client_patched/libs/s25main/WindowManager.cpp	2024-10-04 21:24:23.362423000 +0200
 @@ -1,6 +1,11 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -2195,7 +2206,55 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s
  
      return false;
  }
-@@ -713,28 +775,67 @@
+@@ -356,6 +418,39 @@
+ 
+     // Ggf. Doppelklick untersuche
+     unsigned time_now = VIDEODRIVER.GetTickCount();
++    #ifdef ANDROID
++    if(time_now - lastLeftClickTime < DOUBLE_CLICK_INTERVAL)
++    {
++        if(!windows.empty()) {
++            IngameWindow* foundWindow = FindWindowAtPos(mc.GetPos());
++            if(windows.back()->IsModal()) {
++                // We have a modal window -> Activate it
++                SetActiveWindow(*windows.back());
++                // Ignore actions in all other windows
++                if(foundWindow != GetTopMostWindow())
++                    return;
++            }
++            if(foundWindow) {
++                // Close it if requested (unless pinned)
++                if(foundWindow->getCloseBehavior() == CloseBehavior::Regular) {
++                    if(!foundWindow->IsPinned())
++                        foundWindow->Close();
++                } else {
++                    SetActiveWindow(*foundWindow);
++                    //foundWindow->Msg_RightDown(mc);
++                }
++                return;
++            }
++        }
++        
++        mc.dbl_click = true;
++    } else
++    {
++        // Werte wieder erneut speichern
++        lastLeftClickPos = mc.GetPos();
++        lastLeftClickTime = time_now;
++    }
++    #else
+     if(time_now - lastLeftClickTime < DOUBLE_CLICK_INTERVAL && mc.GetPos() == lastLeftClickPos)
+     {
+         mc.dbl_click = true;
+@@ -365,6 +460,7 @@
+         lastLeftClickPos = mc.GetPos();
+         lastLeftClickTime = time_now;
+     }
++    #endif
+ 
+     // ist der Maus-Klick-Fix aktiv?
+     if(!disable_mouse)
+@@ -713,28 +809,67 @@
   */
  void WindowManager::DoDesktopSwitch()
  {
