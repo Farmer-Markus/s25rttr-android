@@ -1,0 +1,9 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+# Sources
+*.txt text
+*.md text
+LICENSE text
+# Maps
+*.wld binary
+*.swd binary
