@@ -2,6 +2,19 @@
 ------------------------------------------------------------------------
 Global keyboard layout in game:
 
+---------
+Android
+---------
+
+-Swipe across the map with your finger to move it
+
+-Single tap is treated as a left mouse click
+
+-Zoom with two fingers
+
+-Double tap to close windows faster (not yet available)
+
+
 Bracketed keys do not work yet.
 
 P:.................... Pause

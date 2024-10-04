@@ -12,6 +12,7 @@ C. Game
   2. Multiplayer game
   3. Replays
   4. Options
+  5. Android
 D. Crash and bugs
 E. Summary: Updates and changelog
 
@@ -194,6 +195,46 @@ C. Game
   5. Options
 
     The options in the main menu are self-explanatory.
+
+  6. Android
+
+    This Android version of RTTR is not official, and I, as
+    the developer of this port, am not affiliated with the
+    developers of RTTR!
+
+    Several changes had to be made to RTTR in order for it to work
+    on Android. I will list the important changes here.
+
+    a) Screen orientation
+       The screen orientation depends on the orientation of the
+       phone.
+       To automatically start RTTR in landscape mode, you can
+       enable fullscreen mode in the settings
+       and restart the app once.
+
+    b) Controls
+       If you use an external mouse, the controls should work
+       exactly the same as on Pc.
+
+       The touch controls work similarly to most mobile games:
+
+       -Swipe across the map with your finger to move it.
+
+       -Single tap is treated as a left mouse click.
+
+       -Zoom with two fingers.
+
+       -Double tap to close windows faster. (not yet available)
+
+    c) Text input
+       To enter text into a text field, simply tap on it, and the
+       built-in system keyboard should appear. (not yet available)
+
+    d) Multiplayer  
+       Unfortunately, multiplayer does not work yet.
+       It is possible to play in the same network if one player
+       hosts the server on a mobile device and other players join
+       via PC, but I will try to fully implement multiplayer.
 
 --------------------------------------------------------------------------------
 
