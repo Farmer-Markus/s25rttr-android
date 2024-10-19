@@ -30,14 +30,13 @@ What is already working?
 
 What is planned?
 
-- Better touch control
 - Correct working multiplayer
 - Resolution fix (gui scale)
 - Better java optimisation
-- Fix color
-- Working fog
+- Fix texture colors
+- Working fog of war
 
-If you know why e.g. the lan multiplayer only works one way please open an issue to let me know. I've never used pull request so I don't know how they work :D
+If you know why e.g. the lan multiplayer only works one way please open an issue to let me know.
 
 # How to build
 

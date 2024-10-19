@@ -76,7 +76,7 @@ universal_builder() {
  cd ../../../
  
  done
- cd $currDir
+ cd "$currDir"
 }
 
 build_boost () {
@@ -240,7 +240,7 @@ build_miniupnpc() {
  
  cd "$currDir/miniupnpc/include"
  ln -s . "miniupnpc"
- cd $currDir
+ cd "$currDir"
  
  
  for i in $abis

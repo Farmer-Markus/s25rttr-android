@@ -1,6 +1,6 @@
 diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched/CMakeLists.txt
---- s25client/CMakeLists.txt	2024-09-29 22:16:56.335718782 +0200
-+++ s25client_patched/CMakeLists.txt	2024-10-01 17:42:19.666590000 +0200
+--- s25client/CMakeLists.txt	2024-09-29 22:16:56.335718000 +0200
++++ s25client_patched/CMakeLists.txt	2024-10-04 16:51:34.342566000 +0200
 @@ -22,9 +22,17 @@
      message(STATUS "Used Toolchain definition file '${CMAKE_TOOLCHAIN_FILE}'")
  endif()
@@ -47,9 +47,172 @@ diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched
  if(BUILD_TESTING)
      # Avoid having to search for this in all tests speeding up configure
      list(APPEND BoostPackages unit_test_framework)
+diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayout.txt s25client_patched/data/RTTR/texte/de/keyboardlayout.txt
+--- s25client/data/RTTR/texte/de/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
++++ s25client_patched/data/RTTR/texte/de/keyboardlayout.txt	2024-10-04 21:43:38.453830070 +0200
+@@ -2,6 +2,19 @@
+ ------------------------------------------------------------------------
+ Globale Tastaturbelegung im Spiel:
+ 
++---------
++Android
++---------
++
++-Mit dem Finger über die Karte wischen, um sie zu verschieben
++
++-Einmal tippen wird wie ein Linksklick der Maus gewertet
++
++-Mit 2 Fingern zoomen
++
++-Doppelt tippen, um Fenster schneller zu schließen
++
++
+ Eingeklammerte Belegungen funktionieren noch nicht.
+ 
+ P:.................... Pause
+diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s25client_patched/data/RTTR/texte/de/readme.txt
+--- s25client/data/RTTR/texte/de/readme.txt	2024-09-29 22:16:56.623725000 +0200
++++ s25client_patched/data/RTTR/texte/de/readme.txt	2024-10-04 21:43:46.202006345 +0200
+@@ -12,6 +12,7 @@
+   2. Multiplayer-Spiele
+   3. Replays
+   4. Optionen
++  5. Android
+ D. Abstürze und Fehler
+ E. Übersicht: Updates und Änderungen
+ 
+@@ -206,6 +207,47 @@
+ 
+     Die Einstellungen im Optionsmenü sollten so weit selbsterklärend sein.
+ 
++  6. Android
++
++    Diese android version von RTTR ist nicht offiziell und ich als
++    Entwickler dieser Portierung stehe nicht mit den
++    Entwicklern von RTTR in Verbindung!
++
++    Es musste einiges an RTTR verändert werden, damit es auf Android
++    funktioniert. Wichtige Änderungen werde ich hier aufzählen.
++
++    a) Bildschirmausrichtung
++       Die Bildschirmausrichtung hängt von der Ausrichtung des
++       Handys ab.
++       Um RTTR automatisch im Querformat zu starten, muss
++       der Vollbildmodus in den Einstellungen aktiviert
++       und die App einmal neu gestartet werden.
++
++    b) Steuerung
++       Wenn sie eine externe Maus benutzen, sollte die Steuerung
++       exakt gleich wie auf dem Computer funktionieren.
++
++       Die Touch Steuerung funktioniert ähnlich wie bei den meisten
++       Handy spielen:
++
++       -Mit dem Finger über die Karte wischen, um sie zu verschieben.
++
++       -Einmal tippen wird wie ein Linksklick der Maus gewertet.
++
++       -Mit 2 Fingern zoomen.
++
++       -Doppelt tippen, um Fenster schneller zu schließen.
++
++    c) Texteingaben
++       Um Text in ein Textfeld einzugeben einfach darauf tippen und die
++       eingebaute system Tastatur sollte erscheinen.(noch nicht verfügbar)
++
++    d) Multiplayer
++       Der Multiplayer funktioniert zurzeit leider noch nicht.
++       Es ist zwar möglich, im selben Netzwerk zu spielen, wenn ein Spieler 
++       am Handy den Server hostet und andere Spieler über den PC beitreten.
++       Ich werde jedoch versuchen, den Multiplayer vollständig
++       zu implementieren.
+ 
+ --------------------------------------------------------------------------------
+ 
+diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.txt s25client_patched/data/RTTR/texte/keyboardlayout.txt
+--- s25client/data/RTTR/texte/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
++++ s25client_patched/data/RTTR/texte/keyboardlayout.txt	2024-10-04 21:43:21.437443306 +0200
+@@ -2,6 +2,19 @@
+ ------------------------------------------------------------------------
+ Global keyboard layout in game:
+ 
++---------
++Android
++---------
++
++-Swipe across the map with your finger to move it
++
++-Single tap is treated as a left mouse click
++
++-Zoom with two fingers
++
++-Double tap to close windows faster
++
++
+ Bracketed keys do not work yet.
+ 
+ P:.................... Pause
+diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/readme.txt s25client_patched/data/RTTR/texte/readme.txt
+--- s25client/data/RTTR/texte/readme.txt	2024-09-29 22:16:56.623725000 +0200
++++ s25client_patched/data/RTTR/texte/readme.txt	2024-10-04 21:43:31.249666266 +0200
+@@ -12,6 +12,7 @@
+   2. Multiplayer game
+   3. Replays
+   4. Options
++  5. Android
+ D. Crash and bugs
+ E. Summary: Updates and changelog
+ 
+@@ -195,6 +196,46 @@
+ 
+     The options in the main menu are self-explanatory.
+ 
++  6. Android
++
++    This Android version of RTTR is not official, and I, as
++    the developer of this port, am not affiliated with the
++    developers of RTTR!
++
++    Several changes had to be made to RTTR in order for it to work
++    on Android. I will list the important changes here.
++
++    a) Screen orientation
++       The screen orientation depends on the orientation of the
++       phone.
++       To automatically start RTTR in landscape mode, you can
++       enable fullscreen mode in the settings
++       and restart the app once.
++
++    b) Controls
++       If you use an external mouse, the controls should work
++       exactly the same as on Pc.
++
++       The touch controls work similarly to most mobile games:
++
++       -Swipe across the map with your finger to move it.
++
++       -Single tap is treated as a left mouse click.
++
++       -Zoom with two fingers.
++
++       -Double tap to close windows faster.
++
++    c) Text input
++       To enter text into a text field, simply tap on it, and the
++       built-in system keyboard should appear. (not yet available)
++
++    d) Multiplayer  
++       Unfortunately, multiplayer does not work yet.
++       It is possible to play in the same network if one player
++       hosts the server on a mobile device and other players join
++       via PC, but I will try to fully implement multiplayer.
++
+ --------------------------------------------------------------------------------
+ 
+ D. Crash and bugs
 diff -ruN --binary -x '.*' -x patched s25client/external/CMakeLists.txt s25client_patched/external/CMakeLists.txt
---- s25client/external/CMakeLists.txt	2024-09-29 22:16:56.623725774 +0200
-+++ s25client_patched/external/CMakeLists.txt	2024-09-29 22:25:02.399153000 +0200
+--- s25client/external/CMakeLists.txt	2024-09-29 22:16:56.623725000 +0200
++++ s25client_patched/external/CMakeLists.txt	2024-10-04 16:51:34.342566000 +0200
 @@ -39,7 +39,11 @@
  add_subdirectory(libsiedler2)
  add_subdirectory(libutil)
@@ -64,8 +227,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/CMakeLists.txt s25clien
      add_subdirectory(s25update)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/CMakeLists.txt s25client_patched/external/liblobby/CMakeLists.txt
---- s25client/external/liblobby/CMakeLists.txt	2024-09-29 22:17:14.284154394 +0200
-+++ s25client_patched/external/liblobby/CMakeLists.txt	2024-09-29 22:25:02.399153000 +0200
+--- s25client/external/liblobby/CMakeLists.txt	2024-09-29 22:17:14.284154000 +0200
++++ s25client_patched/external/liblobby/CMakeLists.txt	2024-10-04 16:51:34.342566000 +0200
 @@ -20,7 +20,13 @@
  
  add_library(lobby STATIC EXCLUDE_FROM_ALL ${SOURCES_LOBBY})
@@ -82,8 +245,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/CMakeLists.txt
  set_target_properties(lobby PROPERTIES CXX_EXTENSIONS OFF)
  
 diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/src/LobbyClient.cpp s25client_patched/external/liblobby/src/LobbyClient.cpp
---- s25client/external/liblobby/src/LobbyClient.cpp	2024-09-29 22:17:14.284154394 +0200
-+++ s25client_patched/external/liblobby/src/LobbyClient.cpp	2024-09-29 22:25:02.399153000 +0200
+--- s25client/external/liblobby/src/LobbyClient.cpp	2024-09-29 22:17:14.284154000 +0200
++++ s25client_patched/external/liblobby/src/LobbyClient.cpp	2024-10-04 16:51:34.342566000 +0200
 @@ -3,6 +3,9 @@
  //
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
@@ -132,8 +295,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/liblobby/src/LobbyClien
          ServerLost();
          return;
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake
---- s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-29 22:17:14.376156627 +0200
-+++ s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-29 22:25:02.399153000 +0200
+--- s25client/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-09-29 22:17:14.376156000 +0200
++++ s25client_patched/external/libutil/cmake/cmake_3.14/FindBoost.cmake	2024-10-04 16:51:34.342566000 +0200
 @@ -283,6 +283,7 @@
  endif()
  
@@ -143,8 +306,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/cmake_3.1
  #  FindBoost functions & macros
  #
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/FindMiniupnpc.cmake s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake
---- s25client/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-29 22:17:14.376156627 +0200
-+++ s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-29 22:25:02.399153000 +0200
+--- s25client/external/libutil/cmake/FindMiniupnpc.cmake	2024-09-29 22:17:14.376156000 +0200
++++ s25client_patched/external/libutil/cmake/FindMiniupnpc.cmake	2024-10-04 16:51:34.342566000 +0200
 @@ -9,6 +9,7 @@
  #  MINIUPNPC_LIBRARY     - Library to link to libminiupnpc.
  #  MINIUPNPC_FOUND       - True if libminiupnpc found.
@@ -162,8 +325,8 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/cmake/FindMiniu
  FIND_PACKAGE_HANDLE_STANDARD_ARGS(Miniupnpc DEFAULT_MSG MINIUPNPC_INCLUDE_DIR MINIUPNPC_LIBRARY)
  
 diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/CMakeLists.txt s25client_patched/external/libutil/libs/common/CMakeLists.txt
---- s25client/external/libutil/libs/common/CMakeLists.txt	2024-09-29 22:17:14.380156724 +0200
-+++ s25client_patched/external/libutil/libs/common/CMakeLists.txt	2024-09-29 22:25:02.403153000 +0200
+--- s25client/external/libutil/libs/common/CMakeLists.txt	2024-09-29 22:17:14.380156000 +0200
++++ s25client_patched/external/libutil/libs/common/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -2,6 +2,10 @@
  #
  # SPDX-License-Identifier: GPL-2.0-or-later
@@ -190,42 +353,9 @@ diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/CMa
  target_compile_features(s25util_common PUBLIC cxx_std_17)
  # PIC Required for linking into shared libs
  set_target_properties(s25util_common PROPERTIES CXX_EXTENSIONS OFF POSITION_INDEPENDENT_CODE ON)
-diff -ruN --binary -x '.*' -x patched s25client/external/libutil/libs/common/src/System_Other.cpp s25client_patched/external/libutil/libs/common/src/System_Other.cpp
---- s25client/external/libutil/libs/common/src/System_Other.cpp	2024-09-29 22:17:14.380156724 +0200
-+++ s25client_patched/external/libutil/libs/common/src/System_Other.cpp	2024-09-29 22:25:02.403153000 +0200
-@@ -2,9 +2,14 @@
- //
- // SPDX-License-Identifier: GPL-2.0-or-later
- 
-+#ifdef ANDROID
-+#include <android/log.h>
-+#endif
-+
- #include "System.h"
- #include <stdexcept>
- 
-+
- boost::filesystem::path System::getHomePath()
- {
-     boost::filesystem::path homePath = getPathFromEnvVar("HOME");
-@@ -17,9 +22,14 @@
-     return homePath;
- }
- 
-+
- std::string System::getUserName()
- {
-+    #ifdef ANDROID
-+    std::string name = "android";
-+    #else
-     std::string name = getEnvVar("USER");
-+    #endif
-     if(name.empty())
-         throw std::runtime_error("Could not get username");
-     return name;
 diff -ruN --binary -x '.*' -x patched s25client/extras/ai-battle/CMakeLists.txt s25client_patched/extras/ai-battle/CMakeLists.txt
---- s25client/extras/ai-battle/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/ai-battle/CMakeLists.txt	2024-09-29 22:25:02.403153000 +0200
+--- s25client/extras/ai-battle/CMakeLists.txt	2024-09-29 22:16:56.627725000 +0200
++++ s25client_patched/extras/ai-battle/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -2,7 +2,12 @@
  #
  # SPDX-License-Identifier: GPL-2.0-or-later
@@ -240,8 +370,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/ai-battle/CMakeLists.txt 
  
  if(WIN32)
 diff -ruN --binary -x '.*' -x patched s25client/extras/audioDrivers/SDL/CMakeLists.txt s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt
---- s25client/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-29 22:25:02.403153000 +0200
+--- s25client/extras/audioDrivers/SDL/CMakeLists.txt	2024-09-29 22:16:56.627725000 +0200
++++ s25client_patched/extras/audioDrivers/SDL/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -20,9 +20,11 @@
      target_link_libraries(audioSDL PRIVATE audiodrv SDL_mixer::SDL_mixer)
      enable_warnings(audioSDL)
@@ -259,8 +389,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/audioDrivers/SDL/CMakeLis
      add_dependencies(drivers audioSDL)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLists.txt s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt
---- s25client/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-29 22:25:02.403153000 +0200
+--- s25client/extras/videoDrivers/SDL2/CMakeLists.txt	2024-09-29 22:16:56.627725000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -7,7 +7,13 @@
  
  if(SDL2_FOUND)
@@ -293,8 +423,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLi
      add_dependencies(drivers videoSDL2)
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp
---- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-03 13:14:39.014589000 +0200
+--- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -2,6 +2,11 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -449,8 +579,8 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
  
  void VideoSDL2::SetMousePos(Position pos)
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.h s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.h
---- s25client/extras/videoDrivers/SDL2/VideoSDL2.h	2024-09-29 22:16:56.627725872 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.h	2024-10-03 13:08:01.184298000 +0200
+--- s25client/extras/videoDrivers/SDL2/VideoSDL2.h	2024-09-29 22:16:56.627725000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.h	2024-10-04 16:51:34.346566000 +0200
 @@ -58,6 +58,9 @@
      void HandlePaste();
      void UpdateCurrentSizes();
@@ -461,9 +591,21 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSD
  
      SDL_Window* window;
      SDL_GLContext context;
+diff -ruN --binary -x '.*' -x patched s25client/libs/driver/include/driver/MouseCoords.h s25client_patched/libs/driver/include/driver/MouseCoords.h
+--- s25client/libs/driver/include/driver/MouseCoords.h	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/driver/include/driver/MouseCoords.h	2024-10-04 21:34:00.877131000 +0200
+@@ -32,4 +32,8 @@
+ };
+ 
+ /// Maximale Zeitdifferenz in ms für einen Doppeklick
++#ifdef ANDROID
++const unsigned DOUBLE_CLICK_INTERVAL = 150;
++#else
+ const unsigned DOUBLE_CLICK_INTERVAL = 500;
++#endif
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s25client_patched/libs/rttrConfig/CMakeLists.txt
---- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:25:02.403153000 +0200
+--- s25client/libs/rttrConfig/CMakeLists.txt	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/rttrConfig/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -10,10 +10,19 @@
    src/RttrConfig.h
  )
@@ -489,8 +631,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/CMakeLists.txt s
  
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build_paths.h.cmake build_paths.h @ONLY)
 diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/src/RttrConfig.cpp s25client_patched/libs/rttrConfig/src/RttrConfig.cpp
---- s25client/libs/rttrConfig/src/RttrConfig.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/rttrConfig/src/RttrConfig.cpp	2024-09-29 22:25:02.403153000 +0200
+--- s25client/libs/rttrConfig/src/RttrConfig.cpp	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/rttrConfig/src/RttrConfig.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -2,6 +2,10 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -604,8 +746,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/rttrConfig/src/RttrConfig.c
          return false;
      // Make the prefix path our working directory as all other paths are relative to that
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s25client_patched/libs/s25client/CMakeLists.txt
---- s25client/libs/s25client/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25client/CMakeLists.txt	2024-09-29 22:25:02.403153000 +0200
+--- s25client/libs/s25client/CMakeLists.txt	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/s25client/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -18,9 +18,16 @@
      set(s25client_RC )
  endif()
@@ -635,8 +777,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/CMakeLists.txt s2
 +    INSTALL(TARGETS s25client RUNTIME DESTINATION ${RTTR_BINDIR})
 +endif()
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25client_patched/libs/s25client/s25client.cpp
---- s25client/libs/s25client/s25client.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25client/s25client.cpp	2024-10-01 20:23:51.373508000 +0200
+--- s25client/libs/s25client/s25client.cpp	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/s25client/s25client.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -1,6 +1,10 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -882,8 +1024,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25client/s25client.cpp s25
      return result;
  }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/CMakeLists.txt s25client_patched/libs/s25main/CMakeLists.txt
---- s25client/libs/s25main/CMakeLists.txt	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25main/CMakeLists.txt	2024-09-29 22:25:02.407153000 +0200
+--- s25client/libs/s25main/CMakeLists.txt	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/s25main/CMakeLists.txt	2024-10-04 16:51:34.346566000 +0200
 @@ -50,20 +50,37 @@
  set_target_properties(s25Main PROPERTIES CXX_EXTENSIONS OFF)
  target_compile_features(s25Main PUBLIC cxx_std_17)
@@ -936,8 +1078,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/CMakeLists.txt s25c
  if(WIN32)
      include(CheckIncludeFiles)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client_patched/libs/s25main/Debug.cpp
---- s25client/libs/s25main/Debug.cpp	2024-09-29 22:16:56.631725968 +0200
-+++ s25client_patched/libs/s25main/Debug.cpp	2024-09-29 22:25:02.407153000 +0200
+--- s25client/libs/s25main/Debug.cpp	2024-09-29 22:16:56.631725000 +0200
++++ s25client_patched/libs/s25main/Debug.cpp	2024-10-04 16:51:34.346566000 +0200
 @@ -149,8 +149,13 @@
  #else
  void captureBacktrace(std::vector<void*>& stacktrace) noexcept
@@ -953,8 +1095,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client
  #endif
  } // namespace
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.cpp s25client_patched/libs/s25main/desktops/dskGameInterface.cpp
---- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726357 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-01 20:37:35.005997000 +0200
+--- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726000 +0200
++++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -98,7 +98,6 @@
      ID_txtNumMsg
  };
@@ -1287,8 +1429,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
      WheelZoom(ZOOM_WHEEL_INCREMENT);
      return true;
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.h s25client_patched/libs/s25main/desktops/dskGameInterface.h
---- s25client/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:16:56.647726357 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.h	2024-10-01 20:01:12.531686000 +0200
+--- s25client/libs/s25main/desktops/dskGameInterface.h	2024-09-29 22:16:56.647726000 +0200
++++ s25client_patched/libs/s25main/desktops/dskGameInterface.h	2024-10-04 16:51:34.350566000 +0200
 @@ -117,6 +117,9 @@
      void Msg_PaintBefore() override;
      void Msg_PaintAfter() override;
@@ -1311,8 +1453,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
 +    #endif
  };
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapper.cpp s25client_patched/libs/s25main/drivers/DriverWrapper.cpp
---- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:16:56.651726453 +0200
-+++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:25:02.411153000 +0200
+--- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:16:56.651726000 +0200
++++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1417,8 +1559,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapp
      return driver_list;
  }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriverWrapper.cpp s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp
---- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 22:16:56.651726453 +0200
-+++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 22:25:02.411153000 +0200
+--- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 22:16:56.651726000 +0200
++++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1738,8 +1880,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
  }
  
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.cpp s25client_patched/libs/s25main/network/GameClient.cpp
---- s25client/libs/s25main/network/GameClient.cpp	2024-09-29 22:16:56.667726843 +0200
-+++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-09-29 22:25:02.411153000 +0200
+--- s25client/libs/s25main/network/GameClient.cpp	2024-09-29 22:16:56.667726000 +0200
++++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-10-04 16:51:34.350566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1863,8 +2005,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.
      if(game)
          ExitGame();
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.cpp s25client_patched/libs/s25main/network/GameServer.cpp
---- s25client/libs/s25main/network/GameServer.cpp	2024-09-29 22:16:56.667726843 +0200
-+++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-09-29 22:25:02.411153000 +0200
+--- s25client/libs/s25main/network/GameServer.cpp	2024-09-29 22:16:56.667726000 +0200
++++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-10-04 16:51:34.354566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1892,8 +2034,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.
      // auf tote Clients prüfen
      ClientWatchDog();
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Settings.cpp s25client_patched/libs/s25main/Settings.cpp
---- s25client/libs/s25main/Settings.cpp	2024-09-29 22:16:56.635726066 +0200
-+++ s25client_patched/libs/s25main/Settings.cpp	2024-09-29 23:08:12.456750000 +0200
+--- s25client/libs/s25main/Settings.cpp	2024-09-29 22:16:56.635726000 +0200
++++ s25client_patched/libs/s25main/Settings.cpp	2024-10-04 16:51:34.354566000 +0200
 @@ -73,7 +73,11 @@
      // 0 = ask user at start, 1 = enabled, 2 = always ask
      global.submit_debug_data = 0;
@@ -1907,8 +2049,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Settings.cpp s25cli
      global.showGFInfo = false;
      // }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25client_patched/libs/s25main/Window.cpp
---- s25client/libs/s25main/Window.cpp	2024-09-29 22:16:56.639726162 +0200
-+++ s25client_patched/libs/s25main/Window.cpp	2024-09-29 22:25:02.415153000 +0200
+--- s25client/libs/s25main/Window.cpp	2024-09-29 22:16:56.639726000 +0200
++++ s25client_patched/libs/s25main/Window.cpp	2024-10-04 16:51:34.354566000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1954,8 +2096,8 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25clien
  
  void Window::Msg_ScreenResize(const ScreenResizeEvent& sr)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s25client_patched/libs/s25main/WindowManager.cpp
---- s25client/libs/s25main/WindowManager.cpp	2024-09-29 22:16:56.639726162 +0200
-+++ s25client_patched/libs/s25main/WindowManager.cpp	2024-09-29 22:25:02.415153000 +0200
+--- s25client/libs/s25main/WindowManager.cpp	2024-09-29 22:16:56.639726000 +0200
++++ s25client_patched/libs/s25main/WindowManager.cpp	2024-10-04 21:24:23.362423000 +0200
 @@ -1,6 +1,11 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -2064,7 +2206,55 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s
  
      return false;
  }
-@@ -713,28 +775,67 @@
+@@ -356,6 +418,39 @@
+ 
+     // Ggf. Doppelklick untersuche
+     unsigned time_now = VIDEODRIVER.GetTickCount();
++    #ifdef ANDROID
++    if(time_now - lastLeftClickTime < DOUBLE_CLICK_INTERVAL)
++    {
++        if(!windows.empty()) {
++            IngameWindow* foundWindow = FindWindowAtPos(mc.GetPos());
++            if(windows.back()->IsModal()) {
++                // We have a modal window -> Activate it
++                SetActiveWindow(*windows.back());
++                // Ignore actions in all other windows
++                if(foundWindow != GetTopMostWindow())
++                    return;
++            }
++            if(foundWindow) {
++                // Close it if requested (unless pinned)
++                if(foundWindow->getCloseBehavior() == CloseBehavior::Regular) {
++                    if(!foundWindow->IsPinned())
++                        foundWindow->Close();
++                } else {
++                    SetActiveWindow(*foundWindow);
++                    //foundWindow->Msg_RightDown(mc);
++                }
++                return;
++            }
++        }
++        
++        mc.dbl_click = true;
++    } else
++    {
++        // Werte wieder erneut speichern
++        lastLeftClickPos = mc.GetPos();
++        lastLeftClickTime = time_now;
++    }
++    #else
+     if(time_now - lastLeftClickTime < DOUBLE_CLICK_INTERVAL && mc.GetPos() == lastLeftClickPos)
+     {
+         mc.dbl_click = true;
+@@ -365,6 +460,7 @@
+         lastLeftClickPos = mc.GetPos();
+         lastLeftClickTime = time_now;
+     }
++    #endif
+ 
+     // ist der Maus-Klick-Fix aktiv?
+     if(!disable_mouse)
+@@ -713,28 +809,67 @@
   */
  void WindowManager::DoDesktopSwitch()
  {
