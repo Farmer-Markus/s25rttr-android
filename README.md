@@ -38,6 +38,12 @@ What is planned?
 
 If you know why e.g. the lan multiplayer only works one way please open an issue to let me know.
 
+# Downloads
+
+You can download the final apk file [here](https://github.com/Farmer-Markus/s25rttr-android/releases/latest)
+
+Or you compile it yourself as described below.
+
 # How to build
 
 First you need linux! I've not tested it on Windows/mac or in wsl. You can try to compile it in wls but don't be surprised if it doesn't work.
