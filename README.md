@@ -19,6 +19,8 @@ When starting the App it will ask for file permission. After allowing you'll be 
 
 If you want to lock the game into horizontal mode enable fullscreen in the rttr settings and restart the app.
 
+You can ask questions and share ideas [here](https://github.com/Farmer-Markus/s25rttr-android/discussions). Feel free to share everything you want to.
+
 What is already working?
 
 - Latest versions
