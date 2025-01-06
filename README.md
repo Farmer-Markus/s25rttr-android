@@ -13,7 +13,7 @@ Please don't upload my app on google play, fdroid. I want to do this later.
 
 I've used the [sdl2 android-project](https://github.com/libsdl-org/SDL/tree/SDL2/android-project) as base of my rttr port.
 
-I'm using android ndk r27 ndk r23(some dependencies are not compatible with ndk r27 :/) cmake 3.22.1 and openjdk 17.
+I'm using android ndk r27 ndk r23.0.7599858(some dependencies are not compatible with ndk r27 :/) cmake 3.22.1 and openjdk 17.
 
 When starting the App it will ask for file permission. After allowing you'll be able to pick/create a folder on your internal storage or sdcard. All app files will be stored in there. After choosing the folder, the game should give you an error that you need to put the orignal settlers 2 files into a folder(the one you picked). Put the game files into the folder in `share/s25rttr/S2`. After that the game should start normally.
 
@@ -49,7 +49,7 @@ Or you compile it yourself as described below.
 # How to build
 
 First you need linux! I've not tested it on Windows/mac or in wsl. You can try to compile it in wls but don't be surprised if it doesn't work.
-You should use java 17(in my case openkjdk), android cmake 3.22.1(or newer), android sdk 34, Platform-Tools v.35.0.2, ndk r23 and r27. Why? Sadly some dependencies like boost won't compile with ndk 27 so we need some to compile with r23 and the others with r27.
+You should use java 17(in my case openkjdk), android cmake 3.22.1(or newer), android sdk 34, Platform-Tools v.35.0.2, ndk r23.0.7599858 and r27. Why? Sadly some dependencies like boost won't compile with ndk 27 so we need some to compile with r23 and the others with r27.
 
 If possible place the sdk, ndk's, cmake ... under `~/Android`. (for example `/home/username/Android/ndk/r27`, `/home/username/Android/platforms/android-34`)
 
