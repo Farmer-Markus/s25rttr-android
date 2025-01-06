@@ -53,7 +53,7 @@ You should use java 17(in my case openkjdk), android cmake 3.22.1(or newer), and
 
 If possible place the sdk, ndk's, cmake ... under `~/Android`. (for example `/home/username/Android/ndk/r27`, `/home/username/Android/platforms/android-34`)
 
-You need to install a few system packages,
+You need to install a few system packages, <br />
 ARCH:
 
     sudo pacman -S jdk17-openjdk wget curl gradle cmake
@@ -67,7 +67,7 @@ After that clone this repository with the git command
 	git clone --recursive https://github.com/Farmer-Markus/s25rttr-android
 
 Then move into the `s25rttr-android` folder and run the build_dependencies.sh script to prebuild all dependencies. (This could take a while)
-If it cannot find your ndk installation please set the NDK23 and NDK27 enviroment variables to the location.
+If it cannot find your ndk installation please set the NDK23 and NDK27 enviroment variables to the location. <br />
 Another example:
 
 	NDK23="~/Android/ndk/r23" NDK27="~/Android/ndk/r27" ./build_dependencies.sh
@@ -88,7 +88,7 @@ Now you should be able to go into the `android-project` directory and run:
 
 	./build.sh assembleDebug
 
-to build debug or `assembleRel` to build release. If you want to build the release you need to look a bit deeper into the signing system of android apps, good luck.
+to build debug or `assembleRel` to build release. If you want to build the release you need to look a bit deeper into the signing system of android apps, good luck.  <br />
 You may need to accept some licenses using the sdk-manager.
 
 Sadly you can't install debug builds on your real phone but you can enable debug mode in your android settings and connect to your pc with usb cable to directly install the debug build on your phone(installDebug).
