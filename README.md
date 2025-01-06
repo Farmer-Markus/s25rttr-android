@@ -53,6 +53,13 @@ You should use java 17(in my case openkjdk), android cmake 3.22.1(or newer), and
 
 If possible place the sdk, ndk's, cmake ... under `~/Android`. (for example `/home/username/Android/ndk/r27`, `/home/username/Android/platforms/android-34`)
 
+You need to install a few system packages,
+ARCH:
+    sudo pacman -S jdk17-openjdk wget curl gradle cmake
+
+DEBIAN:
+    sudo apt-get install openjdk-17-jdk wget curl gradle cmake
+
 After that clone this repository with the git command
 
 	git clone --recursive https://github.com/Farmer-Markus/s25rttr-android

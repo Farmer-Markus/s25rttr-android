@@ -88,6 +88,8 @@ build_boost () {
  	sed -i -e 's/link=static/link=shared/g' build-android.sh 
  	sed -i -e 's/--layout=${LAYOUT}/--layout=system/g' build-android.sh #--no-suffix \
  	sed -i -e 's/pelya/Farmer-Markus/g' build-android.sh
+ 	boost_link='BOOST_DOWNLOAD_LINK="https://archives.boost.io/release/$BOOST_VER1.$BOOST_VER2.$BOOST_VER3/source/boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}.tar.bz2"'
+ 	sed -i "216s|.*|${boost_link}|" build-android.sh
  	sed -i '564s/libiconv-libicu-android/libiconv-libicu-android\/\$ARCH/' build-android.sh
  	sed -i '622i sed -i '\''s/result = \$(result).\$(BOOST_VERSION)  ;/result = \$(result) ;/'\'' boostcpp.jam' build-android.sh
 
