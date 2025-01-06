@@ -55,9 +55,11 @@ If possible place the sdk, ndk's, cmake ... under `~/Android`. (for example `/ho
 
 You need to install a few system packages,
 ARCH:
+
     sudo pacman -S jdk17-openjdk wget curl gradle cmake
 
 DEBIAN:
+
     sudo apt-get install openjdk-17-jdk wget curl gradle cmake
 
 After that clone this repository with the git command
