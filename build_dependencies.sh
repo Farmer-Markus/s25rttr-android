@@ -2,9 +2,9 @@
 
 if [ "$NDK23" == "" ]
    then
-	if [ -e "$HOME/Android/Sdk/ndk/r23" ]
+	if [ -e "$HOME/Android/ndk/r23" ]
 	   then
-	   	export export NDK23="$HOME/Android/Sdk/ndk/r23"
+	   	export export NDK23="$HOME/Android/ndk/r23"
 	   	echo "(AUTO) NDK23 location set to: '"$NDK23"'"
 
 	   else
@@ -19,9 +19,9 @@ fi
 
 if [ "$NDK27" == "" ]
    then
-	if [ -e "$HOME/Android/Sdk/ndk/r27" ]
+	if [ -e "$HOME/Android/ndk/r27" ]
 	   then
-	   	export export NDK="$HOME/Android/Sdk/ndk/r27"
+	   	export export NDK="$HOME/Android/ndk/r27"
 	   	echo "(AUTO) NDK27 location set to: '"$NDK"'"
 
 	   else
