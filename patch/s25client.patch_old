@@ -49,7 +49,7 @@ diff -ruN --binary -x '.*' -x patched s25client/CMakeLists.txt s25client_patched
      list(APPEND BoostPackages unit_test_framework)
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayout.txt s25client_patched/data/RTTR/texte/de/keyboardlayout.txt
 --- s25client/data/RTTR/texte/de/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/de/keyboardlayout.txt	2024-10-04 21:43:38.453830070 +0200
++++ s25client_patched/data/RTTR/texte/de/keyboardlayout.txt	2024-10-04 18:23:46.702754000 +0200
 @@ -2,6 +2,19 @@
  ------------------------------------------------------------------------
  Globale Tastaturbelegung im Spiel:
@@ -64,7 +64,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayou
 +
 +-Mit 2 Fingern zoomen
 +
-+-Doppelt tippen, um Fenster schneller zu schließen
++-Doppelt tippen, um Fenster schneller zu schließen(noch nicht verfügbar)
 +
 +
  Eingeklammerte Belegungen funktionieren noch nicht.
@@ -72,7 +72,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/keyboardlayou
  P:.................... Pause
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s25client_patched/data/RTTR/texte/de/readme.txt
 --- s25client/data/RTTR/texte/de/readme.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/de/readme.txt	2024-10-04 21:43:46.202006345 +0200
++++ s25client_patched/data/RTTR/texte/de/readme.txt	2024-10-04 18:22:46.793443000 +0200
 @@ -12,6 +12,7 @@
    2. Multiplayer-Spiele
    3. Replays
@@ -81,7 +81,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s2
  D. Abstürze und Fehler
  E. Übersicht: Updates und Änderungen
  
-@@ -206,6 +207,47 @@
+@@ -206,6 +207,48 @@
  
      Die Einstellungen im Optionsmenü sollten so weit selbsterklärend sein.
  
@@ -115,6 +115,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s2
 +       -Mit 2 Fingern zoomen.
 +
 +       -Doppelt tippen, um Fenster schneller zu schließen.
++       (noch nicht verfügbar)
 +
 +    c) Texteingaben
 +       Um Text in ein Textfeld einzugeben einfach darauf tippen und die
@@ -131,7 +132,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/de/readme.txt s2
  
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.txt s25client_patched/data/RTTR/texte/keyboardlayout.txt
 --- s25client/data/RTTR/texte/keyboardlayout.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/keyboardlayout.txt	2024-10-04 21:43:21.437443306 +0200
++++ s25client_patched/data/RTTR/texte/keyboardlayout.txt	2024-10-04 18:25:02.868455000 +0200
 @@ -2,6 +2,19 @@
  ------------------------------------------------------------------------
  Global keyboard layout in game:
@@ -146,7 +147,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.t
 +
 +-Zoom with two fingers
 +
-+-Double tap to close windows faster
++-Double tap to close windows faster (not yet available)
 +
 +
  Bracketed keys do not work yet.
@@ -154,7 +155,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/keyboardlayout.t
  P:.................... Pause
 diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/readme.txt s25client_patched/data/RTTR/texte/readme.txt
 --- s25client/data/RTTR/texte/readme.txt	2024-09-29 22:16:56.623725000 +0200
-+++ s25client_patched/data/RTTR/texte/readme.txt	2024-10-04 21:43:31.249666266 +0200
++++ s25client_patched/data/RTTR/texte/readme.txt	2024-10-04 18:15:33.469020000 +0200
 @@ -12,6 +12,7 @@
    2. Multiplayer game
    3. Replays
@@ -195,7 +196,7 @@ diff -ruN --binary -x '.*' -x patched s25client/data/RTTR/texte/readme.txt s25cl
 +
 +       -Zoom with two fingers.
 +
-+       -Double tap to close windows faster.
++       -Double tap to close windows faster. (not yet available)
 +
 +    c) Text input
 +       To enter text into a text field, simply tap on it, and the
@@ -424,7 +425,7 @@ diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/CMakeLi
  endif()
 diff -ruN --binary -x '.*' -x patched s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp
 --- s25client/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-09-29 22:16:56.627725000 +0200
-+++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-04 16:51:34.346566000 +0200
++++ s25client_patched/extras/videoDrivers/SDL2/VideoSDL2.cpp	2024-10-05 12:45:33.361347000 +0200
 @@ -2,6 +2,11 @@
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -1096,8 +1097,17 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Debug.cpp s25client
  } // namespace
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInterface.cpp s25client_patched/libs/s25main/desktops/dskGameInterface.cpp
 --- s25client/libs/s25main/desktops/dskGameInterface.cpp	2024-09-29 22:16:56.647726000 +0200
-+++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-04 16:51:34.350566000 +0200
-@@ -98,7 +98,6 @@
++++ s25client_patched/libs/s25main/desktops/dskGameInterface.cpp	2024-10-19 02:06:05.555641000 +0200
+@@ -88,6 +88,8 @@
+ #include <cstdio>
+ #include <utility>
+ 
++#include <android/log.h>
++
+ namespace {
+ enum
+ {
+@@ -98,7 +100,6 @@
      ID_txtNumMsg
  };
  }
@@ -1105,17 +1115,21 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
  dskGameInterface::dskGameInterface(std::shared_ptr<Game> game, std::shared_ptr<const NWFInfo> nwfInfo,
                                     unsigned playerIdx, bool initOGL)
      : Desktop(nullptr), game_(std::move(game)), nwfInfo_(std::move(nwfInfo)),
-@@ -209,6 +208,9 @@
+@@ -215,7 +216,13 @@
  
- void dskGameInterface::StopScrolling()
+ void dskGameInterface::StartScrolling(const Position& mousePos)
  {
 +    #ifdef ANDROID
-+    //mouseMove = false;
++    (void)mousePos; //just to avoid compiler error... I'm sorry guys :D
++    
++    startScrollPt = gwv.getWorldMousePos();
++    #else
+     startScrollPt = mousePos;
 +    #endif
-     isScrolling = false;
-     WINDOWMANAGER.SetCursor(road.mode == RoadBuildMode::Disabled ? Cursor::Hand : Cursor::Remove);
+     isScrolling = true;
+     WINDOWMANAGER.SetCursor(Cursor::Scroll);
  }
-@@ -450,6 +452,267 @@
+@@ -450,6 +457,267 @@
          iconPos -= DrawPoint(magnifierImg->getWidth() + 4, 0);
      }
  }
@@ -1383,7 +1397,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
  
  bool dskGameInterface::Msg_LeftDown(const MouseCoords& mc)
  {
-@@ -681,6 +944,7 @@
+@@ -681,6 +949,7 @@
  
  bool dskGameInterface::Msg_LeftUp(const MouseCoords&)
  {
@@ -1391,35 +1405,49 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
      if(isScrolling)
      {
          StopScrolling();
-@@ -688,9 +952,12 @@
+@@ -688,9 +957,14 @@
      }
      return false;
  }
 +#endif
  
- bool dskGameInterface::Msg_MouseMove(const MouseCoords& mc)
+-bool dskGameInterface::Msg_MouseMove(const MouseCoords& mc)
++bool dskGameInterface::Msg_MouseMove(const MouseCoords& mc) //gwv.MoveBy android
  {
 +    mouseMove = true;
++    
++    mc.GetPos();
 +    
      if(!isScrolling)
          return false;
  
-@@ -698,9 +965,13 @@
+@@ -698,12 +972,23 @@
  
      if(SETTINGS.interface.invertMouse)
          acceleration = -acceleration;
 -
 +    
 +    #ifdef ANDROID
-+    gwv.MoveBy((mc.GetPos() - startScrollPt) * acceleration);
++    //int zoomLv = zoomLvl;
++    
++    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ZOOM LEVEL: %i", static_cast<int>(zoomLvl)); //ANDROID
++    
++    if(SETTINGS.interface.invertMouse) {
++        gwv.MoveBy((gwv.getWorldMousePos() - startScrollPt) * -1); //((6 - static_cast<int>(zoomLvl)) / 2)
++    } else
++        gwv.MoveBy((gwv.getWorldMousePos() - startScrollPt));
 +    #else
      gwv.MoveBy((mc.GetPos() - startScrollPt) * acceleration);
      VIDEODRIVER.SetMousePos(startScrollPt);
 +    #endif
  
      if(!SETTINGS.global.smartCursor)
-         startScrollPt = mc.GetPos();
-@@ -917,7 +1188,7 @@
+-        startScrollPt = mc.GetPos();
++        startScrollPt = gwv.getWorldMousePos();
+     return true;
+ }
+ 
+@@ -917,7 +1202,7 @@
      return false;
  }
  
@@ -1452,6 +1480,21 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskGameInt
 +    unsigned long leftDownStart;
 +    #endif
  };
+diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/desktops/dskOptions.cpp s25client_patched/libs/s25main/desktops/dskOptions.cpp
+--- s25client/libs/s25main/desktops/dskOptions.cpp	2024-09-29 22:16:56.647726000 +0200
++++ s25client_patched/libs/s25main/desktops/dskOptions.cpp	2024-10-19 02:59:37.930837000 +0200
+@@ -548,6 +548,11 @@
+             SETTINGS.global.submit_debug_data = selection;
+             break;
+         case ID_grpUPNP: SETTINGS.global.use_upnp = enabled; break;
++        #ifdef ANDROID
++        case ID_grpInvertScroll:
++            SETTINGS.interface.invertMouse = enabled;
++            break;
++        #endif
+         case ID_grpSmartCursor:
+             SETTINGS.global.smartCursor = enabled;
+             VIDEODRIVER.SetMouseWarping(enabled);
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapper.cpp s25client_patched/libs/s25main/drivers/DriverWrapper.cpp
 --- s25client/libs/s25main/drivers/DriverWrapper.cpp	2024-09-29 22:16:56.651726000 +0200
 +++ s25client_patched/libs/s25main/drivers/DriverWrapper.cpp	2024-10-04 16:51:34.350566000 +0200
@@ -1560,7 +1603,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/DriverWrapp
  }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriverWrapper.cpp s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp
 --- s25client/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-09-29 22:16:56.651726000 +0200
-+++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-10-04 16:51:34.350566000 +0200
++++ s25client_patched/libs/s25main/drivers/VideoDriverWrapper.cpp	2024-10-19 02:47:44.189131000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2021 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1705,49 +1748,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
          s25util::fatal_error("No video driver selected!");
          return false;
      }
-@@ -257,8 +321,14 @@
- 
- void VideoDriverWrapper::SwapBuffers()
- {
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::SwapBuffers()"); //ANDROID
-+    #endif
-     if(!videodriver)
-     {
-+        #ifdef ANDROID
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR VideoDriverWrapper::SwapBuffers() No video driver selected!"); //ANDROID
-+        #endif
-         s25util::fatal_error("No video driver selected!");
-         return;
-     }
-@@ -271,17 +341,26 @@
- 
- void VideoDriverWrapper::ClearScreen()
- {
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "VideoDriverWrapper::ClearScreen"); //ANDROID
-     glClear(GL_COLOR_BUFFER_BIT);
-+    #endif
- }
- 
- bool VideoDriverWrapper::Run()
- {
-     if(!videodriver)
-     {
-+        #ifdef ANDROID
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR VideoDriverWrapper::Run No video driver selected!"); //ANDROID
-+        #endif
-         s25util::fatal_error("No video driver selected!");
-         return false;
-     }
- 
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO VideoDriverWrapper::Run returning videodriver->MessageLoop()"); //ANDROID
-+    #endif
-     return videodriver->MessageLoop();
- }
- 
-@@ -302,9 +381,15 @@
+@@ -302,9 +366,15 @@
   */
  void VideoDriverWrapper::RenewViewport()
  {
@@ -1763,7 +1764,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
      const Extent renderSize = videodriver->GetRenderSize();
      const VideoMode windowSize = videodriver->GetWindowSize();
  
-@@ -312,9 +397,18 @@
+@@ -312,9 +382,18 @@
      glViewport(0, 0, windowSize.width, windowSize.height);
      glScissor(0, 0, windowSize.width, windowSize.height);
  
@@ -1782,7 +1783,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
  
      // 0,0 should be top left corner
      glOrtho(0, renderSize.x, renderSize.y, 0, -100, 100);
-@@ -322,6 +416,9 @@
+@@ -322,6 +401,9 @@
      glMatrixMode(GL_MODELVIEW);
      glLoadIdentity();
  
@@ -1792,7 +1793,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
      // Depthbuffer und Colorbuffer einstellen
      glClearColor(0.0, 0.0, 0.0, 1.0);
  
-@@ -331,6 +428,9 @@
+@@ -331,6 +413,9 @@
      glEnable(GL_ALPHA_TEST);
      glAlphaFunc(GL_GREATER, 0.0f);
  
@@ -1802,7 +1803,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
      // Alphablending an
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glEnable(GL_BLEND);
-@@ -348,12 +448,19 @@
+@@ -348,12 +433,19 @@
      // Scissoring aktivieren
      glEnable(GL_SCISSOR_TEST);
  
@@ -1822,7 +1823,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
      ClearScreen();
  }
  
-@@ -362,12 +469,38 @@
+@@ -362,12 +454,38 @@
   */
  bool VideoDriverWrapper::LoadAllExtensions()
  {
@@ -1861,7 +1862,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
      LOG.write(_("OpenGL %1%.%2% supported\n")) % GLVersion.major % GLVersion.minor;
      if(GLVersion.major < RTTR_OGL_MAJOR || (GLVersion.major == RTTR_OGL_MAJOR && GLVersion.minor < RTTR_OGL_MINOR))
      {
-@@ -375,6 +508,7 @@
+@@ -375,6 +493,7 @@
            % ((RTTR_OGL_ES) ? "ES" : "") % RTTR_OGL_MAJOR % RTTR_OGL_MINOR;
          return false;
      }
@@ -1869,7 +1870,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
  
  // auf VSync-Extension testen
  #ifdef _WIN32
-@@ -383,6 +517,9 @@
+@@ -383,6 +502,9 @@
      wglSwapIntervalEXT = reinterpret_cast<SwapIntervalExt_t*>(loadExtension("glXSwapIntervalSGI"));
  #endif
  
@@ -1881,7 +1882,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/drivers/VideoDriver
  
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.cpp s25client_patched/libs/s25main/network/GameClient.cpp
 --- s25client/libs/s25main/network/GameClient.cpp	2024-09-29 22:16:56.667726000 +0200
-+++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-10-04 16:51:34.350566000 +0200
++++ s25client_patched/libs/s25main/network/GameClient.cpp	2024-10-19 02:50:57.825934000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -1892,20 +1893,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.
  
  #include "GameClient.h"
  #include "CreateServerInfo.h"
-@@ -149,50 +152,94 @@
-  */
- void GameClient::Run()
- {
-+    #ifdef ANDROID
-+    if(state == ClientState::Stopped) {
-+         __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run clientstate is stopped returning"); //ANDROID
-+        return;
-+    }
-+    #else
-     if(state == ClientState::Stopped)
-         return;
-+    #endif
- 
+@@ -155,44 +158,81 @@
      SocketSet set;
  
      // erstmal auf Daten überprüfen
@@ -1987,7 +1975,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.
  
      // maximal 10 Pakete verschicken
      mainPlayer.sendMsgs(10);
-@@ -205,8 +252,16 @@
+@@ -205,8 +245,16 @@
   */
  void GameClient::Stop()
  {
@@ -2006,7 +1994,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameClient.
          ExitGame();
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.cpp s25client_patched/libs/s25main/network/GameServer.cpp
 --- s25client/libs/s25main/network/GameServer.cpp	2024-09-29 22:16:56.667726000 +0200
-+++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-10-04 16:51:34.354566000 +0200
++++ s25client_patched/libs/s25main/network/GameServer.cpp	2024-10-19 02:52:05.003601000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -2017,25 +2005,9 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/network/GameServer.
  
  #include "GameServer.h"
  #include "Debug.h"
-@@ -277,8 +280,15 @@
- // Hauptschleife
- void GameServer::Run()
- {
-+    #ifdef ANDROID
-+    if(state == ServerState::Stopped) {
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "GameClient::Run serverstate is stopped returning"); //ANDROID
-+        return;
-+    }
-+    #else
-     if(state == ServerState::Stopped)
-         return;
-+    #endif
- 
-     // auf tote Clients prüfen
-     ClientWatchDog();
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Settings.cpp s25client_patched/libs/s25main/Settings.cpp
 --- s25client/libs/s25main/Settings.cpp	2024-09-29 22:16:56.635726000 +0200
-+++ s25client_patched/libs/s25main/Settings.cpp	2024-10-04 16:51:34.354566000 +0200
++++ s25client_patched/libs/s25main/Settings.cpp	2024-10-19 03:09:59.346333000 +0200
 @@ -73,7 +73,11 @@
      // 0 = ask user at start, 1 = enabled, 2 = always ask
      global.submit_debug_data = 0;
@@ -2048,9 +2020,21 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Settings.cpp s25cli
      global.debugMode = false;
      global.showGFInfo = false;
      // }
+@@ -139,7 +143,11 @@
+     // interface
+     // {
+     interface.autosave_interval = 0;
++    #ifdef ANDROID
++    interface.invertMouse = true;
++    #else
+     interface.invertMouse = false;
++    #endif
+     interface.enableWindowPinning = false;
+     interface.windowSnapDistance = 8;
+     // }
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25client_patched/libs/s25main/Window.cpp
 --- s25client/libs/s25main/Window.cpp	2024-09-29 22:16:56.639726000 +0200
-+++ s25client_patched/libs/s25main/Window.cpp	2024-10-04 16:51:34.354566000 +0200
++++ s25client_patched/libs/s25main/Window.cpp	2024-10-19 02:46:14.818914000 +0200
 @@ -1,6 +1,9 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
@@ -2061,152 +2045,18 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/Window.cpp s25clien
  
  #include "Window.h"
  #include "CollisionDetection.h"
-@@ -35,8 +38,16 @@
-  */
- void Window::Draw()
- {
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::draw() is visible?"); //ANDROID
-+    if(visible_) {
-+         __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::draw() yes drawing window draw_"); //ANDROID
-+        Draw_();
-+    }
-+    #else
-     if(visible_)
-         Draw_();
-+    #endif
- }
- 
- DrawPoint Window::GetPos() const
-@@ -513,8 +524,16 @@
- 
- void Window::Draw_()
- {
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::Draw_"); //ANDROID
-+    for(Window* control : childIdToWnd_ | boost::adaptors::map_values) {
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "Window::Draw_ control->Draw()"); //ANDROID
-+        control->Draw();
-+    }
-+    #else
-     for(Window* control : childIdToWnd_ | boost::adaptors::map_values)
-         control->Draw();
-+    #endif
- }
- 
- void Window::Msg_ScreenResize(const ScreenResizeEvent& sr)
 diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s25client_patched/libs/s25main/WindowManager.cpp
 --- s25client/libs/s25main/WindowManager.cpp	2024-09-29 22:16:56.639726000 +0200
-+++ s25client_patched/libs/s25main/WindowManager.cpp	2024-10-04 21:24:23.362423000 +0200
-@@ -1,6 +1,11 @@
++++ s25client_patched/libs/s25main/WindowManager.cpp	2024-10-19 02:41:59.820589000 +0200
+@@ -1,7 +1,6 @@
  // Copyright (C) 2005 - 2024 Settlers Freaks (sf-team at siedler25.org)
  //
  // SPDX-License-Identifier: GPL-2.0-or-later
-+#ifdef ANDROID
-+#include <android/log.h>
-+#include <sstream>
-+#include <string>
-+#endif
- 
+-
  #include "WindowManager.h"
  #include "CollisionDetection.h"
-@@ -64,19 +69,60 @@
-  */
- void WindowManager::Draw()
- {
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw"); //ANDROID
-+    #endif
-+    
-+    #ifdef ANDROID
-     // ist ein neuer Desktop eingetragen? Wenn ja, wechseln
--    if(nextdesktop)
-+    if(nextdesktop){
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw switching desktop"); //ANDROID
-         DoDesktopSwitch();
-+    }
-+    #else
-+    if(nextdesktop)
-+    DoDesktopSwitch();
-+    #endif
-+
-+    #ifdef ANDROID
-+    std::ostringstream oss;
-+    oss << curDesktop.get();
-+    std::string pointerStr = oss.str();
-+    
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw curdesktop: %s", pointerStr.c_str()); //ANDROID
-+    #endif
- 
-+    #ifdef ANDROID
-+    if(!curDesktop) {
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw not desktop return"); //ANDROID
-+        return;
-+    }
-+    #else
-     if(!curDesktop)
-         return;
-+    #endif
- 
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw msg paintBefore() to desktop"); //ANDROID
-+    #endif
-     curDesktop->Msg_PaintBefore();
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw desktop draw"); //ANDROID  ABSTURZ HIER!!!!!!!!!!!! fixed
-+    #endif
-     curDesktop->Draw();
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw msg painAfter() to desktop"); //ANDROID
-+    #endif
-     curDesktop->Msg_PaintAfter();
- 
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw close marked windows"); //ANDROID
-+    #endif
-     // First close all marked windows
-     CloseMarkedIngameWnds();
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw done closing marked windows"); //ANDROID
-+    #endif
-     for(auto& wnd : windows)
-     {
-         // If the window is not minimized, call paintAfter
-@@ -88,8 +134,14 @@
-             wnd->Msg_PaintAfter();
-     }
- 
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw drawtooltip"); //ANDROID
-     DrawToolTip();
-+    #endif
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::Draw drawcursor"); //ANDROID
-     DrawCursor();
-+    #endif
- }
- 
- /**
-@@ -100,8 +152,18 @@
-  */
- bool WindowManager::IsDesktopActive()
- {
-+    #ifdef ANDROID
-+    if(curDesktop){
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "INFO WindowManager::IsDesktopActive() desktop is active"); //ANDROID
-+        return curDesktop->IsActive();
-+    }
-+    #else
-     if(curDesktop)
-         return curDesktop->IsActive();
-+    #endif
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "ERROR WindowManager::Draw desktop not active"); //ANDROID
-+    #endif
- 
-     return false;
- }
-@@ -356,6 +418,39 @@
+ #include "Loader.h"
+@@ -356,6 +355,39 @@
  
      // Ggf. Doppelklick untersuche
      unsigned time_now = VIDEODRIVER.GetTickCount();
@@ -2246,7 +2096,7 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s
      if(time_now - lastLeftClickTime < DOUBLE_CLICK_INTERVAL && mc.GetPos() == lastLeftClickPos)
      {
          mc.dbl_click = true;
-@@ -365,6 +460,7 @@
+@@ -365,6 +397,7 @@
          lastLeftClickPos = mc.GetPos();
          lastLeftClickTime = time_now;
      }
@@ -2254,71 +2104,50 @@ diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/WindowManager.cpp s
  
      // ist der Maus-Klick-Fix aktiv?
      if(!disable_mouse)
-@@ -713,28 +809,67 @@
-  */
- void WindowManager::DoDesktopSwitch()
+diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/world/GameWorldView.cpp s25client_patched/libs/s25main/world/GameWorldView.cpp
+--- s25client/libs/s25main/world/GameWorldView.cpp	2024-09-29 22:16:56.675727000 +0200
++++ s25client_patched/libs/s25main/world/GameWorldView.cpp	2024-10-19 02:03:48.332171000 +0200
+@@ -117,6 +117,20 @@
+     ObjectBetweenLines(noBase& obj, const DrawPoint& pos) : obj(obj), pos(pos) {}
+ };
+ 
++#ifdef ANDROID
++Position GameWorldView::getWorldMousePos() {
++    Position mousePos = VIDEODRIVER.GetMousePos();
++    mousePos -= Position(origin_);
++    if(effectiveZoomFactor_ != 1.f) {
++        PointF diff(size_.x - size_.x / effectiveZoomFactor_, size_.y - size_.y / effectiveZoomFactor_);
++        diff = diff / 2.f;
++        mousePos = Position(PointF(mousePos) / effectiveZoomFactor_ + diff);
++    }
++    
++    return mousePos;
++}
++#endif
++
+ void GameWorldView::Draw(const RoadBuildState& rb, const MapPoint selected, bool drawMouse, unsigned* water)
  {
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch()"); //ANDROID
-+    #endif
-     RTTR_Assert(nextdesktop);
-     VIDEODRIVER.ClearScreen();
- 
-     SetToolTip(nullptr, "");
- 
-     // If we have a current desktop close all windows
-+    #ifdef ANDROID
-+    if(curDesktop){
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() closing all windows cause of current desktop"); //ANDROID
-+        windows.clear();
-+    }
-+    #else
-     if(curDesktop)
-         windows.clear();
-+    #endif
- 
-     // Do the switch
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() do the desktop switch. move nextdesktop"); //ANDROID
-+    #endif
-     curDesktop = std::move(nextdesktop);
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() desktop -> set active(true)"); //ANDROID
-+    #endif
-     curDesktop->SetActive(true);
- 
-+    #ifdef ANDROID
-+    for(auto& nextWnd : nextWnds){
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() show next window"); //ANDROID
-+        Show(std::move(nextWnd));
-+    }
-+    #else
-     for(auto& nextWnd : nextWnds)
-         Show(std::move(nextWnd));
-+    #endif
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() clear next window"); //ANDROID
-+    #endif
-     nextWnds.clear();
- 
-+    #ifdef ANDROID
-+    if(!VIDEODRIVER.IsLeftDown()) {
-+        __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() enable mouse"); //ANDROID
-+        disable_mouse = false;
-+    }
-+    #else
-     if(!VIDEODRIVER.IsLeftDown())
-         disable_mouse = false;
-+    #endif
- 
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() dummy mouse"); //ANDROID
-+    #endif
-     // Dummy mouse move to init hovering etc
-     Msg_MouseMove(MouseCoords(VIDEODRIVER.GetMousePos()));
-+    #ifdef ANDROID
-+    __android_log_print(ANDROID_LOG_DEBUG, "org.libsdl.app", "WindowManager::DoDesktopSwitch() returning"); //ANDROID
-+    #endif
+     SetNextZoomFactor();
+@@ -595,7 +609,7 @@
+     other.show_productivity = show_productivity;
  }
  
- void WindowManager::CloseMarkedIngameWnds()
+-void GameWorldView::MoveBy(const DrawPoint& numPixels)
++void GameWorldView::MoveBy(const DrawPoint& numPixels) //android
+ {
+     MoveTo(offset + numPixels);
+ }
+diff -ruN --binary -x '.*' -x patched s25client/libs/s25main/world/GameWorldView.h s25client_patched/libs/s25main/world/GameWorldView.h
+--- s25client/libs/s25main/world/GameWorldView.h	2024-09-29 22:16:56.675727000 +0200
++++ s25client_patched/libs/s25main/world/GameWorldView.h	2024-10-19 01:58:08.391565000 +0200
+@@ -70,6 +70,10 @@
+ public:
+     GameWorldView(const GameWorldViewer& gwv, const Position& pos, const Extent& size);
+ 
++    #ifdef ANDROID
++    Position getWorldMousePos();
++    #endif
++    
+     const GameWorldViewer& GetViewer() const { return gwv; }
+     const GameWorldBase& GetWorld() const;
+     SoundManager& GetSoundMgr();
