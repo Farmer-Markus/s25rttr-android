@@ -7,7 +7,7 @@ else {
     apply plugin: 'com.android.library'
 }
 
-android.ndkVersion '27.0.12077973'
+android.ndkVersion '27.2.12479018'
 
 android {
     if (buildAsApplication) {
