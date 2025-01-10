@@ -1,0 +1,52 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v1
+      with:
+        java-version: 17
+
+    - name: Set up Android SDK
+      run: sudo apt-get install -y android-sdk
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -y wget curl gradle cmake
+        wget https://dl.google.com/android/repository/android-ndk-r23-linux.zip
+        unzip android-ndk-r23-linux.zip -d $HOME/Android
+        wget https://dl.google.com/android/repository/android-ndk-r27-linux.zip
+        unzip android-ndk-r27-linux.zip -d $HOME/Android
+        export NDK23="$HOME/Android/android-ndk-r23"
+        export NDK27="$HOME/Android/android-ndk-r27"
+        ./build_dependencies.sh
+
+    - name: Apply patches
+      run: ./patches.sh --apply-patch
+
+    - name: Build project
+      run: |
+        export JAVA_HOME="/usr/lib/jvm/java-1.17.0-openjdk-amd64"
+        export ANDROID_HOME="$HOME/Android"
+        cd android-project
+        ./build.sh assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: s25rttr-android-apk
+        path: android-project/app/build/outputs/apk/debug/*.apk
