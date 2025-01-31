@@ -23,7 +23,7 @@ android {
     applicationId "org.s25rttr.sdl"
     archivesBaseName = "s25rttr"
         minSdkVersion 28
-        targetSdkVersion 28
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         externalNativeBuild {
