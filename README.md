@@ -95,6 +95,13 @@ Sadly you can't install debug builds on your real phone but you can enable debug
 
 And please if you have errors -> [Open an Issue](https://github.com/Farmer-Markus/s25rttr-android/issues)
 
+# Special thanksT
+Special thanks to this libraries used in this project: <br />
+[Boost for Android](https://github.com/pelya/Boost-for-Android), <br />
+[Lua for Android](https://github.com/pelya/commandergenius/tree/sdl_android/project/jni/lua), <br />
+[LibIconv/LibIcu for Android](https://github.com/pelya/libiconv-libicu-android), <br />
+[gl4es](https://github.com/ptitSeb/gl4es), <br />
+[bzip2-cmake](https://github.com/sergiud/bzip2/)
 # Some more screenshots (actual gameplay)
 ![splashscreen](https://github.com/user-attachments/assets/6f91a771-c61f-4eac-9b38-ea76b4637bdc)
 
