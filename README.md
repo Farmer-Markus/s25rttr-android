@@ -95,7 +95,7 @@ Sadly you can't install debug builds on your real phone but you can enable debug
 
 And please if you have errors -> [Open an Issue](https://github.com/Farmer-Markus/s25rttr-android/issues)
 
-# Special thanksT
+# Special thanks
 Special thanks to this libraries used in this project: <br />
 [Boost for Android](https://github.com/pelya/Boost-for-Android), <br />
 [Lua for Android](https://github.com/pelya/commandergenius/tree/sdl_android/project/jni/lua), <br />
