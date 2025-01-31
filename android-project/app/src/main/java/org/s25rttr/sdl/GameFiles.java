@@ -1,43 +1,42 @@
 package org.s25rttr.sdl;
 
-import org.s25rttr.sdl.RTTRMain;
-import org.s25rttr.sdl.FileUtils;
-import org.s25rttr.sdl.CopyAssets;
-import org.s25rttr.sdl.NativeLibraryHelper;
-
-import java.io.IOException;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.content.Intent;
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.app.AlertDialog;
-import android.widget.Toast;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.system.Os;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 
-
 public class GameFiles extends AppCompatActivity {
+    private ActivityResultLauncher<Intent> manageStoragePermissionLauncher;
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
     private ActivityResultLauncher<Uri> folderPickerLauncher;
     private static final String TAG = "s25rttr";
-    public interface AlertDialogCallback { void onOkPressed(); }
-    private void openFolderPicker() { folderPickerLauncher.launch(null); }
-    
- 
+
+    public interface AlertDialogCallback {
+        void onOkPressed();
+    }
+
+    private void openFolderPicker() {
+        folderPickerLauncher.launch(null);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         Log.e(TAG, "org.libsdl.app GameFiles()");
 
         folderPickerLauncher = registerForActivityResult(
@@ -47,209 +46,179 @@ public class GameFiles extends AppCompatActivity {
                     String Path = uri.getPath();
                     Path = FileUtils.OutputFullPath(Path);
                     Toast.makeText(this, "Selected folder: " + Path, Toast.LENGTH_SHORT).show();
-                    
                     FileUtils.WriteConfig(FileUtils.getConfFile("AppPathConfig.conf", this), Path);
                     checkForFileDir();
                     startRTTR();
-                    
-                } else
+                } else {
                     startRTTR();
+                }
+            }
+        );
+
+        manageStoragePermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (checkStoragePermissions()) {
+                    Log.e(TAG, "Permission granted");
+                    handleFilesAccess();
+                } else {
+                    Log.e(TAG, "Permission denied");
+                    requestStoragePermissions();
+                }
             }
         );
 
         requestPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestMultiplePermissions(),
-                result -> {
-                    Boolean readPermissionGranted = result.get(Manifest.permission.READ_EXTERNAL_STORAGE);
-                    Boolean writePermissionGranted = result.get(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-                    if (readPermissionGranted != null && readPermissionGranted && writePermissionGranted != null && writePermissionGranted) {
-                        Log.e(TAG, "org.libsdl.app GameFiles() permission granted");
-                        
-                        if (!checkForFileDir())
-                            openFolderPicker();
-                        else
-                            startRTTR();
-                        
-                    } else {
-                        Log.e(TAG, "org.libsdl.app GameFiles() permission denied");
-                        String dialogTitel = "Permission Error";
-                        String dialogMessage = "This App need the 'Files' permission to work. Please go to settings and grant permissions.";
-                        showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-            		    @Override
-            		    public void onOkPressed() {
-                	        finishAffinity(); //exit whole app
-            		    }
-        		});
-                    }
-        });
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            result -> {
+                if (checkStoragePermissions()) {
+                    Log.e(TAG, "Permission granted");
+                    handleFilesAccess();
+                } else {
+                    Log.e(TAG, "Permission denied");
+                    requestStoragePermissions();
+                }
+            }
+        );
 
         if (checkStoragePermissions()) {
-            Log.e(TAG, "org.libsdl.app GameFiles() permissions already granted");
-            
-            if (!checkForFileDir())
-                openFolderPicker();
-            else
-                startRTTR();
-
+            Log.e(TAG, "Permissions already granted");
+            handleFilesAccess();
         } else {
             requestStoragePermissions();
-            Log.e(TAG, "org.libsdl.app GameFiles() end of request");
         }
     }
     
+    @Override
+    protected void onResume() {
+    super.onResume();
+
+      // Check if the storage permission is granted
+      if (checkStoragePermissions()) {
+          // Permission granted, proceed with your logic
+          Log.e(TAG, "Permission granted after returning from settings");
+          handleFilesAccess();
+      } else {
+          // Permission denied, show an error or request permission again
+          Log.e(TAG, "Permission denied after returning from settings");
+          requestStoragePermissions();
+      }
+  }
+
     private boolean checkStoragePermissions() {
-        int readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        int writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        return readPermission == PackageManager.PERMISSION_GRANTED && writePermission == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { //SDK 34+
+            int readImages = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES);
+            int readVideo = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO);
+            int readAudio = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO);
+            return readImages == PackageManager.PERMISSION_GRANTED &&
+                   readVideo == PackageManager.PERMISSION_GRANTED &&
+                   readAudio == PackageManager.PERMISSION_GRANTED;
+        } else {
+            int readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return readPermission == PackageManager.PERMISSION_GRANTED && writePermission == PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     private void requestStoragePermissions() {
-        Log.e(TAG, "org.libsdl.app GameFiles() request permission");
-        
-        String dialogTitel = "Permission";
-        String dialogMessage = "The app needs the following permission to read/write to the folder picked by the user.";
-        showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-            @Override
-            public void onOkPressed() {
-                requestPermissionLauncher.launch(new String[]{
+        Log.e(TAG, "Requesting storage permissions");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            showAlertDialog("Permission Required", "The app needs access to all files. Please allow this permission.",
+                () -> {
+                    try {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        manageStoragePermissionLauncher.launch(intent);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error opening permissions screen", e);
+                        openAppSettings();
+                    }
+                });
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { //SDK 34+
+            requestPermissionLauncher.launch(new String[]{
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO,
+                Manifest.permission.READ_MEDIA_AUDIO
+            });
+        } else {
+            requestPermissionLauncher.launch(new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-                });
-            }
-        });
-    }
-    
-    private void showAlertDialog(String title, String message, AlertDialogCallback callback) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    
-    builder.setTitle(title)
-           .setMessage(message)
-           .setCancelable(false)
-           .setPositiveButton("OK", (dialog, which) -> {
-               dialog.dismiss();
-               if (callback != null) {
-                   callback.onOkPressed();
-               }
-           });
-
-    AlertDialog dialog = builder.create();
-    dialog.show();
-    }
-    
-    private boolean checkForFileDir() {
-        String Path = FileUtils.ReadConfig(FileUtils.getConfFile("AppPathConfig.conf", this));
-        if (Path.isEmpty() || Path == null)
-            return false;
-        
-        try {
-            if(!FileUtils.testPath(Path))
-                return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        
-        try {
-            Os.setenv("HOME", Path, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            
-            String dialogTitel = "Error";
-            String dialogMessage = "RTTR crashed while setting HOME variable to picked folder!";
-            showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-                @Override
-                public void onOkPressed() {
-                    finishAffinity(); //exit whole app
-            	}
-       	    });
-        }
-        
-        try {
-            Os.setenv("USER", "android", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            
-            String dialogTitel = "Error";
-            String dialogMessage = "RTTR crashed while setting USER variable to 'android'!";
-            showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-                @Override
-                public void onOkPressed() {
-                    finishAffinity(); //exit whole app
-            	}
-       	    });
-        }
-        
-        /*
-        try {
-            if(FileUtils.checkIfUpdated(this)) {
-                Log.e(TAG, "org.libsdl.app App was recently updated(GAMEFILES)");
-                Toast.makeText(this, "RTTR was updated. Please wait...", Toast.LENGTH_LONG).show();
-                try {
-                    CopyAssets.copyAssetsToDataStorage(this, Path);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    String dialogTitel = "Error";
-                    String dialogMessage = "RTTR crashed while trying to copy asset files into picked folder!";
-                    showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-                        @Override
-                        public void onOkPressed() {
-                            finishAffinity(); //exit whole app
-                        }
-                    });
-                }
-            }
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-	    
-	    String dialogTitel = "Info";
-            String dialogMessage = "RTTR failed to check if app was updated recently!";
-            showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-                @Override
-                public void onOkPressed() {
-            	}
-       	    });
-        }
-        */
-        
-        try {
-            CopyAssets.copyAssetsToDataStorage(this, Path);
-        } catch (Exception e) {
-            e.printStackTrace();
-            String dialogTitel = "Error";
-            String dialogMessage = "RTTR crashed while trying to copy asset files into picked folder!";
-            showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-                @Override
-                public void onOkPressed() {
-                    finishAffinity(); //exit whole app
-                }
             });
         }
-        
+    }
+
+    private void openAppSettings() {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+          try {
+              Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+              intent.setData(Uri.parse("package:" + getPackageName()));
+              startActivity(intent);
+          } catch (Exception e) {
+              Log.e(TAG, "Error opening manage storage permission screen", e);
+              openAppSettingsFallback();  //fallback to old settings screen if the intent is not available
+          }
+      } else {
+          openAppSettingsFallback();  //for older versions, use the fallback method
+      }
+    }
+
+    private void openAppSettingsFallback() {
+      // Fallback method for older versions or if manage storage intent is not available
+      Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+      intent.setData(Uri.parse("package:" + getPackageName()));
+      startActivity(intent);
+    }
+
+    private void showAlertDialog(String title, String message, AlertDialogCallback callback) {
+        new AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton("OK", (dialog, which) -> {
+                dialog.dismiss();
+                if (callback != null) {
+                    callback.onOkPressed();
+                }
+            })
+            .show();
+    }
+
+    private void handleFilesAccess() {
+        if (!checkForFileDir()) {
+            openFolderPicker();
+        } else {
+            startRTTR();
+        }
+    }
+
+    private boolean checkForFileDir() {
+        String Path = FileUtils.ReadConfig(FileUtils.getConfFile("AppPathConfig.conf", this));
+        if (Path == null || Path.isEmpty()) return false;
+
         try {
-	    NativeLibraryHelper.manageLibs(this);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    
-	    String dialogTitel = "Error";
-            String dialogMessage = "RTTR crashed while setting libDir (library Directory) variable to app cache!";
-            showAlertDialog(dialogTitel, dialogMessage, new AlertDialogCallback() {
-                @Override
-                public void onOkPressed() {
-                    finishAffinity(); //exit whole app
-            	}
-       	    });
-	}
-        
-        Log.e(TAG, "org.libsdl.app checkfilesdir returning true");
+            if (!FileUtils.testPath(Path)) return false;
+            Os.setenv("HOME", Path, true);
+            Os.setenv("USER", "android", true);
+            CopyAssets.copyAssetsToDataStorage(this, Path);
+            NativeLibraryHelper.manageLibs(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlertDialog("Error", "RTTR encountered an error!", this::finishAffinity);
+            return false;
+        }
+
+        Log.e(TAG, "Check for file directory successful");
         return true;
     }
-    
+
     private void startRTTR() {
         Intent intent = new Intent(this, RTTRMain.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        Log.e(TAG, "org.libsdl.app checkfilesdir Finished RTTRMain");
+        Log.e(TAG, "Starting RTTRMain");
         finish();
     }
 }

@@ -81,7 +81,6 @@
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="true"
         android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true"
         android:hardwareAccelerated="true" >
 
         <!-- Example of setting SDL hints from AndroidManifest.xml:
@@ -112,6 +111,7 @@
         </activity>
         <activity android:name="GameFiles"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        android:exported="true"
         >
         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
