@@ -1,7 +1,8 @@
 # s25rttr-android
 Unofficial Android port of [s25client](https://github.com/Return-To-The-Roots/s25client).
 
-![Screenshot_20240908-234846_s25rttr](https://github.com/user-attachments/assets/12fee08c-5d90-430c-9be0-94597ca69273)
+![new-game](https://github.com/user-attachments/assets/dde1a73c-b66b-4874-9ba1-693fc4798c24)
+
 
 This project is work in progress.
 
@@ -100,13 +101,3 @@ Special thanks to this libraries used in this project: <br />
 [LibIconv/LibIcu for Android](https://github.com/pelya/libiconv-libicu-android), <br />
 [gl4es](https://github.com/ptitSeb/gl4es), <br />
 [bzip2-cmake](https://github.com/sergiud/bzip2/)
-# Some more screenshots (actual gameplay)
-![splashscreen](https://github.com/user-attachments/assets/6f91a771-c61f-4eac-9b38-ea76b4637bdc)
-
-![Screenshot_20240830-221959_s25rttr](https://github.com/user-attachments/assets/c72a0a02-94fb-49fb-bcf1-21ef12a5cab8)
-
-![Screenshot_20240908-234706_s25rttr](https://github.com/user-attachments/assets/8aabc7f4-d591-45e6-9e4b-5d0b92e66356)
-
-![Screenshot_20240831-111408_s25rttr](https://github.com/user-attachments/assets/5e1c24ee-024b-45d8-801f-78af74d43e23)
-
-![mainmenuhori](https://github.com/user-attachments/assets/3070cd40-29a2-426c-8355-58d700ffb179)
