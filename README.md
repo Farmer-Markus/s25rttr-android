@@ -35,8 +35,6 @@ What is planned?
 - Correct working multiplayer
 - Resolution fix (gui scale)
 - Better java optimisation
-- Fix texture colors
-- Working fog of war
 
 If you know why e.g. the lan multiplayer only works one way please open an issue to let me know.
 
