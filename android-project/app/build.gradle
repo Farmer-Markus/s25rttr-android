@@ -24,8 +24,8 @@ android {
     archivesBaseName = "s25rttr"
         minSdkVersion 28
         targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 11 // incremented each release
+        versionName "0.1.4"
         externalNativeBuild {
             //ndkBuild {
             //    arguments "APP_PLATFORM=android-19"
