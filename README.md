@@ -39,6 +39,9 @@ What is planned?
 
 If you know why e.g. the lan multiplayer only works one way please open an issue to let me know.
 
+Todo:
+- Update Boost to [this](https://github.com/moritz-wundke/Boost-for-Android) version and make it compatible with ndk27
+
 # Downloads
 
 You can download the final apk file [here](https://github.com/Farmer-Markus/s25rttr-android/releases/latest)
