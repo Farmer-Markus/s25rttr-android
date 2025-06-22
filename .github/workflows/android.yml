@@ -21,7 +21,8 @@ jobs:
         cache: gradle
 
     - name: Update submodules
-      run: git pull --recurse-submodules
+      run: |
+        git submodule update --init --recursive
 
     - name: Install requirements
       run: |
