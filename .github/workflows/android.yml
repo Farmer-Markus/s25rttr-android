@@ -62,4 +62,6 @@ jobs:
     - name: Build with Gradle
       run: |
         cd android-project
+        export ANDROID_HOME="$HOME/Android/Sdk"
+        export PATH=$HOME/Android/Sdk:$HOME/Android/Sdk/ndk/r27:$PATH
         ./build.sh build
