@@ -30,19 +30,19 @@ jobs:
 
     - name: Install Android NDK r27 & r23
       run: |
-        wget https://dl.google.com/android/repository/android-ndk-r23-linux.zip -o ndk-r23
-        wget https://dl.google.com/android/repository/android-ndk-r27c-linux.zip -o ndk-r27
-        unzip ndk-r23
-        unzip ndk-r27
+        wget https://dl.google.com/android/repository/android-ndk-r23-linux.zip -o ndk-r23.zip
+        wget https://dl.google.com/android/repository/android-ndk-r27c-linux.zip -o ndk-r27.zip
+        unzip ndk-r23.zip
+        unzip ndk-r27.zip
         mkdir -p $HOME/Android/Sdk/ndk
         mv -r android-ndk-r23 $HOME/Android/Sdk/ndk/r23
         mv -r android-ndk-r27c $HOME/Android/Sdk/ndk/r27
     
-    - name: Run gradlew to install sdk
-      run: android-project/build.sh assembleDebug
+    #- name: Run gradlew to install sdk
+    #  run: android-project/build.sh assembleDebug
 
     - name: Build dependencies
-      run: NDK23="~/Android/ndk/r23" NDK27="~/Android/ndk/27" ./build_dependencies.sh
+      run: NDK23="~/Android/Sdk/ndk/r23" NDK27="~/Android/Sdk/ndk/r27" ./build_dependencies.sh
 
     - name: Patch s25client
       run: ./patches.sh --apply-patch
@@ -50,7 +50,9 @@ jobs:
     - name: Moving into android project
       run: cd android-project
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    - name: Grant execute permission for gradlew & build.sh
+      run: |
+       chmod +x gradlew
+       chmod +x build.sh
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./build.sh build
