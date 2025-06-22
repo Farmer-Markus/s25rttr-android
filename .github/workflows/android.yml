@@ -30,8 +30,8 @@ jobs:
 
     - name: Install Android NDK r27 & r23
       run: |
-        wget https://dl.google.com/android/repository/android-ndk-r23-linux.zip -o ndk-r23.zip
-        wget https://dl.google.com/android/repository/android-ndk-r27c-linux.zip -o ndk-r27.zip
+        wget https://dl.google.com/android/repository/android-ndk-r23-linux.zip -O ndk-r23.zip
+        wget https://dl.google.com/android/repository/android-ndk-r27c-linux.zip -O ndk-r27.zip
         unzip ndk-r23.zip
         unzip ndk-r27.zip
         mkdir -p $HOME/Android/Sdk/ndk
