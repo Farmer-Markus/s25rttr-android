@@ -46,7 +46,7 @@ jobs:
     #  run: android-project/build.sh assembleDebug
 
     - name: Build dependencies
-      run: NDK23="~/Android/Sdk/ndk/r23" NDK27="~/Android/Sdk/ndk/r27" ./build_dependencies.sh
+      run: NDK23="$HOME/Android/Sdk/ndk/r23" NDK27="$HOME/Android/Sdk/ndk/r27" ./build_dependencies.sh
 
     - name: Patch s25client
       run: ./patches.sh --apply-patch
