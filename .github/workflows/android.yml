@@ -37,6 +37,8 @@ jobs:
         mkdir -p $HOME/Android/Sdk/ndk
         mv android-ndk-r23 $HOME/Android/Sdk/ndk/r23
         mv android-ndk-r27c $HOME/Android/Sdk/ndk/r27
+        rm ndk-r23.zip
+        rm ndk-r27.zip
     
     #- name: Run gradlew to install sdk
     #  run: android-project/build.sh assembleDebug
