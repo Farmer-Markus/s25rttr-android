@@ -35,8 +35,8 @@ jobs:
         unzip ndk-r23.zip
         unzip ndk-r27.zip
         mkdir -p $HOME/Android/Sdk/ndk
-        mv -r android-ndk-r23 $HOME/Android/Sdk/ndk/r23
-        mv -r android-ndk-r27c $HOME/Android/Sdk/ndk/r27
+        mv android-ndk-r23 $HOME/Android/Sdk/ndk/r23
+        mv android-ndk-r27c $HOME/Android/Sdk/ndk/r27
     
     #- name: Run gradlew to install sdk
     #  run: android-project/build.sh assembleDebug
