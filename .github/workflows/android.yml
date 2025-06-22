@@ -56,7 +56,10 @@ jobs:
 
     - name: Grant execute permission for gradlew & build.sh
       run: |
+       cd android-project
        chmod +x gradlew
        chmod +x build.sh
     - name: Build with Gradle
-      run: ./build.sh build
+      run: |
+        cd android-project
+        ./build.sh build
