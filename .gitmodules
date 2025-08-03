@@ -1,0 +1,3 @@
+[submodule "app/jni/lua/lua"]
+	path = app/jni/lua/lua
+	url = https://github.com/lua/lua
