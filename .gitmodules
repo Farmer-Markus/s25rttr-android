@@ -1,3 +1,36 @@
 [submodule "app/jni/lua/lua"]
 	path = app/jni/lua/lua
 	url = https://github.com/lua/lua
+[submodule "app/jni/SDL"]
+	path = app/jni/SDL
+	url = https://github.com/libsdl-org/SDL
+	branch = SDL2
+[submodule "app/jni/SDL_mixer"]
+	path = app/jni/SDL_mixer
+	url = https://github.com/libsdl-org/SDL_mixer
+	branch = SDL2
+[submodule "app/jni/miniupnpc"]
+	path = app/jni/miniupnpc
+	url = https://github.com/transmission/miniupnpc
+[submodule "app/jni/bzip2"]
+	path = app/jni/bzip2
+	url = https://gitlab.com/bzip2/bzip2
+[submodule "app/jni/s25client"]
+	path = app/jni/s25client
+	url = https://github.com/Farmer-Markus/s25client
+	branch = android
+[submodule "app/jni/boost/test"]
+	path = app/jni/boost/test
+	url = https://github.com/boostorg/test
+[submodule "app/jni/boost/iostreams"]
+	path = app/jni/boost/iostreams
+	url = https://github.com/boostorg/iostreams
+[submodule "app/jni/boost/filesystem"]
+	path = app/jni/boost/filesystem
+	url = https://github.com/boostorg/filesystem
+[submodule "app/jni/boost/program-options"]
+	path = app/jni/boost/program-options
+	url = https://github.com/boostorg/program_options
+[submodule "app/jni/boost/program_options"]
+	path = app/jni/boost/program_options
+	url = https://github.com/boostorg/program_options
