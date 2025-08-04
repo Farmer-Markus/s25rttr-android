@@ -2,24 +2,68 @@ cmake_minimum_required(VERSION 3.6)
 
 project(boost-android)
 
-add_subdirectory(filesystem)
-add_subdirectory(iostreams)
-add_subdirectory(program_options)
-add_subdirectory(test)
-add_subdirectory(nowide)
-add_subdirectory(assert)
-add_subdirectory(any)
-add_subdirectory(algorithm)
-add_subdirectory(config)
-add_subdirectory(bind)
-add_subdirectory(array)
-add_subdirectory(container_hash)
-add_subdirectory(core)
-add_subdirectory(throw_exception)
-add_subdirectory(concept_check)
-add_subdirectory(detail)
-add_subdirectory(type_index)
-add_subdirectory(exception)
-add_subdirectory(static_assert)
-add_subdirectory(describe)
-add_subdirectory(preprocessor)
+set(BOOST_LIBS 
+    filesystem
+    iostreams
+    program_options
+    test
+    nowide
+    assert
+    any
+    algorithm
+    config
+    bind
+    array
+    container_hash
+    core
+    throw_exception
+    concept_check
+    detail
+    type_index
+    exception
+    static_assert
+    describe
+    preprocessor
+    io
+    function
+    type_traits
+    smart_ptr
+    mp11
+    iterator
+    integer
+    tuple
+    move
+    mpl
+    lexical_cast
+    function_types
+    container
+    predef
+    fusion
+    range
+    numeric_conversion
+    tokenizer
+    random
+    system
+    variant2
+    dynamic_bitset
+    conversion
+    typeof
+    intrusive
+    utility
+    regex
+    optional
+    scope
+    atomic
+    unordered
+    functional
+    winapi
+    align
+)
+
+# Include boost libs
+foreach(LIB IN LISTS BOOST_LIBS)
+  add_subdirectory(${LIB})
+endforeach()
+
+# Create include folder
+

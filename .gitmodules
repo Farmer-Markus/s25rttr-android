@@ -85,3 +85,108 @@
 [submodule "app/jni/boost/preprocessor"]
 	path = app/jni/boost/preprocessor
 	url = https://github.com/boostorg/preprocessor
+[submodule "app/jni/boost/exception"]
+	path = app/jni/boost/exception
+	url = https://github.com/boostorg/exception
+[submodule "app/jni/boost/mp11"]
+	path = app/jni/boost/mp11
+	url = https://github.com/boostorg/mp11
+[submodule "app/jni/boost/smart_ptr"]
+	path = app/jni/boost/smart_ptr
+	url = https://github.com/boostorg/smart_ptr
+[submodule "app/jni/boost/type_traits"]
+	path = app/jni/boost/type_traits
+	url = https://github.com/boostorg/type_traits
+[submodule "app/jni/boost/function"]
+	path = app/jni/boost/function
+	url = https://github.com/boostorg/function
+[submodule "app/jni/boost/io"]
+	path = app/jni/boost/io
+	url = https://github.com/boostorg/io
+[submodule "app/jni/boost/iterator"]
+	path = app/jni/boost/iterator
+	url = https://github.com/boostorg/iterator
+[submodule "app/jni/boost/integer"]
+	path = app/jni/boost/integer
+	url = https://github.com/boostorg/integer
+[submodule "app/jni/boost/tuple"]
+	path = app/jni/boost/tuple
+	url = https://github.com/boostorg/tuple
+[submodule "app/jni/boost/move"]
+	path = app/jni/boost/move
+	url = https://github.com/boostorg/move
+[submodule "app/jni/boost/mpl"]
+	path = app/jni/boost/mpl
+	url = https://github.com/boostorg/mpl
+[submodule "app/jni/boost/lexical_cast"]
+	path = app/jni/boost/lexical_cast
+	url = https://github.com/boostorg/lexical_cast
+[submodule "app/jni/boost/function_types"]
+	path = app/jni/boost/function_types
+	url = https://github.com/boostorg/function_types
+[submodule "app/jni/boost/container"]
+	path = app/jni/boost/container
+	url = https://github.com/boostorg/container
+[submodule "app/jni/boost/predef"]
+	path = app/jni/boost/predef
+	url = https://github.com/boostorg/predef
+[submodule "app/jni/boost/fusion"]
+	path = app/jni/boost/fusion
+	url = https://github.com/boostorg/fusion
+[submodule "app/jni/boost/range"]
+	path = app/jni/boost/range
+	url = https://github.com/boostorg/range
+[submodule "app/jni/boost/numeric_conversion"]
+	path = app/jni/boost/numeric_conversion
+	url = https://github.com/boostorg/numeric_conversion
+[submodule "app/jni/boost/tokenizer"]
+	path = app/jni/boost/tokenizer
+	url = https://github.com/boostorg/tokenizer
+[submodule "app/jni/boost/random"]
+	path = app/jni/boost/random
+	url = https://github.com/boostorg/random
+[submodule "app/jni/boost/system"]
+	path = app/jni/boost/system
+	url = https://github.com/boostorg/system
+[submodule "app/jni/boost/variant2"]
+	path = app/jni/boost/variant2
+	url = https://github.com/boostorg/variant2
+[submodule "app/jni/boost/dynamic_bitset"]
+	path = app/jni/boost/dynamic_bitset
+	url = https://github.com/boostorg/dynamic_bitset
+[submodule "app/jni/boost/conversion"]
+	path = app/jni/boost/conversion
+	url = https://github.com/boostorg/conversion
+[submodule "app/jni/boost/typeof"]
+	path = app/jni/boost/typeof
+	url = https://github.com/boostorg/typeof
+[submodule "app/jni/boost/intrusive"]
+	path = app/jni/boost/intrusive
+	url = https://github.com/boostorg/intrusive
+[submodule "app/jni/boost/utility"]
+	path = app/jni/boost/utility
+	url = https://github.com/boostorg/utility
+[submodule "app/jni/boost/regex"]
+	path = app/jni/boost/regex
+	url = https://github.com/boostorg/regex
+[submodule "app/jni/boost/optional"]
+	path = app/jni/boost/optional
+	url = https://github.com/boostorg/optional
+[submodule "app/jni/boost/scope"]
+	path = app/jni/boost/scope
+	url = https://github.com/boostorg/scope
+[submodule "app/jni/boost/atomic"]
+	path = app/jni/boost/atomic
+	url = https://github.com/boostorg/atomic
+[submodule "app/jni/boost/unordered"]
+	path = app/jni/boost/unordered
+	url = https://github.com/boostorg/unordered
+[submodule "app/jni/boost/functional"]
+	path = app/jni/boost/functional
+	url = https://github.com/boostorg/functional
+[submodule "app/jni/boost/winapi"]
+	path = app/jni/boost/winapi
+	url = https://github.com/boostorg/winapi
+[submodule "app/jni/boost/align"]
+	path = app/jni/boost/align
+	url = https://github.com/boostorg/align

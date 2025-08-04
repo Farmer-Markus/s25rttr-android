@@ -1,2 +1,0 @@
-/usr/bin/ar qc libboost_nowide.a CMakeFiles/boost_nowide.dir/src/console_buffer.cpp.o CMakeFiles/boost_nowide.dir/src/cstdio.cpp.o CMakeFiles/boost_nowide.dir/src/cstdlib.cpp.o CMakeFiles/boost_nowide.dir/src/filebuf.cpp.o CMakeFiles/boost_nowide.dir/src/iostream.cpp.o CMakeFiles/boost_nowide.dir/src/stat.cpp.o
-/usr/bin/ranlib libboost_nowide.a
