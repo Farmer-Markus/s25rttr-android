@@ -1,0 +1,1218 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt"
+    message: |
+      The system is: Linux - 6.15.8-arch1-2 - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /usr/bin/cc 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+      
+      The C compiler identification is GNU, found in:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/4.0.3-dirty/CompilerIdC/a.out
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /usr/bin/c++ 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is GNU, found in:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/4.0.3-dirty/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-RFgzQ3"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-RFgzQ3"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-RFgzQ3'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_f0b7d/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_f0b7d.dir/build.make CMakeFiles/cmTC_f0b7d.dir/build
+        make[1]: Entering directory '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-RFgzQ3'
+        Building C object CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o
+        /usr/bin/cc   -v -o CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/cc
+        Target: x86_64-pc-linux-gnu
+        Configured with: /build/gcc/src/gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 15.1.1 20250729 (GCC) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f0b7d.dir/'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_f0b7d.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o /tmp/ccbzrZej.s
+        GNU C23 (GCC) version 15.1.1 20250729 (x86_64-pc-linux-gnu)
+        	compiled by GNU C version 15.1.1 20250729, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.3.1, isl version isl-0.27-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../x86_64-pc-linux-gnu/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include
+         /usr/local/include
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed
+         /usr/include
+        End of search list.
+        Compiler executable checksum: 1787ea56368177f03c53ffbfd9c7a450
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f0b7d.dir/'
+         as -v --64 -o CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o /tmp/ccbzrZej.s
+        GNU assembler version 2.45.0 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.45.0
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.'
+        Linking C executable cmTC_f0b7d
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f0b7d.dir/link.txt --verbose=1
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/cc
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper
+        Target: x86_64-pc-linux-gnu
+        Configured with: /build/gcc/src/gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 15.1.1 20250729 (GCC) 
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f0b7d' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f0b7d.'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccv7AFsu.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_f0b7d /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o
+        collect2 version 15.1.1 20250729
+        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccv7AFsu.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_f0b7d /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o
+        GNU ld (GNU Binutils) 2.45.0
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f0b7d' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f0b7d.'
+        /usr/bin/cc  -v -Wl,-v CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o -o cmTC_f0b7d
+        make[1]: Leaving directory '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-RFgzQ3'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:191 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include]
+          add: [/usr/local/include]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include;/usr/local/include;/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:227 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-RFgzQ3']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_f0b7d/fast]
+        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_f0b7d.dir/build.make CMakeFiles/cmTC_f0b7d.dir/build]
+        ignore line: [make[1]: Entering directory '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-RFgzQ3']
+        ignore line: [Building C object CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/cc]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 15.1.1 20250729 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f0b7d.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_f0b7d.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o /tmp/ccbzrZej.s]
+        ignore line: [GNU C23 (GCC) version 15.1.1 20250729 (x86_64-pc-linux-gnu)]
+        ignore line: [	compiled by GNU C version 15.1.1 20250729  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.3.1  isl version isl-0.27-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../x86_64-pc-linux-gnu/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: 1787ea56368177f03c53ffbfd9c7a450]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f0b7d.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o /tmp/ccbzrZej.s]
+        ignore line: [GNU assembler version 2.45.0 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.45.0]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.']
+        ignore line: [Linking C executable cmTC_f0b7d]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f0b7d.dir/link.txt --verbose=1]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/cc]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 15.1.1 20250729 (GCC) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f0b7d' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f0b7d.']
+        link line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccv7AFsu.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_f0b7d /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccv7AFsu.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_f0b7d] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib]
+          arg [-L/lib/../lib] ==> dir [/lib/../lib]
+          arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../..] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../..]
+          arg [-L/lib] ==> dir [/lib]
+          arg [-L/usr/lib] ==> dir [/usr/lib]
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [-lgcc] ==> lib [gcc]
+          arg [--push-state] ==> ignore
+          arg [--as-needed] ==> ignore
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [--pop-state] ==> ignore
+          arg [-lc] ==> lib [c]
+          arg [-lgcc] ==> lib [gcc]
+          arg [--push-state] ==> ignore
+          arg [--as-needed] ==> ignore
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [--pop-state] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o]
+        ignore line: [collect2 version 15.1.1 20250729]
+        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccv7AFsu.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_f0b7d /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_f0b7d.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o]
+        linker tool for 'C': /usr/bin/ld
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o] ==> [/usr/lib/Scrt1.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o] ==> [/usr/lib/crti.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o] ==> [/usr/lib/crtn.o]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib] ==> [/usr/lib]
+        collapse library dir [/lib/../lib] ==> [/lib]
+        collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../..] ==> [/usr/lib]
+        collapse library dir [/lib] ==> [/lib]
+        collapse library dir [/usr/lib] ==> [/usr/lib]
+        implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+        implicit objs: [/usr/lib/Scrt1.o;/usr/lib/crti.o;/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o;/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o;/usr/lib/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1;/usr/lib;/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:270 (cmake_determine_linker_id)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Running the C compiler's linker: "/usr/bin/ld" "-v"
+      GNU ld (GNU Binutils) 2.45.0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ygWjcD"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ygWjcD"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ygWjcD'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_cb1f9/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_cb1f9.dir/build.make CMakeFiles/cmTC_cb1f9.dir/build
+        make[1]: Entering directory '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ygWjcD'
+        Building CXX object CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -v -o CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        Target: x86_64-pc-linux-gnu
+        Configured with: /build/gcc/src/gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 15.1.1 20250729 (GCC) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb1f9.dir/'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_cb1f9.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o /tmp/ccOSlnXt.s
+        GNU C++17 (GCC) version 15.1.1 20250729 (x86_64-pc-linux-gnu)
+        	compiled by GNU C version 15.1.1 20250729, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.3.1, isl version isl-0.27-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../x86_64-pc-linux-gnu/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/backward
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include
+         /usr/local/include
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed
+         /usr/include
+        End of search list.
+        Compiler executable checksum: 5afba4e7c01e6ad4b4ed7bcc3856614f
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb1f9.dir/'
+         as -v --64 -o CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccOSlnXt.s
+        GNU assembler version 2.45.0 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.45.0
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_cb1f9
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb1f9.dir/link.txt --verbose=1
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper
+        Target: x86_64-pc-linux-gnu
+        Configured with: /build/gcc/src/gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 15.1.1 20250729 (GCC) 
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb1f9' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_cb1f9.'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIHXVHT.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_cb1f9 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o
+        collect2 version 15.1.1 20250729
+        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIHXVHT.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_cb1f9 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o
+        GNU ld (GNU Binutils) 2.45.0
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb1f9' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_cb1f9.'
+        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_cb1f9
+        make[1]: Leaving directory '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ygWjcD'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:191 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/backward]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include]
+          add: [/usr/local/include]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1] ==> [/usr/include/c++/15.1.1]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu] ==> [/usr/include/c++/15.1.1/x86_64-pc-linux-gnu]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/backward] ==> [/usr/include/c++/15.1.1/backward]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/include/c++/15.1.1;/usr/include/c++/15.1.1/x86_64-pc-linux-gnu;/usr/include/c++/15.1.1/backward;/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include;/usr/local/include;/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:227 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ygWjcD']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_cb1f9/fast]
+        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_cb1f9.dir/build.make CMakeFiles/cmTC_cb1f9.dir/build]
+        ignore line: [make[1]: Entering directory '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ygWjcD']
+        ignore line: [Building CXX object CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 15.1.1 20250729 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb1f9.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_cb1f9.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o /tmp/ccOSlnXt.s]
+        ignore line: [GNU C++17 (GCC) version 15.1.1 20250729 (x86_64-pc-linux-gnu)]
+        ignore line: [	compiled by GNU C version 15.1.1 20250729  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.3.1  isl version isl-0.27-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../x86_64-pc-linux-gnu/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/backward]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include-fixed]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: 5afba4e7c01e6ad4b4ed7bcc3856614f]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb1f9.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccOSlnXt.s]
+        ignore line: [GNU assembler version 2.45.0 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.45.0]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_cb1f9]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb1f9.dir/link.txt --verbose=1]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 15.1.1 20250729 (GCC) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb1f9' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_cb1f9.']
+        link line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIHXVHT.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_cb1f9 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccIHXVHT.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_cb1f9] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib]
+          arg [-L/lib/../lib] ==> dir [/lib/../lib]
+          arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../..] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../..]
+          arg [-L/lib] ==> dir [/lib]
+          arg [-L/usr/lib] ==> dir [/usr/lib]
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lc] ==> lib [c]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o]
+        ignore line: [collect2 version 15.1.1 20250729]
+        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIHXVHT.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_cb1f9 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_cb1f9.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o]
+        linker tool for 'CXX': /usr/bin/ld
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/Scrt1.o] ==> [/usr/lib/Scrt1.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crti.o] ==> [/usr/lib/crti.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/crtn.o] ==> [/usr/lib/crtn.o]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib] ==> [/usr/lib]
+        collapse library dir [/lib/../lib] ==> [/lib]
+        collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../..] ==> [/usr/lib]
+        collapse library dir [/lib] ==> [/lib]
+        collapse library dir [/usr/lib] ==> [/usr/lib]
+        implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+        implicit objs: [/usr/lib/Scrt1.o;/usr/lib/crti.o;/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o;/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtendS.o;/usr/lib/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1;/usr/lib;/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:270 (cmake_determine_linker_id)"
+      - "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Running the CXX compiler's linker: "/usr/bin/ld" "-v"
+      GNU ld (GNU Binutils) 2.45.0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:34 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_INIT_PRIORITY"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ijl5qC"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ijl5qC"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_INIT_PRIORITY"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ijl5qC'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_0f90b/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_0f90b.dir/build.make CMakeFiles/cmTC_0f90b.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ijl5qC“ wird betreten
+        Building CXX object CMakeFiles/cmTC_0f90b.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_INIT_PRIORITY -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_0f90b.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ijl5qC/src.cxx
+        Linking CXX executable cmTC_0f90b
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f90b.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_0f90b.dir/src.cxx.o -o cmTC_0f90b
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-ijl5qC“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:35 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_CXX20_ATOMIC_REF"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-jt72b3"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-jt72b3"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_CXX20_ATOMIC_REF"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-jt72b3'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_00ae5/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_00ae5.dir/build.make CMakeFiles/cmTC_00ae5.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-jt72b3“ wird betreten
+        Building CXX object CMakeFiles/cmTC_00ae5.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_CXX20_ATOMIC_REF -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_00ae5.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-jt72b3/src.cxx
+        In Datei, eingebunden von /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-jt72b3/src.cxx:1:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_cxx20_atomic_ref.cpp: In function »int main()«:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_cxx20_atomic_ref.cpp:15:10: Fehler: »atomic_ref« ist kein Element von »std«
+           15 |     std::atomic_ref< func_t* > ref(func);
+              |          ^~~~~~~~~~
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_cxx20_atomic_ref.cpp:15:10: Anmerkung: »std::atomic_ref« ist erst ab C++20 verfügbar
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_cxx20_atomic_ref.cpp:15:28: Fehler: expected primary-expression before »*« token
+           15 |     std::atomic_ref< func_t* > ref(func);
+              |                            ^
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_cxx20_atomic_ref.cpp:15:30: Fehler: expected primary-expression before »>« token
+           15 |     std::atomic_ref< func_t* > ref(func);
+              |                              ^
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_cxx20_atomic_ref.cpp:15:32: Fehler: »ref« wurde in diesem Gültigkeitsbereich nicht definiert
+           15 |     std::atomic_ref< func_t* > ref(func);
+              |                                ^~~
+        make[1]: *** [CMakeFiles/cmTC_00ae5.dir/build.make:81: CMakeFiles/cmTC_00ae5.dir/src.cxx.o] Fehler 1
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-jt72b3“ wird verlassen
+        make: *** [Makefile:134: cmTC_00ae5/fast] Fehler 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:36 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_STAT_ST_BLKSIZE"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-HwJSw2"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-HwJSw2"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_STAT_ST_BLKSIZE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-HwJSw2'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_069ca/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_069ca.dir/build.make CMakeFiles/cmTC_069ca.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-HwJSw2“ wird betreten
+        Building CXX object CMakeFiles/cmTC_069ca.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_STAT_ST_BLKSIZE -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_069ca.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-HwJSw2/src.cxx
+        Linking CXX executable cmTC_069ca
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_069ca.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_069ca.dir/src.cxx.o -o cmTC_069ca
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-HwJSw2“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:37 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_STAT_ST_MTIM"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-hv6GBe"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-hv6GBe"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_STAT_ST_MTIM"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-hv6GBe'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_1991a/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_1991a.dir/build.make CMakeFiles/cmTC_1991a.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-hv6GBe“ wird betreten
+        Building CXX object CMakeFiles/cmTC_1991a.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_STAT_ST_MTIM -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_1991a.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-hv6GBe/src.cxx
+        Linking CXX executable cmTC_1991a
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1991a.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_1991a.dir/src.cxx.o -o cmTC_1991a
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-hv6GBe“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:38 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_STAT_ST_MTIMENSEC"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-1V56ig"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-1V56ig"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_STAT_ST_MTIMENSEC"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-1V56ig'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_80e75/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_80e75.dir/build.make CMakeFiles/cmTC_80e75.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-1V56ig“ wird betreten
+        Building CXX object CMakeFiles/cmTC_80e75.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_STAT_ST_MTIMENSEC -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_80e75.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-1V56ig/src.cxx
+        In Datei, eingebunden von /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-1V56ig/src.cxx:1:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_mtimensec.cpp: In function »int main()«:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_mtimensec.cpp:17:8: Fehler: »struct stat« hat kein Element namens »st_mtimensec«
+           17 |     st.st_mtimensec = 10;
+              |        ^~~~~~~~~~~~
+        make[1]: *** [CMakeFiles/cmTC_80e75.dir/build.make:81: CMakeFiles/cmTC_80e75.dir/src.cxx.o] Fehler 1
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-1V56ig“ wird verlassen
+        make: *** [Makefile:134: cmTC_80e75/fast] Fehler 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:39 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_STAT_ST_MTIMESPEC"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-l3NZ63"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-l3NZ63"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_STAT_ST_MTIMESPEC"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-l3NZ63'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_093ab/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_093ab.dir/build.make CMakeFiles/cmTC_093ab.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-l3NZ63“ wird betreten
+        Building CXX object CMakeFiles/cmTC_093ab.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_STAT_ST_MTIMESPEC -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_093ab.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-l3NZ63/src.cxx
+        In Datei, eingebunden von /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-l3NZ63/src.cxx:1:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_mtimespec.cpp: In function »int main()«:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_mtimespec.cpp:17:8: Fehler: »struct stat« hat kein Element namens »st_mtimespec«
+           17 |     st.st_mtimespec.tv_nsec = 10;
+              |        ^~~~~~~~~~~~
+        make[1]: *** [CMakeFiles/cmTC_093ab.dir/build.make:81: CMakeFiles/cmTC_093ab.dir/src.cxx.o] Fehler 1
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-l3NZ63“ wird verlassen
+        make: *** [Makefile:134: cmTC_093ab/fast] Fehler 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:40 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_STAT_ST_BIRTHTIMENSEC"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-FuOmsG"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-FuOmsG"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_STAT_ST_BIRTHTIMENSEC"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-FuOmsG'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a1249/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_a1249.dir/build.make CMakeFiles/cmTC_a1249.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-FuOmsG“ wird betreten
+        Building CXX object CMakeFiles/cmTC_a1249.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_STAT_ST_BIRTHTIMENSEC -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_a1249.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-FuOmsG/src.cxx
+        In Datei, eingebunden von /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-FuOmsG/src.cxx:1:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_birthtimensec.cpp: In function »int main()«:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_birthtimensec.cpp:17:8: Fehler: »struct stat« hat kein Element namens »st_birthtime«
+           17 |     st.st_birthtime = 1;
+              |        ^~~~~~~~~~~~
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_birthtimensec.cpp:18:8: Fehler: »struct stat« hat kein Element namens »st_birthtimensec«
+           18 |     st.st_birthtimensec = 10;
+              |        ^~~~~~~~~~~~~~~~
+        make[1]: *** [CMakeFiles/cmTC_a1249.dir/build.make:81: CMakeFiles/cmTC_a1249.dir/src.cxx.o] Fehler 1
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-FuOmsG“ wird verlassen
+        make: *** [Makefile:134: cmTC_a1249/fast] Fehler 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:41 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_STAT_ST_BIRTHTIMESPEC"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-TfTUC6"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-TfTUC6"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_STAT_ST_BIRTHTIMESPEC"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-TfTUC6'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_9c8e0/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_9c8e0.dir/build.make CMakeFiles/cmTC_9c8e0.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-TfTUC6“ wird betreten
+        Building CXX object CMakeFiles/cmTC_9c8e0.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_STAT_ST_BIRTHTIMESPEC -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_9c8e0.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-TfTUC6/src.cxx
+        In Datei, eingebunden von /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-TfTUC6/src.cxx:1:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_birthtimespec.cpp: In function »int main()«:
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_birthtimespec.cpp:17:8: Fehler: »struct stat« hat kein Element namens »st_birthtimespec«
+           17 |     st.st_birthtimespec.tv_sec = 1;
+              |        ^~~~~~~~~~~~~~~~
+        /home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/config/has_stat_st_birthtimespec.cpp:18:8: Fehler: »struct stat« hat kein Element namens »st_birthtimespec«
+           18 |     st.st_birthtimespec.tv_nsec = 10;
+              |        ^~~~~~~~~~~~~~~~
+        make[1]: *** [CMakeFiles/cmTC_9c8e0.dir/build.make:81: CMakeFiles/cmTC_9c8e0.dir/src.cxx.o] Fehler 1
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-TfTUC6“ wird verlassen
+        make: *** [Makefile:134: cmTC_9c8e0/fast] Fehler 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:43 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_STATX"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-m2E9dm"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-m2E9dm"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_STATX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-m2E9dm'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_97fa4/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_97fa4.dir/build.make CMakeFiles/cmTC_97fa4.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-m2E9dm“ wird betreten
+        Building CXX object CMakeFiles/cmTC_97fa4.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_STATX -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_97fa4.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-m2E9dm/src.cxx
+        Linking CXX executable cmTC_97fa4
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97fa4.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_97fa4.dir/src.cxx.o -o cmTC_97fa4
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-m2E9dm“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:48 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_FDOPENDIR_NOFOLLOW"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-EEjPEk"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-EEjPEk"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_FDOPENDIR_NOFOLLOW"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-EEjPEk'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_321cf/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_321cf.dir/build.make CMakeFiles/cmTC_321cf.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-EEjPEk“ wird betreten
+        Building CXX object CMakeFiles/cmTC_321cf.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_FDOPENDIR_NOFOLLOW -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_321cf.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-EEjPEk/src.cxx
+        Linking CXX executable cmTC_321cf
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_321cf.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_321cf.dir/src.cxx.o -o cmTC_321cf
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-EEjPEk“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:49 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_DIRENT_D_TYPE"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-IYv2IN"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-IYv2IN"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_DIRENT_D_TYPE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-IYv2IN'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_28ae9/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_28ae9.dir/build.make CMakeFiles/cmTC_28ae9.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-IYv2IN“ wird betreten
+        Building CXX object CMakeFiles/cmTC_28ae9.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_DIRENT_D_TYPE -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_28ae9.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-IYv2IN/src.cxx
+        Linking CXX executable cmTC_28ae9
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_28ae9.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_28ae9.dir/src.cxx.o -o cmTC_28ae9
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-IYv2IN“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:50 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_POSIX_AT_APIS"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-P4LgK2"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-P4LgK2"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_POSIX_AT_APIS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-P4LgK2'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_81c09/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_81c09.dir/build.make CMakeFiles/cmTC_81c09.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-P4LgK2“ wird betreten
+        Building CXX object CMakeFiles/cmTC_81c09.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_POSIX_AT_APIS -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_81c09.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-P4LgK2/src.cxx
+        Linking CXX executable cmTC_81c09
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_81c09.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_81c09.dir/src.cxx.o -o cmTC_81c09
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-P4LgK2“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "filesystem/CMakeLists.txt:51 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_FILESYSTEM_HAS_FALLOCATE"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-VXHN5o"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-VXHN5o"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_FILESYSTEM_HAS_FALLOCATE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-VXHN5o'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_62519/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_62519.dir/build.make CMakeFiles/cmTC_62519.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-VXHN5o“ wird betreten
+        Building CXX object CMakeFiles/cmTC_62519.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_FILESYSTEM_HAS_FALLOCATE -I/home/markus/Projekte/s25rttr-android/app/jni/boost/filesystem/src  -o CMakeFiles/cmTC_62519.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-VXHN5o/src.cxx
+        Linking CXX executable cmTC_62519
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_62519.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_62519.dir/src.cxx.o -o cmTC_62519
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-VXHN5o“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:160 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:65 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "/usr/share/cmake/Modules/FindBZip2.cmake:100 (check_symbol_exists)"
+      - "iostreams/CMakeLists.txt:16 (find_package)"
+      - "iostreams/CMakeLists.txt:39 (boost_iostreams_option)"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-j40Ysu"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-j40Ysu"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BZIP2_NEED_PREFIX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-j40Ysu'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_920e2/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_920e2.dir/build.make CMakeFiles/cmTC_920e2.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-j40Ysu“ wird betreten
+        Building C object CMakeFiles/cmTC_920e2.dir/CheckSymbolExists.c.o
+        /usr/bin/cc    -o CMakeFiles/cmTC_920e2.dir/CheckSymbolExists.c.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-j40Ysu/CheckSymbolExists.c
+        Linking C executable cmTC_920e2
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_920e2.dir/link.txt --verbose=1
+        /usr/bin/cc CMakeFiles/cmTC_920e2.dir/CheckSymbolExists.c.o -o cmTC_920e2  /usr/lib/libbz2.so
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-j40Ysu“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckLibraryExists.cmake:112 (try_compile)"
+      - "/usr/share/cmake/Modules/FindLibLZMA.cmake:100 (check_library_exists)"
+      - "iostreams/CMakeLists.txt:16 (find_package)"
+      - "iostreams/CMakeLists.txt:40 (boost_iostreams_option)"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-BnajHV"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-BnajHV"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "LIBLZMA_HAS_AUTO_DECODER"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-BnajHV'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_660d0/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_660d0.dir/build.make CMakeFiles/cmTC_660d0.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-BnajHV“ wird betreten
+        Building C object CMakeFiles/cmTC_660d0.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=lzma_auto_decoder -o CMakeFiles/cmTC_660d0.dir/CheckFunctionExists.c.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-BnajHV/CheckFunctionExists.c
+        Linking C executable cmTC_660d0
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_660d0.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=lzma_auto_decoder CMakeFiles/cmTC_660d0.dir/CheckFunctionExists.c.o -o cmTC_660d0  /usr/lib/liblzma.so
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-BnajHV“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckLibraryExists.cmake:112 (try_compile)"
+      - "/usr/share/cmake/Modules/FindLibLZMA.cmake:101 (check_library_exists)"
+      - "iostreams/CMakeLists.txt:16 (find_package)"
+      - "iostreams/CMakeLists.txt:40 (boost_iostreams_option)"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-DY6skt"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-DY6skt"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "LIBLZMA_HAS_EASY_ENCODER"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-DY6skt'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_81dc0/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_81dc0.dir/build.make CMakeFiles/cmTC_81dc0.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-DY6skt“ wird betreten
+        Building C object CMakeFiles/cmTC_81dc0.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=lzma_easy_encoder -o CMakeFiles/cmTC_81dc0.dir/CheckFunctionExists.c.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-DY6skt/CheckFunctionExists.c
+        Linking C executable cmTC_81dc0
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_81dc0.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=lzma_easy_encoder CMakeFiles/cmTC_81dc0.dir/CheckFunctionExists.c.o -o cmTC_81dc0  /usr/lib/liblzma.so
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-DY6skt“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckLibraryExists.cmake:112 (try_compile)"
+      - "/usr/share/cmake/Modules/FindLibLZMA.cmake:102 (check_library_exists)"
+      - "iostreams/CMakeLists.txt:16 (find_package)"
+      - "iostreams/CMakeLists.txt:40 (boost_iostreams_option)"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-W9Ay8Y"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-W9Ay8Y"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "LIBLZMA_HAS_LZMA_PRESET"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-W9Ay8Y'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_eba0a/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_eba0a.dir/build.make CMakeFiles/cmTC_eba0a.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-W9Ay8Y“ wird betreten
+        Building C object CMakeFiles/cmTC_eba0a.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=lzma_lzma_preset -o CMakeFiles/cmTC_eba0a.dir/CheckFunctionExists.c.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-W9Ay8Y/CheckFunctionExists.c
+        Linking C executable cmTC_eba0a
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eba0a.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=lzma_lzma_preset CMakeFiles/cmTC_eba0a.dir/CheckFunctionExists.c.o -o cmTC_eba0a  /usr/lib/liblzma.so
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-W9Ay8Y“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/FindThreads.cmake:97 (check_c_source_compiles)"
+      - "/usr/share/cmake/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake:78 (find_package)"
+      - "/usr/lib/cmake/zstd/zstdConfig.cmake:39 (find_dependency)"
+      - "iostreams/CMakeLists.txt:16 (find_package)"
+      - "iostreams/CMakeLists.txt:41 (boost_iostreams_option)"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-2Mfdux"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-2Mfdux"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-2Mfdux'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e6f5c/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_e6f5c.dir/build.make CMakeFiles/cmTC_e6f5c.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-2Mfdux“ wird betreten
+        Building C object CMakeFiles/cmTC_e6f5c.dir/src.c.o
+        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_e6f5c.dir/src.c.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-2Mfdux/src.c
+        Linking C executable cmTC_e6f5c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e6f5c.dir/link.txt --verbose=1
+        /usr/bin/cc CMakeFiles/cmTC_e6f5c.dir/src.c.o -o cmTC_e6f5c
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-2Mfdux“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "iostreams/CMakeLists.txt:51 (check_cxx_source_compiles)"
+      - "iostreams/CMakeLists.txt:60 (iostreams_check)"
+    checks:
+      - "Performing Test BOOST_IOSTREAMS_HAS_LZMA_CPUTHREADS"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-4i9LCn"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-4i9LCn"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "BOOST_IOSTREAMS_HAS_LZMA_CPUTHREADS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-4i9LCn'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_56d14/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_56d14.dir/build.make CMakeFiles/cmTC_56d14.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-4i9LCn“ wird betreten
+        Building CXX object CMakeFiles/cmTC_56d14.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_IOSTREAMS_HAS_LZMA_CPUTHREADS -I/home/markus/Projekte/s25rttr-android/app/jni/boost/iostreams/build  -o CMakeFiles/cmTC_56d14.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-4i9LCn/src.cxx
+        Linking CXX executable cmTC_56d14
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_56d14.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_56d14.dir/src.cxx.o -o cmTC_56d14  /usr/lib/liblzma.so
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-4i9LCn“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "nowide/CMakeLists.txt:56 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_NOWIDE_HAS_LFS"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-GHhKHG"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-GHhKHG"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/markus/Projekte/s25rttr-android/app/jni/boost/nowide/cmake"
+    buildResult:
+      variable: "BOOST_NOWIDE_HAS_LFS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-GHhKHG'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_0480c/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_0480c.dir/build.make CMakeFiles/cmTC_0480c.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-GHhKHG“ wird betreten
+        Building CXX object CMakeFiles/cmTC_0480c.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_NOWIDE_HAS_LFS   -o CMakeFiles/cmTC_0480c.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-GHhKHG/src.cxx
+        Linking CXX executable cmTC_0480c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0480c.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_0480c.dir/src.cxx.o -o cmTC_0480c
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-GHhKHG“ wird verlassen
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "nowide/CMakeLists.txt:58 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test BOOST_NOWIDE_HAS_INIT_PRIORITY"
+    directories:
+      source: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-NFG1Kt"
+      binary: "/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-NFG1Kt"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/markus/Projekte/s25rttr-android/app/jni/boost/nowide/cmake"
+    buildResult:
+      variable: "BOOST_NOWIDE_HAS_INIT_PRIORITY"
+      cached: true
+      stdout: |
+        Change Dir: '/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-NFG1Kt'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_1e63e/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_1e63e.dir/build.make CMakeFiles/cmTC_1e63e.dir/build
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-NFG1Kt“ wird betreten
+        Building CXX object CMakeFiles/cmTC_1e63e.dir/src.cxx.o
+        /usr/bin/c++ -DBOOST_NOWIDE_HAS_INIT_PRIORITY   -o CMakeFiles/cmTC_1e63e.dir/src.cxx.o -c /home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-NFG1Kt/src.cxx
+        Linking CXX executable cmTC_1e63e
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e63e.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_1e63e.dir/src.cxx.o -o cmTC_1e63e
+        make[1]: Verzeichnis „/home/markus/Projekte/s25rttr-android/app/jni/boost/bld/CMakeFiles/CMakeScratch/TryCompile-NFG1Kt“ wird verlassen
+        
+      exitCode: 0
+...
