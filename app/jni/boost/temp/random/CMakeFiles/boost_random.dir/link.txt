@@ -1,0 +1,2 @@
+/usr/bin/ar qc libboost_random.a CMakeFiles/boost_random.dir/src/random_device.cpp.o
+/usr/bin/ranlib libboost_random.a

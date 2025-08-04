@@ -1,0 +1,2 @@
+/usr/bin/ar qc libboost_atomic.a CMakeFiles/boost_atomic.dir/src/lock_pool.cpp.o CMakeFiles/boost_atomic.dir/src/find_address_sse2.cpp.o CMakeFiles/boost_atomic.dir/src/find_address_sse41.cpp.o
+/usr/bin/ranlib libboost_atomic.a

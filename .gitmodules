@@ -190,3 +190,27 @@
 [submodule "app/jni/boost/align"]
 	path = app/jni/boost/align
 	url = https://github.com/boostorg/align
+[submodule "app/jni/boost/locale"]
+	path = app/jni/boost/locale
+	url = https://github.com/boostorg/locale
+[submodule "app/jni/boost/thread"]
+	path = app/jni/boost/thread
+	url = https://github.com/boostorg/thread
+[submodule "app/jni/boost/chrono"]
+	path = app/jni/boost/chrono
+	url = https://github.com/boostorg/chrono
+[submodule "app/jni/boost/ratio"]
+	path = app/jni/boost/ratio
+	url = https://github.com/boostorg/ratio
+[submodule "app/jni/boost/date_time"]
+	path = app/jni/boost/date_time
+	url = https://github.com/boostorg/date_time
+[submodule "app/jni/boost/endian"]
+	path = app/jni/boost/endian
+	url = https://github.com/boostorg/endian
+[submodule "app/jni/boost/ptr_container"]
+	path = app/jni/boost/ptr_container
+	url = https://github.com/boostorg/ptr_container
+[submodule "app/jni/boost/format"]
+	path = app/jni/boost/format
+	url = https://github.com/boostorg/format

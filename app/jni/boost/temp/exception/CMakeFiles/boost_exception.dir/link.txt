@@ -1,0 +1,2 @@
+/usr/bin/ar qc libboost_exception.a CMakeFiles/boost_exception.dir/src/clone_current_exception_non_intrusive.cpp.o
+/usr/bin/ranlib libboost_exception.a

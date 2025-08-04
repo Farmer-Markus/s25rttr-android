@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 
 project(boost-android)
+add_compile_options(-Wno-error=deprecated-copy)
 
 set(BOOST_LIBS 
     filesystem
@@ -58,12 +59,32 @@ set(BOOST_LIBS
     functional
     winapi
     align
+    locale
+    thread
+    chrono
+    ratio
+    date_time
+    endian
+    ptr_container
+    format
 )
 
-# Include boost libs
+set(INCLUDE_DEST "${CMAKE_BINARY_DIR}/boost")
+file(MAKE_DIRECTORY ${INCLUDE_DEST}) # Should already exist
+
+add_library(Boost::boost INTERFACE IMPORTED GLOBAL)
+target_include_directories(Boost::boost INTERFACE "${INCLUDE_DEST}/include")
+
+add_library(Boost::disable_autolinking INTERFACE IMPORTED GLOBAL)
+
 foreach(LIB IN LISTS BOOST_LIBS)
   add_subdirectory(${LIB})
+  file(COPY "${LIB}/include" DESTINATION "${INCLUDE_DEST}")
 endforeach()
 
-# Create include folder
+set(Boost_INCLUDE_DIR "${INCLUDE_DEST}/include" CACHE PATH "Boost include dir" FORCE)
 
+#target_include_directories(boost_ INTERFACE "${INCLUDE_DEST}/include")
+
+# because external/libutil does NOT include Boost::boost but wants a header
+target_include_directories(boost_filesystem INTERFACE "${INCLUDE_DEST}/include")
