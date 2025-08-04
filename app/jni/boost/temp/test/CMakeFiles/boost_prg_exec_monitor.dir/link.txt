@@ -1,2 +1,0 @@
-/usr/bin/ar qc libboost_prg_exec_monitor.a CMakeFiles/boost_prg_exec_monitor.dir/src/cpp_main.cpp.o CMakeFiles/boost_prg_exec_monitor.dir/src/debug.cpp.o CMakeFiles/boost_prg_exec_monitor.dir/src/execution_monitor.cpp.o
-/usr/bin/ranlib libboost_prg_exec_monitor.a
