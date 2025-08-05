@@ -214,3 +214,21 @@
 [submodule "app/jni/boost/format"]
 	path = app/jni/boost/format
 	url = https://github.com/boostorg/format
+[submodule "app/jni/boost/circular_buffer"]
+	path = app/jni/boost/circular_buffer
+	url = https://github.com/boostorg/circular_buffer
+[submodule "app/jni/boost/dll"]
+	path = app/jni/boost/dll
+	url = https://github.com/boostorg/dll
+[submodule "app/jni/boost/signals2"]
+	path = app/jni/boost/signals2
+	url = https://github.com/boostorg/signals2
+[submodule "app/jni/boost/variant"]
+	path = app/jni/boost/variant
+	url = https://github.com/boostorg/variant
+[submodule "app/jni/boost/parameter"]
+	path = app/jni/boost/parameter
+	url = https://github.com/boostorg/parameter
+[submodule "app/jni/boost/interprocess"]
+	path = app/jni/boost/interprocess
+	url = https://github.com/boostorg/interprocess

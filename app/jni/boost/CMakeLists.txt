@@ -67,6 +67,12 @@ set(BOOST_LIBS
     endian
     ptr_container
     format
+    circular_buffer
+    dll
+    signals2
+    variant
+    parameter
+    interprocess
 )
 
 set(INCLUDE_DEST "${CMAKE_BINARY_DIR}/boost")
