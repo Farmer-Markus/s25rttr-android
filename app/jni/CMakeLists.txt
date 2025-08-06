@@ -49,4 +49,6 @@ add_subdirectory(bzip2)
 add_library(BZip2::BZip2 ALIAS bz2)
 target_include_directories(bz2 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/bzip2)
 
+set(RTTR_DATADIR "../../../../src/main/assets/share/s25rttr" CACHE PATH "Android assets dir" FORCE)
+set(DEFAULT_GAMEDIR "${RTTR_DATADIR}/S2" CACHE PATH "S2 original game data" FORCE)
 add_subdirectory(s25client)

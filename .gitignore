@@ -1,3 +1,7 @@
+local.properties
+build
 .gradle
+.idea
 app/build
 app/.cxx
+app/src/main/assets/**
