@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">s25rttr</string>
+    <string name="app_name" translatable="false">s25rttr</string>
+    <string name="config_caption">Settlers 2 Return to the Roots configuration</string>
+    <string name="config_folder_text">Game folder:</string>
+    <string name="config_folder_pick_button">Choose</string>
+    <string name="config_name_text">Default username:</string>
+    <string name="config_launch_game_button">Save/Launch</string>
 </resources>

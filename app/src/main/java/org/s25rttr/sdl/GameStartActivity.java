@@ -16,6 +16,7 @@ public class GameStartActivity extends Activity {
         startActivity(config);
         finish();
 
+        /*
         try {
             Os.setenv("HOME", getFilesDir().getAbsolutePath(), true);
             Os.setenv("USER", "android", true);
@@ -25,6 +26,6 @@ public class GameStartActivity extends Activity {
 
         Intent intent = new Intent(this, org.libsdl.app.SDLActivity.class);
         startActivity(intent);
-        finish();
+        finish();*/
     }
 }

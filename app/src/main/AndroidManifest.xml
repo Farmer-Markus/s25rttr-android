@@ -95,8 +95,9 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".GameConfigActivity" android:exported="true">
-
+        <activity android:name=".GameConfigActivity"
+            android:exported="true"
+            android:theme="@style/GameConfigTheme">
         </activity>
         <activity android:name=".GameStartActivity" android:exported="true">
             <intent-filter>

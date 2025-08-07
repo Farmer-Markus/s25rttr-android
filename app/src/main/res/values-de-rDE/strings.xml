@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="config_caption">Die Siedler 2 Return to the Roots konfiguration</string>
+    <string name="config_folder_text">Spiel Ordner:</string>
+    <string name="config_name_text">Standart Benutzername:</string>
+    <string name="config_launch_game_button">Speichern/Starten</string>
+</resources>

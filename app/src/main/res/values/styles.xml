@@ -4,4 +4,8 @@
     <style name="AppTheme" parent="android:Theme.NoTitleBar.Fullscreen">
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="GameConfigTheme" parent="android:Theme.Material.Light.NoActionBar">
+
+    </style>
 </resources>
