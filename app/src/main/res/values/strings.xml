@@ -5,4 +5,6 @@
     <string name="config_folder_pick_button">Choose</string>
     <string name="config_name_text">Default username:</string>
     <string name="config_launch_game_button">Save/Launch</string>
+    <string name="alert_file_write_error">Please check if the chosen directory is writable and all permissions are accepted.</string>
+    <string name="shortcut_config_name">Configure</string>
 </resources>

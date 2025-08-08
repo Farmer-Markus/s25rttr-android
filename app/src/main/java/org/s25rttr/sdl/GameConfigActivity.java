@@ -4,18 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import org.s25rttr.sdl.utils.Data;
+import org.s25rttr.sdl.utils.Permission;
 
 public class GameConfigActivity extends Activity {
     private static Data data = new Data();
 
+    private boolean waitingForPermission = false;
+    private boolean startedByShortcut = false;
+
     private static final int FILE_PICKER_CODE = 1;
-    private static final int PERMISSION_MANAGER_CODE = 2;
+    private static final int PERMISSION_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,8 @@ public class GameConfigActivity extends Activity {
 
         setContentView(R.layout.game_config_main);
         View view = findViewById(R.id.mainLayout);
+
+        startedByShortcut = getIntent().getBooleanExtra("shortcut", false);
 
         // Loads saved data into the UI
         loadData();
@@ -36,8 +41,15 @@ public class GameConfigActivity extends Activity {
         button = findViewById(R.id.launchGameButton);
         button.setOnClickListener(v -> {
             saveData();
+            if(startedByShortcut) {
+                startActivity(new Intent(this, GameStartActivity.class));
+            }
             finish();
         });
+
+
+        if(!Permission.checkPermission(this))
+            Permission.requestPermission(this, PERMISSION_CODE);
     }
 
     @Override
@@ -50,6 +62,20 @@ public class GameConfigActivity extends Activity {
                 data.gameFolder = data.getRealPath(uri);
                 reloadUi();
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // When returning from requesting permission
+        if(waitingForPermission) {
+            waitingForPermission = false;
+
+            reloadUi();
+            if(!Permission.checkPermission(this))
+                Permission.requestPermission(this, PERMISSION_CODE);
         }
     }
 
