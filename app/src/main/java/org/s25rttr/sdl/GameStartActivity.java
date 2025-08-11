@@ -12,6 +12,8 @@ import org.libsdl.app.SDLActivity;
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Filesystem;
 
+import java.io.File;
+
 public class GameStartActivity extends Activity {
 
     @Override
@@ -19,18 +21,6 @@ public class GameStartActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         checkValues();
-
-        /*
-        try {
-            Os.setenv("HOME", getFilesDir().getAbsolutePath(), true);
-            Os.setenv("USER", "android", true);
-        } catch (ErrnoException e) {
-            throw new RuntimeException(e);
-        }
-
-        Intent intent = new Intent(this, org.libsdl.app.SDLActivity.class);
-        startActivity(intent);
-        finish();*/
     }
 
     protected void onResume() {
@@ -56,9 +46,16 @@ public class GameStartActivity extends Activity {
         try {
             Os.setenv("HOME", data.gameFolder, true);
             Os.setenv("USER", data.defaultName, true);
+            Os.setenv("libDir", getCacheDir().toString() + "/lib/s25rttr/driver/", true);
 
         } catch (ErrnoException e) {
             throw new RuntimeException(e);
+        }
+
+        if(!Filesystem.prepareDrivers(this, true)) {
+            alertDialog("Filesystem error", "Failed to create symlinks in app cache.",
+                    ()->{finish();});
+            return;
         }
 
         startActivity(new Intent(this, SDLActivity.class));

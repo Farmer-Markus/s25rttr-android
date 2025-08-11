@@ -232,3 +232,6 @@
 [submodule "app/jni/boost/interprocess"]
 	path = app/jni/boost/interprocess
 	url = https://github.com/boostorg/interprocess
+[submodule "app/jni/gl4es"]
+	path = app/jni/gl4es
+	url = https://github.com/Farmer-Markus/gl4es

@@ -21,6 +21,7 @@ function(remove_clang_flag flag)
   endforeach()
 endfunction()
 
+
 add_subdirectory(SDL)
 add_subdirectory(SDL_mixer)
 # RTTR's audio driver does not link to sdl but tries to include the sdl header
@@ -31,6 +32,7 @@ add_library(SDL_mixer::SDL_mixer ALIAS SDL2_mixer)
 remove_clang_flag("-Werror")
 remove_clang_flag("-Werror=deprecated-copy")
 remove_clang_flag("-Wdeprecated-copy")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 add_compile_options(-Wno-error=deprecated-copy -Wno-error=missing-noreturn -Wno-error=undef)
 add_subdirectory(boost)
 
@@ -41,7 +43,7 @@ file(GLOB INCLUDE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/miniupnpc/include/*")
 file(COPY ${INCLUDE_FILES} DESTINATION "${INCLUDE_DEST}")
 
 set(MINIUPNPC_LIBRARY libminiupnpc-static CACHE PATH "Miniupnpc library" FORCE)
-set(MINIUPNPC_INCLUDE_DIR "${CMAKE_BINARY_DIR}/miniupnpc/include" CACHE PATH "Miniupnpc include dir" FORCE)
+set(MINIUPNPC_INCLUDE_DIR "${CMAKE_BINARY_DIR}/miniupnpc/include" CACHE STRING "Miniupnpc include dir" FORCE)
 
 add_subdirectory(lua)
 
@@ -49,6 +51,11 @@ add_subdirectory(bzip2)
 add_library(BZip2::BZip2 ALIAS bz2)
 target_include_directories(bz2 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/bzip2)
 
-set(RTTR_DATADIR "../../../../src/main/assets/share/s25rttr" CACHE PATH "Android assets dir" FORCE)
-set(DEFAULT_GAMEDIR "${RTTR_DATADIR}/S2" CACHE PATH "S2 original game data" FORCE)
+# Opengl2.* to Opengl es translation library
+add_subdirectory(gl4es)
+target_include_directories(GL PUBLIC "${CMAKE_SOURCE_DIR}/gl4es/include")
+
+set(RTTR_DATA_DEST_DIR "../../../../src/main/assets/share/s25rttr" CACHE STRING "Android assets dir" FORCE)
+set(DEFAULT_GAMEDIR "${RTTR_DATA_DEST_DIR}/S2" CACHE STRING "S2 original game data" FORCE)
+#set(RTTR_OGL_ES TRUE CACHE STRING "Use opengl es" FORCE)
 add_subdirectory(s25client)
