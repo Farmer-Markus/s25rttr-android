@@ -7,4 +7,6 @@
     <string name="config_launch_game_button">Save/Launch</string>
     <string name="alert_file_write_error">Please check if the chosen directory is writable and all permissions are accepted.</string>
     <string name="shortcut_config_name">Configure</string>
+    <string name="config_question_discard_changes_title">Discard changes?</string>
+    <string name="config_question_discard_changes_message">Do you want to exit without saving? Your changed values will not be saved!</string>
 </resources>

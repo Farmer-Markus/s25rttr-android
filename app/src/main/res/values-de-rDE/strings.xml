@@ -6,4 +6,6 @@
     <string name="config_launch_game_button">Speichern/Starten</string>
     <string name="alert_file_write_error">Bitte überprüfe, ob der ausgesuchte Ordner beschreibbar ist und alle Permissions aktzeptiert wurden.</string>
     <string name="shortcut_config_name">Konfigurieren</string>
+    <string name="config_question_discard_changes_title">Änderungen verwerfen?</string>
+    <string name="config_question_discard_changes_message">Möchtes du die Konfiguration ohne speichern verlassen? Deine Änderungen werden nicht gespeichert!</string>
 </resources>

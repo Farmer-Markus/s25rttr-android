@@ -2,7 +2,6 @@ package org.s25rttr.sdl;
 
 import android.app.Activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.system.ErrnoException;
@@ -11,8 +10,9 @@ import android.system.Os;
 import org.libsdl.app.SDLActivity;
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Filesystem;
+import org.s25rttr.sdl.utils.Ui;
 
-import java.io.File;
+import java.io.IOException;
 
 public class GameStartActivity extends Activity {
 
@@ -38,7 +38,7 @@ public class GameStartActivity extends Activity {
         }
         if (!Filesystem.pathIsWritable(data.gameFolder)) {
 
-            alertDialog("Filesystem error", getString(R.string.alert_file_write_error),
+            Ui.alertDialog(this, "Filesystem error", getString(R.string.alert_file_write_error),
                     ()->{startActivity(new Intent(this, GameConfigActivity.class));});
             return;
         }
@@ -52,31 +52,19 @@ public class GameStartActivity extends Activity {
             throw new RuntimeException(e);
         }
 
-        if(!Filesystem.prepareDrivers(this, true)) {
-            alertDialog("Filesystem error", "Failed to create symlinks in app cache.",
-                    ()->{finish();});
+        try {
+            if (!Filesystem.prepareDrivers(this, true)) {
+                Ui.alertDialog(this, "Filesystem error", "Failed to create symlinks in app cache.",
+                        this::finish);
+                return;
+            }
+        } catch (IOException e) {
+            Ui.alertDialog(this, "Filesystem error", "Failed to create symlinks in app cache: " + e,
+                    this::finish);
             return;
         }
 
         startActivity(new Intent(this, SDLActivity.class));
         finish();
-    }
-
-
-    private void alertDialog(String title, String message, alertCallback callback) {
-        new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message)
-                .setCancelable(false)
-                .setPositiveButton("OK", (dialog, which) -> {
-                    dialog.dismiss();
-                    if(callback != null) {
-                        callback.onOkPressed();
-                    }
-                }).show();
-    }
-
-    private interface alertCallback {
-        void onOkPressed();
     }
 }

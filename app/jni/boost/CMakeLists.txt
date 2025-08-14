@@ -85,7 +85,6 @@ foreach(LIB IN LISTS BOOST_LIBS)
   endif()
 endforeach()
 
-#file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/include" DESTINATION "${INCLUDE_DEST}")
 set(Boost_INCLUDE_DIR "${INCLUDE_DEST}/include" CACHE PATH "Boost include dir" FORCE)
 add_library(Boost::boost INTERFACE IMPORTED GLOBAL)
 target_include_directories(Boost::boost INTERFACE "${INCLUDE_DEST}/include")
@@ -93,11 +92,9 @@ target_include_directories(Boost::boost INTERFACE "${INCLUDE_DEST}/include")
 add_library(Boost::disable_autolinking INTERFACE IMPORTED GLOBAL)
 include_directories("${INCLUDE_DEST}/include")
 
-#target_include_directories(boost_ INTERFACE "${INCLUDE_DEST}/include")
-
-# because external/libutil does NOT include Boost::boost but wants a header
-
 foreach(LIB IN LISTS BOOST_LIBS)
   add_subdirectory(${LIB})
 endforeach()
+
+# because external/libutil does NOT include Boost::boost but wants a header
 target_include_directories(boost_filesystem INTERFACE "${INCLUDE_DEST}/include")

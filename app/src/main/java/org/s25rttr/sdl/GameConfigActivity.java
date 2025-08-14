@@ -3,16 +3,19 @@ package org.s25rttr.sdl;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.window.OnBackInvokedDispatcher;
 
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Permission;
+import org.s25rttr.sdl.utils.Ui;
 
 public class GameConfigActivity extends Activity {
-    private static Data data = new Data();
+    private static final Data data = new Data();
 
     private boolean waitingForPermission = false;
     private boolean startedByShortcut = false;
@@ -27,10 +30,20 @@ public class GameConfigActivity extends Activity {
         setContentView(R.layout.game_config_main);
         View view = findViewById(R.id.mainLayout);
 
+
         startedByShortcut = getIntent().getBooleanExtra("shortcut", false);
 
+        if(Build.VERSION.SDK_INT >= 33) {
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                    OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                    ()->{
+                        if(!backPressed()) super.getOnBackInvokedDispatcher();
+                    }
+            );
+        }
+
         // Loads saved data into the UI
-        loadData();
+        loadData(data);
 
         Button button = findViewById(R.id.launchGameButton);
         button = findViewById(R.id.folderPickButton);
@@ -40,7 +53,9 @@ public class GameConfigActivity extends Activity {
 
         button = findViewById(R.id.launchGameButton);
         button.setOnClickListener(v -> {
-            saveData();
+            getData(data);
+            data.saveSettings(this);
+
             if(startedByShortcut) {
                 startActivity(new Intent(this, GameStartActivity.class));
             }
@@ -50,6 +65,20 @@ public class GameConfigActivity extends Activity {
 
         if(!Permission.checkPermission(this))
             Permission.requestPermission(this, PERMISSION_CODE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!backPressed()) super.onBackPressed();
+    }
+
+    private boolean backPressed() {
+        if(dataChanged()) {
+            Ui.questionDialog(this, getString(R.string.config_question_discard_changes_title), getString(R.string.config_question_discard_changes_message), this::finish, null);
+        } else {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -84,18 +113,22 @@ public class GameConfigActivity extends Activity {
         startActivityForResult(intent, FILE_PICKER_CODE);
     }
 
-    private void loadData() {
+    private void loadData(Data data) {
         data.loadSettings(this);
         reloadUi();
     }
 
-    private void saveData() {
+    private void getData(Data data) {
         EditText editText = findViewById(R.id.folderTextInput);
         data.gameFolder = editText.getText().toString();
         editText = findViewById(R.id.nameTextInput);
         data.defaultName = editText.getText().toString();
+    }
 
-        data.saveSettings(this);
+    private boolean dataChanged() {
+        Data newData = new Data();
+        getData(newData);
+        return !newData.equals(data);
     }
 
     private void reloadUi() {

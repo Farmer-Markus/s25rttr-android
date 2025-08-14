@@ -5,11 +5,21 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 
 public class Data {
     public String gameFolder;
     public String defaultName;
+
+    @Override
+    public boolean equals(Object o) {
+        // Basic quals operation
+        if(this == o) return true;
+        if(!(o instanceof Data)) return false;
+
+        // Looks if content is the same
+        Data obj = (Data)o;
+        return gameFolder.equals(obj.gameFolder) && defaultName.equals(obj.defaultName);
+    }
 
     public void saveSettings(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("game_config", MODE_PRIVATE);
