@@ -15,10 +15,6 @@
 [submodule "app/jni/bzip2"]
 	path = app/jni/bzip2
 	url = https://gitlab.com/bzip2/bzip2
-[submodule "app/jni/s25client"]
-	path = app/jni/s25client
-	url = https://github.com/Farmer-Markus/s25client
-	branch = android
 [submodule "app/jni/boost/test"]
 	path = app/jni/boost/test
 	url = https://github.com/boostorg/test
