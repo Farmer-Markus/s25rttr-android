@@ -231,7 +231,3 @@
 [submodule "app/jni/gl4es"]
 	path = app/jni/gl4es
 	url = https://github.com/Farmer-Markus/gl4es
-[submodule "app/jni/s25client"]
-	path = app/jni/s25client
-	url = https://github.com/Farmer-Markus/s25client
-	branch = android
