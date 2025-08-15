@@ -5,3 +5,5 @@ build
 app/build
 app/.cxx
 app/src/main/assets/**
+
+app/jni/s25client
