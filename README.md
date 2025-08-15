@@ -11,3 +11,7 @@ Changed submodules:
  - [libutil](https://github.com/Return-To-The-Roots/libutil)
  - [mygettext](https://github.com/Farmer-Markus/mygettext)
  - [turtle](https://github.com/Farmer-Markus/turtle)
+
+Merken:
+
+- Aus .gitignore den s25client wieder raus nehmen!
