@@ -36,8 +36,8 @@ public class Filesystem {
         File libDir = new File(context.getApplicationInfo().nativeLibraryDir);
         File cacheDir = context.getCacheDir();
 
-        File videoDir = new File(cacheDir, "lib/s25rttr/driver/video");
-        File audioDir = new File(cacheDir, "lib/s25rttr/driver/audio");
+        File videoDir = new File(cacheDir, "driver/video");
+        File audioDir = new File(cacheDir, "driver/audio");
 
         File videoDest = new File(videoDir, "libvideoSDL2.so");
         File audioDest = new File(audioDir, "libaudioSDL.so");

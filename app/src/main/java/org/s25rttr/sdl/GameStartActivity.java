@@ -3,10 +3,12 @@ package org.s25rttr.sdl;
 import android.app.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.system.ErrnoException;
 import android.system.Os;
 
+import org.libsdl.app.SDL;
 import org.libsdl.app.SDLActivity;
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Filesystem;
@@ -15,6 +17,7 @@ import org.s25rttr.sdl.utils.Ui;
 import java.io.IOException;
 
 public class GameStartActivity extends Activity {
+    private static final int SDL_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,15 @@ public class GameStartActivity extends Activity {
         super.onResume();
 
         checkValues();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        // Returned from sdl activity
+        if(requestCode == SDL_CODE) {
+            finishAffinity();
+            System.exit(0);
+        }
     }
 
     private void checkValues() {
@@ -44,9 +56,17 @@ public class GameStartActivity extends Activity {
         }
 
         try {
+            // Set home dir to save Logs/configs
             Os.setenv("HOME", data.gameFolder, true);
+            
+            // Set default system user name
             Os.setenv("USER", data.defaultName, true);
-            Os.setenv("libDir", getCacheDir().toString() + "/lib/s25rttr/driver/", true);
+            
+            // Set the dir to search for game data
+            Os.setenv("RTTR_PREFIX_DIR", data.gameFolder, true);
+            
+            // Set driver dir for rttr
+            Os.setenv("RTTR_DRIVER_DIR", getCacheDir().toString() + "/driver", true);
 
         } catch (ErrnoException e) {
             throw new RuntimeException(e);
@@ -64,7 +84,7 @@ public class GameStartActivity extends Activity {
             return;
         }
 
-        startActivity(new Intent(this, SDLActivity.class));
-        finish();
+        // For result to make the app start this activity when clicket on app overview instead of sdl activity
+        startActivityForResult(new Intent(this, SDLActivity.class), SDL_CODE);
     }
 }
