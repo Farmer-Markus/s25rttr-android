@@ -2,14 +2,18 @@ package org.s25rttr.sdl;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.window.OnBackInvokedDispatcher;
 
+import org.s25rttr.sdl.utils.Filesystem;
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Permission;
 import org.s25rttr.sdl.utils.Ui;
@@ -88,7 +92,7 @@ public class GameConfigActivity extends Activity {
             Uri uri = null;
             if(resultData != null) {
                 uri = resultData.getData();
-                data.gameFolder = data.getRealPath(uri);
+                data.gameFolder =  Filesystem.getRealPath(uri);
                 reloadUi();
             }
         }
@@ -123,6 +127,10 @@ public class GameConfigActivity extends Activity {
         data.gameFolder = editText.getText().toString();
         editText = findViewById(R.id.nameTextInput);
         data.defaultName = editText.getText().toString();
+
+        Spinner spinner = findViewById(R.id.orientationInput);
+        Ui.SpinnerItem item = (Ui.SpinnerItem)spinner.getAdapter().getItem(spinner.getSelectedItemPosition());
+        data.orientation = item.id;
     }
 
     private boolean dataChanged() {
@@ -136,6 +144,25 @@ public class GameConfigActivity extends Activity {
         editText.setText(data.gameFolder);
         editText = findViewById(R.id.nameTextInput);
         editText.setText(data.defaultName);
+
+        Spinner spinner = findViewById(R.id.orientationInput);
+        Ui.SpinnerItem[] orientations = {
+                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE, getString(R.string.config_orientation_dynamic_landscape)),
+                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT, getString(R.string.config_orientation_dynamic_portrait)),
+                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, getString(R.string.config_orientation_landscape)),
+                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, getString(R.string.config_orientation_portrait)),
+                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE, getString(R.string.config_orientation_reverse_landscape)),
+                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT, getString(R.string.config_orientation_reverse_portrait))
+        };
+
+        ArrayAdapter<Ui.SpinnerItem> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                orientations
+        );
+
+        spinner.setAdapter(adapter);
+        Ui.SpinnerItem.selectItemWithId(spinner, data.orientation);
     }
 
 }

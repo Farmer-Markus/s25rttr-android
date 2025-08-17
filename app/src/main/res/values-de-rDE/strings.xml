@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="config_caption">Die Siedler 2 Return to the Roots konfiguration</string>
+    <string name="config_caption">Die Siedler 2 Return to the Roots Konfiguration</string>
     <string name="config_folder_text">Spiel Ordner:</string>
     <string name="config_name_text">Standart Benutzername:</string>
     <string name="config_launch_game_button">Speichern/Starten</string>
@@ -8,4 +8,11 @@
     <string name="shortcut_config_name">Konfigurieren</string>
     <string name="config_question_discard_changes_title">Änderungen verwerfen?</string>
     <string name="config_question_discard_changes_message">Möchtes du die Konfiguration ohne speichern verlassen? Deine Änderungen werden nicht gespeichert!</string>
+    <string name="config_orientation_text">Ausrichtung:</string>
+    <string name="config_orientation_dynamic_landscape">Dynamisches Querformat (Standart)</string>
+    <string name="config_orientation_dynamic_portrait">Dynamisches Hochformat</string>
+    <string name="config_orientation_landscape">Querformat</string>
+    <string name="config_orientation_portrait">Hochformat</string>
+    <string name="config_orientation_reverse_landscape">Umgekehrtes Querformat</string>
+    <string name="config_orientation_reverse_portrait">Umgekehrtes Hochformat</string>
 </resources>

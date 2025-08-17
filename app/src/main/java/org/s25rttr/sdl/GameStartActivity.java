@@ -3,18 +3,19 @@ package org.s25rttr.sdl;
 import android.app.Activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.system.ErrnoException;
 import android.system.Os;
 
-import org.libsdl.app.SDL;
-import org.libsdl.app.SDLActivity;
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Filesystem;
 import org.s25rttr.sdl.utils.Ui;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Locale;
 
 public class GameStartActivity extends Activity {
     private static final int SDL_CODE = 1;
@@ -51,8 +52,17 @@ public class GameStartActivity extends Activity {
         if (!Filesystem.pathIsWritable(data.gameFolder)) {
 
             Ui.alertDialog(this, "Filesystem error", getString(R.string.alert_file_write_error),
-                    ()->{startActivity(new Intent(this, GameConfigActivity.class));});
+                    ()->{startActivity(new Intent(this, GameConfigActivity.class));
+            });
             return;
+        }
+
+        if(!Files.exists(Paths.get(data.gameFolder).resolve("share"))) {
+            try {
+                Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         try {
@@ -61,6 +71,8 @@ public class GameStartActivity extends Activity {
             
             // Set default system user name
             Os.setenv("USER", data.defaultName, true);
+
+            Os.setenv("LANG", Locale.getDefault().toString(), true);
             
             // Set the dir to search for game data
             Os.setenv("RTTR_PREFIX_DIR", data.gameFolder, true);
@@ -84,7 +96,10 @@ public class GameStartActivity extends Activity {
             return;
         }
 
+        Intent intent = new Intent(this, SDLActivity.class);
+        intent.putExtra("rotation", data.orientation);
+
         // For result to make the app start this activity when clicket on app overview instead of sdl activity
-        startActivityForResult(new Intent(this, SDLActivity.class), SDL_CODE);
+        startActivityForResult(intent, SDL_CODE);
     }
 }

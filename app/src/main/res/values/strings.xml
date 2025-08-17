@@ -9,4 +9,11 @@
     <string name="shortcut_config_name">Configure</string>
     <string name="config_question_discard_changes_title">Discard changes?</string>
     <string name="config_question_discard_changes_message">Do you want to exit without saving? Your changed values will not be saved!</string>
+    <string name="config_orientation_text">Orientation:</string>
+    <string name="config_orientation_dynamic_landscape">Dynamic landscape (Default)</string>
+    <string name="config_orientation_dynamic_portrait">Dynamic portrait</string>
+    <string name="config_orientation_landscape">Landscape</string>
+    <string name="config_orientation_portrait">Portrait</string>
+    <string name="config_orientation_reverse_landscape">Reverse landscape</string>
+    <string name="config_orientation_reverse_portrait">Reverse portrait</string>
 </resources>

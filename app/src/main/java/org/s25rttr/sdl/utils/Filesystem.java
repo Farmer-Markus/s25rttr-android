@@ -2,6 +2,7 @@ package org.s25rttr.sdl.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.File;
@@ -12,6 +13,47 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 
 public class Filesystem {
+
+    /* Example uri's
+        sdcard: /tree/0000-0000:s25rttr
+        intern: /tree/primary:S25rttr
+
+        we need:
+        /storage/0/ <folder> // Internal storage
+        /storage/<????-????>/ <folder> // Sdcard
+     */
+    public static String getRealPath(Uri uri) {
+        String path = uri.getPath();
+        if(path == null) {
+            return new String("");
+        }
+        // removed "/tree/"
+        path = path.substring(6);
+
+        String storageCode = "";
+        int pathOffset = path.length();
+
+        int i = 0;
+        for(; i < pathOffset; i++) {
+            char c = path.charAt(i);
+            if(c == ':') break;
+
+            storageCode += c;
+        }
+        // Set offset to folder begin
+        pathOffset = i + 1;
+
+        // If internal storage
+        if(storageCode.equals("primary")) {
+            path = "/storage/emulated/0/" + path.substring(pathOffset);
+
+        } else {
+            // Apply sdcard code |
+            path = "/storage/" + storageCode + "/" + path.substring(pathOffset);
+        }
+
+        return path;
+    }
 
     public static boolean pathIsWritable(String path) {
         try {
