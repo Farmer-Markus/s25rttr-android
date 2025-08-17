@@ -1,3 +1,6 @@
+
+## I'm currently rewriting the whole project [here](https://github.com/Farmer-Markus/s25rttr-android/tree/rewrite)
+
 # s25rttr-android
 Unofficial Android port of [s25client](https://github.com/Return-To-The-Roots/s25client).
 
