@@ -125,8 +125,8 @@ public class Filesystem {
         }
 
         // Ensures that destination dirs exist
-        boolean videoSuccsess = videoDir.exists() || videoDest.mkdirs();
-        boolean audioSuccsess = audioDir.exists() || audioDest.mkdirs();
+        boolean videoSuccsess = videoDir.exists() || videoDir.mkdirs();
+        boolean audioSuccsess = audioDir.exists() || audioDir.mkdirs();
 
         if(!videoSuccsess || !audioSuccsess) {
             Log.e("org.s25rttr.sdl", "Filesystem::prepareDrivers: Failed to create video/audio driver cache directory.");

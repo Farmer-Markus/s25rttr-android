@@ -8,6 +8,8 @@ import android.content.pm.ActivityInfo;
 
 
 public class Data {
+    public boolean firstStart;
+    public boolean showExitDialog;
     public String gameFolder;
     public String defaultName;
     public int orientation;
@@ -27,6 +29,8 @@ public class Data {
     public void saveSettings(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("game_config", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("first_start", firstStart);
+        editor.putBoolean("exit_dialog", showExitDialog);
         editor.putString("game_folder", gameFolder);
         editor.putString("default_name", defaultName);
         editor.putInt("orientation", orientation);
@@ -34,6 +38,8 @@ public class Data {
     }
     public void loadSettings(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("game_config", MODE_PRIVATE);
+        firstStart = preferences.getBoolean("first_start", true);
+        showExitDialog = preferences.getBoolean("exit_dialog", true);
         gameFolder = preferences.getString("game_folder", "");
         defaultName = preferences.getString("default_name", "android");
         orientation = preferences.getInt("orientation", ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);

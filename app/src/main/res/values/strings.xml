@@ -26,4 +26,10 @@
     <string name="config_log_view_button">View log</string>
     <string name="textview_up_button">Up</string>
     <string name="textview_down_button">Down</string>
+    <string name="config_log_not_found_text">No logs found</string>
+    <string name="config_inform_exit_dialog">To open this configuration long press on the app icon and choose \"Configure\"</string>
+    <string name="config_inform_not_show_again">Do not show again</string>
+    <string name="config_dialog_yes">Yes</string>
+    <string name="conifg_dialog_no">No</string>
+    <string name="config_alert_select_folder">Please select a valid game folder</string>
 </resources>

@@ -67,8 +67,9 @@ public class GameConfigActivity extends Activity {
         button = findViewById(R.id.logOpenButton);
         button.setOnClickListener(v -> {
             Spinner spinner = findViewById(R.id.logInput);
-            if(spinner.getSelectedItemPosition() >= 0)
+            if(spinner.getSelectedItemPosition() >= 0 && !((Ui.SpinnerItem) spinner.getSelectedItem()).additional.equals("N/a"))
                 Filesystem.openTextFile(this, data.gameFolder + "/.s25rttr/LOGS/" + spinner.getSelectedItem().toString());
+
         });
 
         button = findViewById(R.id.logDeleteButton);
@@ -86,12 +87,20 @@ public class GameConfigActivity extends Activity {
         button = findViewById(R.id.launchGameButton);
         button.setOnClickListener(v -> {
             getData(data);
-            data.saveSettings(this);
-
-            if(startedByShortcut) {
-                startActivity(new Intent(this, GameStartActivity.class));
+            if(data.gameFolder.isEmpty() || !Filesystem.pathIsWritable(data.gameFolder)) {
+                Ui.alertDialog(this, "Info", getString(R.string.config_alert_select_folder), null);
+                return;
             }
-            finish();
+
+            if(data.showExitDialog) {
+                Ui.informDialog(this, "Info", getString(R.string.config_inform_exit_dialog),
+                        this::saveAndExit, ()->{
+                    data.showExitDialog = false;
+                    saveAndExit();
+                });
+            } else {
+                saveAndExit();
+            }
         });
 
 
@@ -106,7 +115,8 @@ public class GameConfigActivity extends Activity {
 
     private boolean backPressed() {
         if(dataChanged()) {
-            Ui.questionDialog(this, getString(R.string.config_question_discard_changes_title), getString(R.string.config_question_discard_changes_message), this::finish, null);
+            Ui.questionDialog(this, getString(R.string.config_question_discard_changes_title),
+                    getString(R.string.config_question_discard_changes_message), this::finish, null);
         } else {
             return false;
         }
@@ -153,6 +163,17 @@ public class GameConfigActivity extends Activity {
             if(!Permission.checkPermission(this))
                 Permission.requestPermission(this, PERMISSION_CODE);
         }
+    }
+
+    private void saveAndExit() {
+        if(startedByShortcut || data.firstStart) {
+            data.firstStart = false;
+            data.saveSettings(this);
+
+            startActivity(new Intent(this, GameStartActivity.class));
+        }
+        data.saveSettings(this);
+        finish();
     }
 
     private void openFilePicker() {
@@ -213,10 +234,12 @@ public class GameConfigActivity extends Activity {
         File logDir = new File(data.gameFolder, ".s25rttr/LOGS");
 
         String[] logNames = logDir.list();
-        if(logNames != null) {
+        if(logNames != null && logNames.length > 0) {
             for (int i = 0; i < logNames.length; i++) {
                 logs.add(new Ui.SpinnerItem(i, logNames[i]));
             }
+        } else {
+            logs.add(new Ui.SpinnerItem(0, getString(R.string.config_log_not_found_text), "N/a"));
         }
 
         Collections.sort(logs);

@@ -11,11 +11,23 @@ import android.widget.TextView;
 import org.s25rttr.sdl.R;
 
 public class Ui {
-    public static interface alertCallback {
+    public static interface okCallback {
         void onOkPressed();
     }
 
-    public static void alertDialog(Context context, String title, String message, alertCallback callback) {
+    public static interface yesCallback {
+        void onYesPressed();
+    }
+
+    public static interface noCallback {
+        void onNoPressed();
+    }
+
+    public static interface doNotAskAgainCallback {
+        void onDoNotAskAgain();
+    }
+
+    public static void alertDialog(Context context, String title, String message, okCallback callback) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
@@ -28,29 +40,41 @@ public class Ui {
                 }).show();
     }
 
-    public static interface yesCallback {
-        void onYesPressed();
-    }
-
-    public static interface noCallback {
-        void onNoPressed();
-    }
-
     public static void questionDialog(Context context, String title, String message, yesCallback yesCallback, noCallback noCallback) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(true)
-                .setNegativeButton("NO", (dialog, which)->{
+                .setNegativeButton(context.getString(R.string.conifg_dialog_no), (dialog, which)->{
                     dialog.dismiss();
                     if(noCallback != null) {
                         noCallback.onNoPressed();
                     }
                 })
-                .setPositiveButton("YES", (dialog, which)->{
+                .setPositiveButton(context.getString(R.string.config_dialog_yes), (dialog, which)->{
                     dialog.dismiss();
                     if(yesCallback != null) {
                         yesCallback.onYesPressed();
+                    }
+                }).show();
+    }
+
+
+    public static void informDialog(Context context, String title, String message, okCallback okCallback, doNotAskAgainCallback doNotAskAgainCallback) {
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setNeutralButton(context.getString(R.string.config_inform_not_show_again), (dialog, which)->{
+                    dialog.dismiss();
+                    if(doNotAskAgainCallback != null) {
+                        doNotAskAgainCallback.onDoNotAskAgain();
+                    }
+                })
+                .setPositiveButton("OK", (dialog, which)->{
+                    dialog.dismiss();
+                    if(okCallback != null) {
+                        okCallback.onOkPressed();
                     }
                 }).show();
     }
@@ -77,7 +101,7 @@ public class Ui {
     public static class SpinnerItem implements Comparable<SpinnerItem> {
         public int id;
         public String label;
-        public String additional;
+        public String additional = "";
 
         public SpinnerItem(int id, String label) {
             this.id = id;
