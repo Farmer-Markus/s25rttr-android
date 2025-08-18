@@ -1,22 +1,32 @@
 package org.s25rttr.sdl;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
 import org.s25rttr.sdl.utils.Filesystem;
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Permission;
 import org.s25rttr.sdl.utils.Ui;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameConfigActivity extends Activity {
     private static final Data data = new Data();
@@ -31,7 +41,7 @@ public class GameConfigActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.game_config_main);
+        setContentView(R.layout.game_config);
         View view = findViewById(R.id.mainLayout);
 
 
@@ -49,10 +59,28 @@ public class GameConfigActivity extends Activity {
         // Loads saved data into the UI
         loadData(data);
 
-        Button button = findViewById(R.id.launchGameButton);
-        button = findViewById(R.id.folderPickButton);
+        Button button = findViewById(R.id.folderPickButton);
         button.setOnClickListener(v -> {
             openFilePicker();
+        });
+
+        button = findViewById(R.id.logOpenButton);
+        button.setOnClickListener(v -> {
+            Spinner spinner = findViewById(R.id.logInput);
+            if(spinner.getSelectedItemPosition() >= 0)
+                Filesystem.openTextFile(this, data.gameFolder + "/.s25rttr/LOGS/" + spinner.getSelectedItem().toString());
+        });
+
+        button = findViewById(R.id.logDeleteButton);
+        button.setOnClickListener(v -> {
+            if(Filesystem.deleteDirectory(new File(data.gameFolder, ".s25rttr/LOGS"))) {
+                reloadUi();
+                Toast toast = Toast.makeText(this, "Logs deleted", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(this, "Failed to delete logs", Toast.LENGTH_LONG);
+                toast.show();
+            }
         });
 
         button = findViewById(R.id.launchGameButton);
@@ -94,6 +122,21 @@ public class GameConfigActivity extends Activity {
                 uri = resultData.getData();
                 data.gameFolder =  Filesystem.getRealPath(uri);
                 reloadUi();
+                if(!Files.exists(Paths.get(data.gameFolder).resolve("share"))) {
+                    Dialog dialog = Ui.manualDialog(this, getString(R.string.config_dialog_copying_title),
+                            getString(R.string.config_dialog_copying_message));
+
+                    new Thread(()->{
+                        try {
+                            Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share"),
+                                    dialog.findViewById(R.id.additionalText));
+                        } catch (IOException e) {
+                            dialog.dismiss();
+                            throw new RuntimeException(e);
+                        }
+                        dialog.dismiss();
+                    }).start();
+                }
             }
         }
     }
@@ -163,6 +206,26 @@ public class GameConfigActivity extends Activity {
 
         spinner.setAdapter(adapter);
         Ui.SpinnerItem.selectItemWithId(spinner, data.orientation);
+
+
+        spinner = findViewById(R.id.logInput);
+        ArrayList<Ui.SpinnerItem> logs = new ArrayList<>();
+        File logDir = new File(data.gameFolder, ".s25rttr/LOGS");
+
+        String[] logNames = logDir.list();
+        if(logNames != null) {
+            for (int i = 0; i < logNames.length; i++) {
+                logs.add(new Ui.SpinnerItem(i, logNames[i]));
+            }
+        }
+
+        Collections.sort(logs);
+        adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                logs
+        );
+        spinner.setAdapter(adapter);
     }
 
 }

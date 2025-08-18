@@ -1,16 +1,25 @@
 package org.s25rttr.sdl.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.TextView;
 
+import org.s25rttr.sdl.TextViewActivity;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Filesystem {
 
@@ -23,10 +32,31 @@ public class Filesystem {
         /storage/<????-????>/ <folder> // Sdcard
      */
     public static String getRealPath(Uri uri) {
+        if(uri == null) return "";
+
         String path = uri.getPath();
-        if(path == null) {
-            return new String("");
+        if(path == null) return "";
+
+        int tree = path.indexOf("/tree/");
+        if(tree >= 0) {
+            // removed "/tree/"
+            path = path.substring(tree + 6);
         }
+
+        int colon = path.indexOf(":");
+        if(colon < 0) {
+            return "/storage/" + path;
+        }
+
+        String storageCode = path.substring(0, colon);
+        String restPath = path.substring(colon + 1);
+        if("primary".equalsIgnoreCase(storageCode)) {
+            return "/storage/emulated/0/" + restPath;
+        } else {
+            return "/storage/" + storageCode + "/" + restPath;
+        }
+
+        /*
         // removed "/tree/"
         path = path.substring(6);
 
@@ -52,12 +82,12 @@ public class Filesystem {
             path = "/storage/" + storageCode + "/" + path.substring(pathOffset);
         }
 
-        return path;
+        return path;*/
     }
 
     public static boolean pathIsWritable(String path) {
         try {
-            File file = new File(path + "testFile.txt");
+            File file = new File(path, "testFile.txt");
             if(file.exists()) {
                 file.delete();
                 if(file.exists()) {
@@ -65,7 +95,9 @@ public class Filesystem {
                 }
             }
             file.createNewFile();
-            if(file.exists()) return true;
+            if(file.exists()) {
+                return file.delete();
+            }
 
         } catch (IOException e) {
             return false;
@@ -118,15 +150,25 @@ public class Filesystem {
         return true;
     }
 
-    public static boolean copyAssets(Context context, AssetManager manager, String source, File destination) throws IOException {
+    public static boolean copyAssets(Activity activity, AssetManager manager, String source, File destination) throws IOException {
+        return copyAssets(activity, manager, source, destination, null);
+    }
+
+    public static boolean copyAssets(Activity activity, AssetManager manager, String source, File destination, TextView status) throws IOException {
         String[] files = manager.list(source);
         if(files == null) {
             Log.e("org.s25rttr.sdl", "Filesystem::copyAssets: Could not find any asset files!");
-            Ui.alertDialog(context, "Gamedata error", "Could not find assets in apk", null);
+            Ui.alertDialog(activity, "Gamedata error", "Could not find assets in apk", null);
             return false;
         }
 
         if(!destination.exists()) {
+            if(status != null) {
+                activity.runOnUiThread(() -> {
+                    status.setText(destination.getPath());
+                });
+            }
+
             if(!destination.mkdirs()) {
                 Log.e("org.s25rttr.sdl", "Filesystem::copyAssets: Failed to create directories");
                 return false;
@@ -140,9 +182,15 @@ public class Filesystem {
             // If is folder
             String[] subFiles = manager.list(filePath);
             if(subFiles != null && subFiles.length > 0) {
-                copyAssets(context, manager, filePath, out);
+                copyAssets(activity, manager, filePath, out, status);
 
             } else {
+                if(status != null) {
+                    activity.runOnUiThread(() -> {
+                        status.setText(out.getPath());
+                    });
+                }
+
                 InputStream inStrm = manager.open(filePath);
                 OutputStream outStrm = new FileOutputStream(out);
                 byte[] buffer = new byte[1024];
@@ -154,5 +202,52 @@ public class Filesystem {
         }
 
         return true;
+    }
+
+    public static boolean deleteDirectory(File dir) {
+        if(!dir.exists())
+            return true;
+
+        String[] files = dir.list();
+        for(String fileName : files) {
+            File file = new File(dir, fileName);
+            if(file.isDirectory())
+                if(!deleteDirectory(new File(file, fileName)))
+                    return false;
+
+            if(!file.delete())
+                return false;
+
+        }
+
+        return true;
+    }
+
+    public static void openTextFile(Context context, String path) {
+        Intent intent = new Intent(context, TextViewActivity.class);
+        intent.putExtra("path", path);
+        context.startActivity(intent);
+    }
+
+    public static List<String> getFileContent(String path, int lines, int lineOffset) throws IOException {
+        List<String> lineList = new ArrayList<>();
+
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        int currLineNum = 1;
+        int pendingLines = lines;
+        String line;
+        while((line = reader.readLine()) != null) {
+            if(currLineNum >= lineOffset) {
+                if(pendingLines <= 0)
+                    return lineList;
+
+                lineList.add(line);
+                pendingLines--;
+            }
+
+            currLineNum++;
+        }
+
+        return lineList;
     }
 }

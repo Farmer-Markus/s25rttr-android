@@ -2,6 +2,7 @@ package org.s25rttr.sdl;
 
 import android.app.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.system.ErrnoException;
@@ -58,11 +59,24 @@ public class GameStartActivity extends Activity {
         }
 
         if(!Files.exists(Paths.get(data.gameFolder).resolve("share"))) {
-            try {
-                Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            Ui.questionDialog(this, "Error! Assets not found", getString(R.string.alert_assets_missing), ()->{
+
+                Dialog dialog = Ui.manualDialog(this, getString(R.string.config_dialog_copying_title),
+                        getString(R.string.config_dialog_copying_message));
+
+                new Thread(()->{
+                    try {
+                        Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share"), dialog.findViewById(R.id.additionalText));
+                    } catch (IOException e) {
+                        dialog.dismiss();
+                        throw new RuntimeException(e);
+                    }
+                    dialog.dismiss();
+                    checkValues();
+                }).start();
+            }, this::finish);
+
+            return;
         }
 
         try {

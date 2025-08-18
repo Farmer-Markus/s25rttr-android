@@ -16,4 +16,14 @@
     <string name="config_orientation_portrait">Portrait</string>
     <string name="config_orientation_reverse_landscape">Reverse landscape</string>
     <string name="config_orientation_reverse_portrait">Reverse portrait</string>
+    <string name="config_game_files_explanation">You will need the original Settlers 2 Gold edition(DOS) to run RTTR! Please copy the \'GFX\' and \'DATA\' folder of the original Settlers 2 game into: [your picked folder]/share/s25rttr/S2</string>
+    <string name="config_dialog_copying_title">Copying game files</string>
+    <string name="config_dialog_copying_message">Copying RTTR game files to chosen Directory:</string>
+    <string name="alert_assets_missing">Could not find game assets! Do you want to copy them now?</string>
+    <string name="config_log_text">Logs available:</string>
+    <string name="config_log_delete_button">Delete logs</string>
+    <string name="textview_back_button">Back</string>
+    <string name="config_log_view_button">View log</string>
+    <string name="textview_up_button">Up</string>
+    <string name="textview_down_button">Down</string>
 </resources>

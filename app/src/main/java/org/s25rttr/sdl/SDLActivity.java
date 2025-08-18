@@ -1,8 +1,6 @@
 package org.s25rttr.sdl;
 
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.util.Log;
 
 public class SDLActivity extends org.libsdl.app.SDLActivity {
 

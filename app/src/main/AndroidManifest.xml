@@ -101,6 +101,11 @@
             </intent-filter>
             -->
         </activity>
+        <activity android:name=".TextViewActivity"
+            android:exported="true"
+            android:theme="@style/GameConfigTheme">
+
+        </activity>
         <activity android:name=".GameConfigActivity"
             android:exported="true"
             android:theme="@style/GameConfigTheme">
