@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -229,25 +230,21 @@ public class Filesystem {
         context.startActivity(intent);
     }
 
-    public static List<String> getFileContent(String path, int lines, int lineOffset) throws IOException {
-        List<String> lineList = new ArrayList<>();
+    public static String fileGetLine(RandomAccessFile raf, long offset) throws IOException {
+        raf.seek(offset);
+        return new String(raf.readLine().getBytes("ISO-8859-1"), "UTF-8");
+    }
 
-        BufferedReader reader = new BufferedReader(new FileReader(path));
-        int currLineNum = 1;
-        int pendingLines = lines;
-        String line;
-        while((line = reader.readLine()) != null) {
-            if(currLineNum >= lineOffset) {
-                if(pendingLines <= 0)
-                    return lineList;
+    public static List<Long> fileGetLineOffsets(RandomAccessFile raf) throws IOException {
+        List<Long> offsets = new ArrayList<>();
+        raf.seek(0);
+        Long currOffset = new Long(0);
 
-                lineList.add(line);
-                pendingLines--;
-            }
-
-            currLineNum++;
+        while(raf.readLine() != null) {
+            offsets.add(currOffset);
+            currOffset = raf.getFilePointer();
         }
 
-        return lineList;
+        return offsets;
     }
 }
