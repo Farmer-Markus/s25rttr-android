@@ -37,6 +37,8 @@ public class TextViewActivity extends Activity {
         filePath = getIntent().getStringExtra("path");
 
         RecyclerView recyclerView = findViewById(R.id.lineRecyclerView);
+        // To let user scroll even if text does not fit whole screen
+        recyclerView.setMinimumWidth(getResources().getDisplayMetrics().widthPixels - 20);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         RandomAccessFile raf;

@@ -78,6 +78,12 @@ android {
             v2SigningEnabled true
         }
     }
+    
+    buildTypes {
+    	release {
+    		signingConfig signingConfigs.release
+    	}
+    }
 }
 
 dependencies {
