@@ -15,3 +15,10 @@ Changed submodules:
 Merken:
 
 - Aus .gitignore den s25client wieder raus nehmen!
+
+Windows:
+Install openjdk	: winget install Microsoft.OpenJDK.17
+Install git:	: winget install Git.Git
+Install python3	: winget install python3
+Install Gettext	: winget install mlocati.GetText
+
