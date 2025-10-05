@@ -1,0 +1,11 @@
+prefix=/home/markus/Projekte/s25rttr-android-rewrite/libs/arm64-v8a
+exec_prefix=/home/markus/Projekte/s25rttr-android-rewrite/libs/arm64-v8a
+bindir=/home/markus/Projekte/s25rttr-android-rewrite/libs/arm64-v8a/bin
+libdir=/home/markus/Projekte/s25rttr-android-rewrite/libs/arm64-v8a/lib
+includedir=/home/markus/Projekte/s25rttr-android-rewrite/libs/arm64-v8a/include
+
+Name: bzip2
+Description: Lossless, block-sorting data compression
+Version: 1.1.0
+Libs: -L${libdir} -lbz2
+Cflags: -I${includedir}

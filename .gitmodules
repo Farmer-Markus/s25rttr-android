@@ -1,5 +1,5 @@
 [submodule "app/jni/lua/lua"]
-	path = external/lua/lua
+	path = external/lua
 	url = https://github.com/lua/lua
 [submodule "app/jni/SDL"]
 	path = external/SDL
@@ -233,5 +233,4 @@
 	url = https://github.com/Farmer-Markus/gl4es
 [submodule "app/jni/s25client"]
 	path = app/jni/s25client
-	url = https://github.com/Farmer-Markus/s25client
-	branch = android
+	url = https://github.com/Return-To-The-Roots/s25client

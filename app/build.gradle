@@ -27,10 +27,6 @@ android {
         versionCode 1
         versionName "1.0"
         externalNativeBuild {
-            //ndkBuild {
-            //    arguments "APP_PLATFORM=android-19"
-            //    abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-            //}
              cmake {
                  arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared"
                  // abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
@@ -53,9 +49,6 @@ android {
             jniLibs.srcDir 'libs'
         }
         externalNativeBuild {
-            //ndkBuild {
-            //    path 'jni/Android.mk'
-            //}
             cmake {
                 path 'jni/CMakeLists.txt'
             }
@@ -83,6 +76,82 @@ android {
     	release {
     		signingConfig signingConfigs.release
     	}
+    }
+}
+
+tasks.register("buildDependencies") {
+    def sdkDir = android.sdkDirectory
+    def ndkDir = android.ndkDirectory
+
+    def abis = android.defaultConfig.externalNativeBuild.cmake.abiFilters
+    def depSrc = "$rootDir/external"
+    def depInstall = "$rootDir/libs"
+
+    onlyIf {
+        !abis.every { abi ->
+            file("$depInstall/boost").exists()
+            // Gucken ob alle binaries da sind
+        }
+    }
+
+
+    doLast {
+        def cmakeDir = file("$sdkDir/cmake").listFiles()?.findAll { it.isDirectory() }?.sort()?.last()
+        if (cmakeDir == null) {
+            throw new GradleException("Cmake not found! Please install android cmake for your sdk!!")
+        }
+        def cmake = "$cmakeDir/bin/cmake"
+
+        println "Using CMake: $cmake"
+
+
+        if(!file(ndkDir).exists()) {
+            //logger.lifecycle("Please ")
+        }
+
+        abis.each { abi ->
+            def buildDir = ".cxx/depBuild"
+            def installPrefix = "$rootDir/libs/$abi"
+
+            exec {
+                commandLine( cmake,
+                    "-S", depSrc,
+                    "-B", buildDir,
+                    "-DCMAKE_TOOLCHAIN_FILE=$ndkDir/build/cmake/android.toolchain.cmake",
+                    "-DANDROID_ABI=$abi",
+                    "-DANDROID_PLATFORM=android-28",
+                    "-DCMAKE_INSTALL_PREFIX=$installPrefix")
+            }
+
+            exec {
+                workingDir(buildDir)
+                commandLine( "cmake", "--build", ".", "--target", "install")
+            }
+        }
+    }
+}
+
+// Clean up dependency build files but NOT compiled dependency libs!!
+tasks.register("cleanDependencyBuild") {
+    doLast {
+        def buildDir = file(".cxx/depBuild")
+
+        if(buildDir.exists()) {
+            buildDir.deleteDir()
+        }
+    }
+}
+
+// hänge es an den Standard-clean Task
+tasks.named("clean").configure {
+    dependsOn("cleanDependencyBuild")
+}
+
+afterEvaluate {
+    ["assemble", "assembleDebug", "assembleRelease", "bundleDebug", "bundleRelease", "build"].each { taskName ->
+        tasks.named(taskName).configure {
+            dependsOn("buildDependencies")
+        }
     }
 }
 
