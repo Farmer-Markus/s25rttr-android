@@ -1,5 +1,6 @@
 local.properties
 build
+libs
 .gradle
 .idea
 app/build
