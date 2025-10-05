@@ -1,235 +1,235 @@
 [submodule "app/jni/lua/lua"]
-	path = app/jni/lua/lua
+	path = external/lua/lua
 	url = https://github.com/lua/lua
 [submodule "app/jni/SDL"]
-	path = app/jni/SDL
+	path = external/SDL
 	url = https://github.com/libsdl-org/SDL
 	branch = SDL2
 [submodule "app/jni/SDL_mixer"]
-	path = app/jni/SDL_mixer
+	path = external/SDL_mixer
 	url = https://github.com/libsdl-org/SDL_mixer
 	branch = SDL2
 [submodule "app/jni/miniupnpc"]
-	path = app/jni/miniupnpc
+	path = external/miniupnpc
 	url = https://github.com/transmission/miniupnpc
 [submodule "app/jni/bzip2"]
-	path = app/jni/bzip2
+	path = external/bzip2
 	url = https://gitlab.com/bzip2/bzip2
 [submodule "app/jni/boost/test"]
-	path = app/jni/boost/test
+	path = external/boost/test
 	url = https://github.com/boostorg/test
 [submodule "app/jni/boost/iostreams"]
-	path = app/jni/boost/iostreams
+	path = external/boost/iostreams
 	url = https://github.com/boostorg/iostreams
 [submodule "app/jni/boost/filesystem"]
-	path = app/jni/boost/filesystem
+	path = external/boost/filesystem
 	url = https://github.com/boostorg/filesystem
 [submodule "app/jni/boost/program-options"]
 	path = app/jni/boost/program-options
 	url = https://github.com/boostorg/program_options
 [submodule "app/jni/boost/program_options"]
-	path = app/jni/boost/program_options
+	path = external/boost/program_options
 	url = https://github.com/boostorg/program_options
 [submodule "app/jni/boost/nowide"]
-	path = app/jni/boost/nowide
+	path = external/boost/nowide
 	url = https://github.com/boostorg/nowide
 [submodule "app/jni/boost/assert"]
-	path = app/jni/boost/assert
+	path = external/boost/assert
 	url = https://github.com/boostorg/assert
 [submodule "app/jni/boost/any"]
-	path = app/jni/boost/any
+	path = external/boost/any
 	url = https://github.com/boostorg/any
 [submodule "app/jni/boost/algorithm"]
-	path = app/jni/boost/algorithm
+	path = external/boost/algorithm
 	url = https://github.com/boostorg/algorithm
 [submodule "app/jni/boost/config"]
-	path = app/jni/boost/config
+	path = external/boost/config
 	url = https://github.com/boostorg/config
 [submodule "app/jni/boost/bind"]
-	path = app/jni/boost/bind
+	path = external/boost/bind
 	url = https://github.com/boostorg/bind
 [submodule "app/jni/boost/array"]
-	path = app/jni/boost/array
+	path = external/boost/array
 	url = https://github.com/boostorg/array
 [submodule "app/jni/boost/container_hash"]
-	path = app/jni/boost/container_hash
+	path = external/boost/container_hash
 	url = https://github.com/boostorg/container_hash
 [submodule "app/jni/boost/core"]
-	path = app/jni/boost/core
+	path = external/boost/core
 	url = https://github.com/boostorg/core
 [submodule "app/jni/boost/thow_exception"]
 	path = app/jni/boost/thow_exception
 	url = https://github.com/boostorg/throw_exception
 [submodule "app/jni/boost/concept_check"]
-	path = app/jni/boost/concept_check
+	path = external/boost/concept_check
 	url = https://github.com/boostorg/concept_check
 [submodule "app/jni/boost/throw_exception"]
-	path = app/jni/boost/throw_exception
+	path = external/boost/throw_exception
 	url = https://github.com/boostorg/throw_exception
 [submodule "app/jni/boost/detail"]
-	path = app/jni/boost/detail
+	path = external/boost/detail
 	url = https://github.com/boostorg/detail
 [submodule "app/jni/boost/type_index"]
-	path = app/jni/boost/type_index
+	path = external/boost/type_index
 	url = https://github.com/boostorg/type_index
 [submodule "app/jni/boost/static_assert"]
-	path = app/jni/boost/static_assert
+	path = external/boost/static_assert
 	url = https://github.com/boostorg/static_assert
 [submodule "app/jni/boost/describe"]
-	path = app/jni/boost/describe
+	path = external/boost/describe
 	url = https://github.com/boostorg/describe
 [submodule "app/jni/boost/preprocessor"]
-	path = app/jni/boost/preprocessor
+	path = external/boost/preprocessor
 	url = https://github.com/boostorg/preprocessor
 [submodule "app/jni/boost/exception"]
-	path = app/jni/boost/exception
+	path = external/boost/exception
 	url = https://github.com/boostorg/exception
 [submodule "app/jni/boost/mp11"]
-	path = app/jni/boost/mp11
+	path = external/boost/mp11
 	url = https://github.com/boostorg/mp11
 [submodule "app/jni/boost/smart_ptr"]
-	path = app/jni/boost/smart_ptr
+	path = external/boost/smart_ptr
 	url = https://github.com/boostorg/smart_ptr
 [submodule "app/jni/boost/type_traits"]
-	path = app/jni/boost/type_traits
+	path = external/boost/type_traits
 	url = https://github.com/boostorg/type_traits
 [submodule "app/jni/boost/function"]
-	path = app/jni/boost/function
+	path = external/boost/function
 	url = https://github.com/boostorg/function
 [submodule "app/jni/boost/io"]
-	path = app/jni/boost/io
+	path = external/boost/io
 	url = https://github.com/boostorg/io
 [submodule "app/jni/boost/iterator"]
-	path = app/jni/boost/iterator
+	path = external/boost/iterator
 	url = https://github.com/boostorg/iterator
 [submodule "app/jni/boost/integer"]
-	path = app/jni/boost/integer
+	path = external/boost/integer
 	url = https://github.com/boostorg/integer
 [submodule "app/jni/boost/tuple"]
-	path = app/jni/boost/tuple
+	path = external/boost/tuple
 	url = https://github.com/boostorg/tuple
 [submodule "app/jni/boost/move"]
-	path = app/jni/boost/move
+	path = external/boost/move
 	url = https://github.com/boostorg/move
 [submodule "app/jni/boost/mpl"]
-	path = app/jni/boost/mpl
+	path = external/boost/mpl
 	url = https://github.com/boostorg/mpl
 [submodule "app/jni/boost/lexical_cast"]
-	path = app/jni/boost/lexical_cast
+	path = external/boost/lexical_cast
 	url = https://github.com/boostorg/lexical_cast
 [submodule "app/jni/boost/function_types"]
-	path = app/jni/boost/function_types
+	path = external/boost/function_types
 	url = https://github.com/boostorg/function_types
 [submodule "app/jni/boost/container"]
-	path = app/jni/boost/container
+	path = external/boost/container
 	url = https://github.com/boostorg/container
 [submodule "app/jni/boost/predef"]
-	path = app/jni/boost/predef
+	path = external/boost/predef
 	url = https://github.com/boostorg/predef
 [submodule "app/jni/boost/fusion"]
-	path = app/jni/boost/fusion
+	path = external/boost/fusion
 	url = https://github.com/boostorg/fusion
 [submodule "app/jni/boost/range"]
-	path = app/jni/boost/range
+	path = external/boost/range
 	url = https://github.com/boostorg/range
 [submodule "app/jni/boost/numeric_conversion"]
-	path = app/jni/boost/numeric_conversion
+	path = external/boost/numeric_conversion
 	url = https://github.com/boostorg/numeric_conversion
 [submodule "app/jni/boost/tokenizer"]
-	path = app/jni/boost/tokenizer
+	path = external/boost/tokenizer
 	url = https://github.com/boostorg/tokenizer
 [submodule "app/jni/boost/random"]
-	path = app/jni/boost/random
+	path = external/boost/random
 	url = https://github.com/boostorg/random
 [submodule "app/jni/boost/system"]
-	path = app/jni/boost/system
+	path = external/boost/system
 	url = https://github.com/boostorg/system
 [submodule "app/jni/boost/variant2"]
-	path = app/jni/boost/variant2
+	path = external/boost/variant2
 	url = https://github.com/boostorg/variant2
 [submodule "app/jni/boost/dynamic_bitset"]
-	path = app/jni/boost/dynamic_bitset
+	path = external/boost/dynamic_bitset
 	url = https://github.com/boostorg/dynamic_bitset
 [submodule "app/jni/boost/conversion"]
-	path = app/jni/boost/conversion
+	path = external/boost/conversion
 	url = https://github.com/boostorg/conversion
 [submodule "app/jni/boost/typeof"]
-	path = app/jni/boost/typeof
+	path = external/boost/typeof
 	url = https://github.com/boostorg/typeof
 [submodule "app/jni/boost/intrusive"]
-	path = app/jni/boost/intrusive
+	path = external/boost/intrusive
 	url = https://github.com/boostorg/intrusive
 [submodule "app/jni/boost/utility"]
-	path = app/jni/boost/utility
+	path = external/boost/utility
 	url = https://github.com/boostorg/utility
 [submodule "app/jni/boost/regex"]
-	path = app/jni/boost/regex
+	path = external/boost/regex
 	url = https://github.com/boostorg/regex
 [submodule "app/jni/boost/optional"]
-	path = app/jni/boost/optional
+	path = external/boost/optional
 	url = https://github.com/boostorg/optional
 [submodule "app/jni/boost/scope"]
-	path = app/jni/boost/scope
+	path = external/boost/scope
 	url = https://github.com/boostorg/scope
 [submodule "app/jni/boost/atomic"]
-	path = app/jni/boost/atomic
+	path = external/boost/atomic
 	url = https://github.com/boostorg/atomic
 [submodule "app/jni/boost/unordered"]
-	path = app/jni/boost/unordered
+	path = external/boost/unordered
 	url = https://github.com/boostorg/unordered
 [submodule "app/jni/boost/functional"]
-	path = app/jni/boost/functional
+	path = external/boost/functional
 	url = https://github.com/boostorg/functional
 [submodule "app/jni/boost/winapi"]
-	path = app/jni/boost/winapi
+	path = external/boost/winapi
 	url = https://github.com/boostorg/winapi
 [submodule "app/jni/boost/align"]
-	path = app/jni/boost/align
+	path = external/boost/align
 	url = https://github.com/boostorg/align
 [submodule "app/jni/boost/locale"]
-	path = app/jni/boost/locale
+	path = external/boost/locale
 	url = https://github.com/boostorg/locale
 [submodule "app/jni/boost/thread"]
-	path = app/jni/boost/thread
+	path = external/boost/thread
 	url = https://github.com/boostorg/thread
 [submodule "app/jni/boost/chrono"]
-	path = app/jni/boost/chrono
+	path = external/boost/chrono
 	url = https://github.com/boostorg/chrono
 [submodule "app/jni/boost/ratio"]
-	path = app/jni/boost/ratio
+	path = external/boost/ratio
 	url = https://github.com/boostorg/ratio
 [submodule "app/jni/boost/date_time"]
-	path = app/jni/boost/date_time
+	path = external/boost/date_time
 	url = https://github.com/boostorg/date_time
 [submodule "app/jni/boost/endian"]
-	path = app/jni/boost/endian
+	path = external/boost/endian
 	url = https://github.com/boostorg/endian
 [submodule "app/jni/boost/ptr_container"]
-	path = app/jni/boost/ptr_container
+	path = external/boost/ptr_container
 	url = https://github.com/boostorg/ptr_container
 [submodule "app/jni/boost/format"]
-	path = app/jni/boost/format
+	path = external/boost/format
 	url = https://github.com/boostorg/format
 [submodule "app/jni/boost/circular_buffer"]
-	path = app/jni/boost/circular_buffer
+	path = external/boost/circular_buffer
 	url = https://github.com/boostorg/circular_buffer
 [submodule "app/jni/boost/dll"]
-	path = app/jni/boost/dll
+	path = external/boost/dll
 	url = https://github.com/boostorg/dll
 [submodule "app/jni/boost/signals2"]
-	path = app/jni/boost/signals2
+	path = external/boost/signals2
 	url = https://github.com/boostorg/signals2
 [submodule "app/jni/boost/variant"]
-	path = app/jni/boost/variant
+	path = external/boost/variant
 	url = https://github.com/boostorg/variant
 [submodule "app/jni/boost/parameter"]
-	path = app/jni/boost/parameter
+	path = external/boost/parameter
 	url = https://github.com/boostorg/parameter
 [submodule "app/jni/boost/interprocess"]
-	path = app/jni/boost/interprocess
+	path = external/boost/interprocess
 	url = https://github.com/boostorg/interprocess
 [submodule "app/jni/gl4es"]
-	path = app/jni/gl4es
+	path = external/gl4es
 	url = https://github.com/Farmer-Markus/gl4es
 [submodule "app/jni/s25client"]
 	path = app/jni/s25client
