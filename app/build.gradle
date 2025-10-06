@@ -110,7 +110,7 @@ tasks.register("buildDependencies") {
         }
 
         abis.each { abi ->
-            def buildDir = ".cxx/depBuild"
+            def buildDir = ".cxx/depBuild/$abi"
             def installPrefix = "$rootDir/libs/$abi"
 
             exec {
@@ -120,12 +120,13 @@ tasks.register("buildDependencies") {
                     "-DCMAKE_TOOLCHAIN_FILE=$ndkDir/build/cmake/android.toolchain.cmake",
                     "-DANDROID_ABI=$abi",
                     "-DANDROID_PLATFORM=android-28",
+                    "-DCMAKE_BUILD_TYPE=Release",
                     "-DCMAKE_INSTALL_PREFIX=$installPrefix")
             }
 
             exec {
                 workingDir(buildDir)
-                commandLine( "cmake", "--build", ".", "--target", "install")
+                commandLine( cmake, "--build", ".")
             }
         }
     }

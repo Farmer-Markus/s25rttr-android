@@ -76,25 +76,39 @@ set(BOOST_LIBS
 )
 
 set(BUILD_SHARED_LIBS TRUE)
-set(INCLUDE_DEST "${CMAKE_BINARY_DIR}/boost")
-file(MAKE_DIRECTORY ${INCLUDE_DEST}) # Should already exist
+set(LIB_DEST "${INSTALL_PATH}/boost")
+file(MAKE_DIRECTORY ${LIB_DEST})
 
-foreach(LIB IN LISTS BOOST_LIBS)
+
+foreach(LIB IN LISTS BOOST_LIBS)  
   if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${LIB}/include")
-    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/${LIB}/include" DESTINATION "${INCLUDE_DEST}")
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/${LIB}/include" DESTINATION "${LIB_DEST}")
   endif()
 endforeach()
 
-set(Boost_INCLUDE_DIR "${INCLUDE_DEST}/include" CACHE PATH "Boost include dir" FORCE)
+set(Boost_INCLUDE_DIR "${LIB_DEST}/include" CACHE PATH "" FORCE)
 add_library(Boost::boost INTERFACE IMPORTED GLOBAL)
-target_include_directories(Boost::boost INTERFACE "${INCLUDE_DEST}/include")
-
-add_library(Boost::disable_autolinking INTERFACE IMPORTED GLOBAL)
-include_directories("${INCLUDE_DEST}/include")
+target_include_directories(Boost::boost INTERFACE "${LIB_DEST}/include")
 
 foreach(LIB IN LISTS BOOST_LIBS)
-  add_subdirectory(${LIB})
+  add_subdirectory("${LIB}")
 endforeach()
 
-# because external/libutil does NOT include Boost::boost but wants a header
-target_include_directories(boost_filesystem INTERFACE "${INCLUDE_DEST}/include")
+
+add_custom_target(install_boost ALL
+	COMMAND ${CMAKE_COMMAND} -E make_directory "${LIB_DEST}/${ANDROID_ABI}"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/atomic/libboost_atomic.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/chrono/libboost_chrono.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/locale/libboost_locale.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/nowide/libboost_nowide.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/random/libboost_random.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/thread/libboost_thread.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/container/libboost_container.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/date_time/libboost_date_time.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/iostreams/libboost_iostreams.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/filesystem/libboost_filesystem.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/program_options/libboost_program_options.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/test/libboost_prg_exec_monitor.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/test/libboost_unit_test_framework.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	DEPENDS boost_atomic boost_chrono boost_locale boost_nowide boost_random boost_thread boost_container boost_date_time boost_iostreams boost_filesystem boost_program_options boost_unit_test_framework boost_prg_exec_monitor
+)
