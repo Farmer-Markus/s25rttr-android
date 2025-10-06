@@ -28,7 +28,7 @@ android {
         versionName "1.0"
         externalNativeBuild {
              cmake {
-                 arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared"
+                 arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared", "-DRTTR_BUILD_LIB=ON"
                  // abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
                  abiFilters 'arm64-v8a'
              }
@@ -85,15 +85,40 @@ tasks.register("buildDependencies") {
 
     def abis = android.defaultConfig.externalNativeBuild.cmake.abiFilters
     def depSrc = "$rootDir/external"
-    def depInstall = "$rootDir/libs"
+    def depInst = "$rootDir/libs"
+    
+    def boostLibs = ["libboost_atomic.so",
+	    "libboost_chrono.so",
+	    "libboost_container.so",
+	    "libboost_date_time.so",
+	    "libboost_filesystem.so",
+	    "libboost_iostreams.so",
+	    "libboost_locale.so",
+	    "libboost_nowide.so",
+	    "libboost_prg_exec_monitor.so",
+	    "libboost_program_options.so",
+	    "libboost_random.so",
+	    "libboost_regex.so",
+	    "libboost_thread.so",
+	    "libboost_unit_test_framework.so"
+    ]
 
     onlyIf {
         !abis.every { abi ->
-            file("$depInstall/boost").exists()
-            // Gucken ob alle binaries da sind
+            // Gucken ob alle libs da sind
+            file("$depInst/SDL/$abi/libSDL2.so").exists() &&
+            file("$depInst/SDL_mixer/$abi/libSDL2_mixer.so").exists() &&
+            file("$depInst/miniupnpc/$abi/libminiupnpc.so").exists() &&
+            file("$depInst/lua/$abi/liblua.so").exists() &&
+            file("$depInst/gl4es/$abi/libGL.so").exists() &&
+            file("$depInst/bzip2/$abi/libbz2.so").exists() &&
+            boostLibs.every { lib ->
+                file("$depInst/boost/$abi/$lib").exists()
+            }
         }
     }
-
+    
+    println "Building dependencies!"
 
     doLast {
         def cmakeDir = file("$sdkDir/cmake").listFiles()?.findAll { it.isDirectory() }?.sort()?.last()
@@ -104,9 +129,8 @@ tasks.register("buildDependencies") {
 
         println "Using CMake: $cmake"
 
-
         if(!file(ndkDir).exists()) {
-            //logger.lifecycle("Please ")
+            throw new GradleException("NDK Root not found! Please install android ndk and set the ANDROID_SDK_ROOT and ANDROID_NDK_ROOT enviroment variables to the installation.")
         }
 
         abis.each { abi ->
@@ -126,7 +150,7 @@ tasks.register("buildDependencies") {
 
             exec {
                 workingDir(buildDir)
-                commandLine( cmake, "--build", ".")
+                commandLine( cmake, "--build", ".", "--", "-j")
             }
         }
     }

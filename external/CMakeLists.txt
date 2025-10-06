@@ -59,7 +59,8 @@ add_custom_target(install_miniupnpc ALL
 	COMMAND ${CMAKE_COMMAND} -E make_directory "${INSTALL_PATH}/miniupnpc/${ANDROID_ABI}"
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/miniupnpc/libminiupnpc.so" "${INSTALL_PATH}/miniupnpc/${ANDROID_ABI}"
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/miniupnpc/libminiupnpc.a" "${INSTALL_PATH}/miniupnpc/${ANDROID_ABI}"
-	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/miniupnpc/include" "${INSTALL_PATH}/miniupnpc/include"
+	COMMAND ${CMAKE_COMMAND} -E make_directory "${INSTALL_PATH}/miniupnpc/include"
+	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/miniupnpc/include" "${INSTALL_PATH}/miniupnpc/include/miniupnpc"
 	DEPENDS libminiupnpc-shared libminiupnpc-static
 )
 

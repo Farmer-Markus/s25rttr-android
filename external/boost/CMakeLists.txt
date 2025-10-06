@@ -75,16 +75,18 @@ set(BOOST_LIBS
     numeric_conversion
 )
 
-set(BUILD_SHARED_LIBS TRUE)
+set(BUILD_SHARED_LIBS TRUE CACHE BOOL "" FORCE)
 set(LIB_DEST "${INSTALL_PATH}/boost")
 file(MAKE_DIRECTORY ${LIB_DEST})
-
 
 foreach(LIB IN LISTS BOOST_LIBS)  
   if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${LIB}/include")
     file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/${LIB}/include" DESTINATION "${LIB_DEST}")
   endif()
 endforeach()
+
+# Remove regex. Header files are copied but target is dummy to create real .so file and not just Interface
+list(REMOVE_ITEM BOOST_LIBS regex)
 
 set(Boost_INCLUDE_DIR "${LIB_DEST}/include" CACHE PATH "" FORCE)
 add_library(Boost::boost INTERFACE IMPORTED GLOBAL)
@@ -94,6 +96,17 @@ foreach(LIB IN LISTS BOOST_LIBS)
   add_subdirectory("${LIB}")
 endforeach()
 
+
+add_library(boost_regex SHARED dummy/regex-dummy.cpp)
+target_include_directories(boost_regex PUBLIC regex/include)
+target_link_libraries(boost_regex
+	INTERFACE
+	Boost::config
+	Boost::throw_exception
+	Boost::predef
+	Boost::assert
+)
+add_library(Boost::regex ALIAS boost_regex)
 
 add_custom_target(install_boost ALL
 	COMMAND ${CMAKE_COMMAND} -E make_directory "${LIB_DEST}/${ANDROID_ABI}"
@@ -110,5 +123,6 @@ add_custom_target(install_boost ALL
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/program_options/libboost_program_options.so" "${LIB_DEST}/${ANDROID_ABI}/"
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/test/libboost_prg_exec_monitor.so" "${LIB_DEST}/${ANDROID_ABI}/"
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/test/libboost_unit_test_framework.so" "${LIB_DEST}/${ANDROID_ABI}/"
-	DEPENDS boost_atomic boost_chrono boost_locale boost_nowide boost_random boost_thread boost_container boost_date_time boost_iostreams boost_filesystem boost_program_options boost_unit_test_framework boost_prg_exec_monitor
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/boost/libboost_regex.so" "${LIB_DEST}/${ANDROID_ABI}/"
+	DEPENDS boost_atomic boost_chrono boost_locale boost_nowide boost_random boost_thread boost_container boost_date_time boost_iostreams boost_filesystem boost_program_options boost_unit_test_framework boost_prg_exec_monitor boost_regex
 )

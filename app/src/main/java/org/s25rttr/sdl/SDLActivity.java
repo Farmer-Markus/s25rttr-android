@@ -16,4 +16,17 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
         super.setOrientationBis(w, h, resizable, hint);
         mSingleton.setRequestedOrientation(getIntent().getIntExtra("rotation", ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE));
     }
+    @Override
+    protected String[] getLibraries() {
+        return new String[] {
+                "SDL2",
+                "SDL2_mixer",
+                "s25client"
+        };
+    }
+
+    @Override
+    protected String getMainFunction() {
+        return "main";
+    }
 }
