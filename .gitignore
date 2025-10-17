@@ -3,6 +3,7 @@ build
 libs
 .gradle
 .idea
+external/lib
 app/build
 app/.cxx
 app/src/main/assets/**
