@@ -13,19 +13,18 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 public class Permission {
+    // If permission is currenty being requested
+    public static boolean waitingForPermission = false;
 
     public static boolean checkPermission(Context context) {
         // Older than MANAGE_EXTERNAL_STORAGE permission
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             return Environment.isExternalStorageManager();
 
-        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        } else { // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             int readPrm = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             int writePrm = context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             return readPrm == 0 && writePrm == 0; // 0 = Permission granded
-        } else {
-            // Should always be granted
-            return true;
         }
     }
 
@@ -37,23 +36,21 @@ public class Permission {
                 intent.setData(Uri.parse("package:" + context.getPackageName()));
                 context.startActivity(intent);
             } catch (Exception e) {
-                Log.e("org.s25rttr.sdl", "Failed to request MANAGE_ALL_FILES permission");
-                return true;
+                Log.e("org.s25rttr.sdl", "Failed to request MANAGE_ALL_FILES permission: %s", e);
+                return false;
             }
 
+            waitingForPermission = true;
             return true;
 
-        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { // READ/WRITE EXTERNAL STORAGE
+        } else { // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { // READ/WRITE EXTERNAL STORAGE
             ActivityCompat.requestPermissions((Activity)context, new String[]{
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, permissionCode);
+            waitingForPermission = true;
             return true;
-
-        } else {}
-
-        return false;
+        }
     }
 
-
-}
+} // class Permission

@@ -23,7 +23,7 @@
     <string name="config_log_delete_button">Logs löschen</string>
     <string name="textview_back_button">Zurück</string>
     <string name="config_log_view_button">Log anzeigen</string>
-    <string name="textview_up_button">hoch</string>
+    <string name="textview_up_button">Hoch</string>
     <string name="textview_down_button">Runter</string>
     <string name="config_log_not_found_text">Keine logs gefunden</string>
     <string name="config_inform_exit_dialog">Um diese Konfiguration zu öffen, lange auf das App Icon klicken und \"Konfigurieren\" wählen</string>
@@ -31,4 +31,5 @@
     <string name="config_dialog_yes">Ja</string>
     <string name="conifg_dialog_no">Nein</string>
     <string name="config_alert_select_folder">Bitte einen gültigen Spiele Ordner auswählen</string>
+    <string name="config_question_missing_permission_dialog">Bitte gehe in die App Einstellungen und erlaube das Verwalten aller Dateien. Einstellungen öffnen?</string>
 </resources>

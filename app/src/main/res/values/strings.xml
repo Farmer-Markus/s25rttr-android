@@ -32,4 +32,5 @@
     <string name="config_dialog_yes">Yes</string>
     <string name="conifg_dialog_no">No</string>
     <string name="config_alert_select_folder">Please select a valid game folder</string>
+    <string name="config_question_missing_permission_dialog">Please go to the app settings and allow managing all files. Open Settings?</string>
 </resources>

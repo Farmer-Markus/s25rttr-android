@@ -24,9 +24,4 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
                 "s25client"
         };
     }
-
-    @Override
-    protected String getMainFunction() {
-        return "main";
-    }
 }

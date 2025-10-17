@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +30,6 @@ import java.util.Collections;
 public class GameConfigActivity extends Activity {
     private static final Data data = new Data();
 
-    private boolean waitingForPermission = false;
     private boolean startedByShortcut = false;
 
     private static final int FILE_PICKER_CODE = 1;
@@ -156,13 +154,13 @@ public class GameConfigActivity extends Activity {
         super.onResume();
 
         // When returning from requesting permission
-        if(waitingForPermission) {
-            waitingForPermission = false;
+        /*if(Permission.waitingForPermission) {
+            Permission.waitingForPermission = false;
 
             reloadUi();
             if(!Permission.checkPermission(this))
                 Permission.requestPermission(this, PERMISSION_CODE);
-        }
+        }*/
     }
 
     private void saveAndExit() {
@@ -177,6 +175,14 @@ public class GameConfigActivity extends Activity {
     }
 
     private void openFilePicker() {
+        if(!Permission.checkPermission(this)) {
+            //Permission.requestPermission(this, PERMISSION_CODE);
+            Ui.questionDialog(this, "Missing permission", getString(R.string.config_question_missing_permission_dialog), () -> {
+                Permission.requestPermission(this, PERMISSION_CODE);
+            }, null);
+            //Ui.alertDialog(this, "Missing permission", getString(R.string.config_inform_permission_dialog), null);
+            return;
+        }
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         startActivityForResult(intent, FILE_PICKER_CODE);
     }

@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.s25rttr.sdl.utils.Filesystem;
+import org.s25rttr.sdl.utils.Ui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TextViewActivity extends Activity {
@@ -48,16 +51,45 @@ public class TextViewActivity extends Activity {
             throw new RuntimeException(e);
         }
 
+        TextViewAdapter adapter = new TextViewAdapter(raf);
+        recyclerView.setAdapter(adapter);
+
         new Thread(()->{
+            List<Long> offsets;
+            long currOffset = 0;
+
+            RandomAccessFile fileAccess;
             try {
-                List<Long> offsets =  Filesystem.fileGetLineOffsets(raf);
-                runOnUiThread(()->{
-                    TextViewAdapter adapter = new TextViewAdapter(offsets, raf);
-                    recyclerView.setAdapter(adapter);
-                });
-            } catch (IOException e) {
+                fileAccess = new RandomAccessFile(filePath, "r");
+            } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
+
+
+            while(true) {
+                try {
+                    offsets = Filesystem.fileGetLineOffsets(fileAccess, currOffset, 21);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if(offsets.isEmpty())
+                    break;
+
+                long lastOffset = offsets.get(offsets.size() - 1);
+                if(lastOffset == currOffset) break;
+
+                List<Long> finalOffsets = offsets.subList(0, offsets.size() - 1);
+                currOffset = lastOffset;
+                runOnUiThread(()->{
+                    adapter.addLines(finalOffsets);
+                });
+            }
+
+            runOnUiThread(()->{
+                Toast toast = Toast.makeText(this, "Finished opening file", Toast.LENGTH_SHORT);
+                toast.show();
+            });
         }).start();
 
 
@@ -73,7 +105,6 @@ public class TextViewActivity extends Activity {
         });
     }
 
-
     private class LineObject {
         public final String content;
 
@@ -83,22 +114,22 @@ public class TextViewActivity extends Activity {
     }
 
     private class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHolder> {
-        private List<Long> lines;
-        private RandomAccessFile raf;
+        private List<Long> lines = new ArrayList<>(List.of(0L)); // Line offsets
+        private final RandomAccessFile raf;
         private LruCache<Integer, String> cache;
 
-        private static final int maxCacheSize = 1000;
+        private static final int maxCacheSize = 1024;
 
-        public TextViewAdapter(List<Long> lineOffsets, RandomAccessFile raf) {
-            this.lines = lineOffsets;
+        public TextViewAdapter(/*List<Long> lineOffsets, */RandomAccessFile raf) {
+            // this.lines = lineOffsets;
             this.raf = raf;
 
-            int lineCount = lines.size();
+            /*int lineCount = lines.size();
             if(lineCount < maxCacheSize) {
                 cache = new LruCache<>(lineCount);
-            } else {
-                cache = new LruCache<>(maxCacheSize);
-            }
+            } else {*/
+            cache = new LruCache<>(maxCacheSize);
+            //}
         }
 
         @NonNull
@@ -134,6 +165,12 @@ public class TextViewActivity extends Activity {
         @Override
         public int getItemCount() {
             return lines.size();
+        }
+
+        public void addLines(List<Long> lineOffsets) {
+            int prevSize = this.lines.size();
+            this.lines.addAll(lineOffsets);
+            notifyItemRangeInserted(prevSize, lineOffsets.size());
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

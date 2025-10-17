@@ -28,7 +28,7 @@ android {
         versionName "1.0"
         externalNativeBuild {
              cmake {
-                 arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared", "-DRTTR_BUILD_LIB=ON"
+                 arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared"
                  // abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
                  abiFilters 'arm64-v8a'
              }
@@ -102,6 +102,8 @@ tasks.register("buildDependencies") {
 	    "libboost_thread.so",
 	    "libboost_unit_test_framework.so"
     ]
+    
+    println "Checking dependencies!"
 
     onlyIf {
         !abis.every { abi ->
@@ -117,10 +119,10 @@ tasks.register("buildDependencies") {
             }
         }
     }
-    
-    println "Building dependencies!"
 
     doLast {
+        println "Building dependencies!"
+        
         def cmakeDir = file("$sdkDir/cmake").listFiles()?.findAll { it.isDirectory() }?.sort()?.last()
         if (cmakeDir == null) {
             throw new GradleException("Cmake not found! Please install android cmake for your sdk!!")
@@ -173,7 +175,7 @@ tasks.named("clean").configure {
 }
 
 afterEvaluate {
-    ["assemble", "assembleDebug", "assembleRelease", "bundleDebug", "bundleRelease", "build"].each { taskName ->
+    ["assemble", "assembleDebug", "assembleRelease", "bundleDebug", "bundleRelease", "build", "installDebug", "installRelease"].each { taskName ->
         tasks.named(taskName).configure {
             dependsOn("buildDependencies")
         }

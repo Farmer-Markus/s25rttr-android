@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import org.s25rttr.sdl.TextViewActivity;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +27,8 @@ public class Filesystem {
         intern: /tree/primary:S25rttr
 
         we need:
-        /storage/0/ <folder> // Internal storage
-        /storage/<????-????>/ <folder> // Sdcard
+        /storage/0/ <folder>            // Internal storage
+        /storage/<????-????>/ <folder>  // Sdcard
      */
     public static String getRealPath(Uri uri) {
         if(uri == null) return "";
@@ -90,13 +88,12 @@ public class Filesystem {
         try {
             File file = new File(path, "testFile.txt");
             if(file.exists()) {
-                file.delete();
-                if(file.exists()) {
+                if(!file.delete() || file.exists()) {
                     throw new IOException("Cannot delete file");
                 }
             }
-            file.createNewFile();
-            if(file.exists()) {
+
+            if(file.createNewFile() && file.exists()) {
                 return file.delete();
             }
 
@@ -193,7 +190,7 @@ public class Filesystem {
                 }
 
                 InputStream inStrm = manager.open(filePath);
-                OutputStream outStrm = new FileOutputStream(out);
+                OutputStream outStrm = Files.newOutputStream(out.toPath());
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 while((bytesRead = inStrm.read(buffer)) != -1) {
@@ -218,7 +215,6 @@ public class Filesystem {
 
             if(!file.delete())
                 return false;
-
         }
 
         return true;
@@ -232,16 +228,18 @@ public class Filesystem {
 
     public static String fileGetLine(RandomAccessFile raf, long offset) throws IOException {
         raf.seek(offset);
-        return new String(raf.readLine().getBytes("ISO-8859-1"), "UTF-8");
+        return new String(raf.readLine().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
     }
 
-    public static List<Long> fileGetLineOffsets(RandomAccessFile raf) throws IOException {
+    public static List<Long> fileGetLineOffsets(RandomAccessFile raf, long offset, long lines) throws IOException {
         List<Long> offsets = new ArrayList<>();
-        raf.seek(0);
-        Long currOffset = new Long(0);
+        raf.seek(offset);
+        long currOffset = offset;
 
         while(raf.readLine() != null) {
             offsets.add(currOffset);
+            if(lines > 0 && offsets.size() >= lines)
+                break;
             currOffset = raf.getFilePointer();
         }
 
