@@ -94,6 +94,9 @@ public class GameStartActivity extends Activity {
             // Set driver dir for rttr
             Os.setenv("RTTR_DRIVER_DIR", getCacheDir().toString() + "/driver", true);
 
+            Os.setenv("RTTR_RTTR_DIR", data.gameFolder + "/share/RTTR", true);
+            Os.setenv("RTTR_GAME_DIR", data.gameFolder + "/share/S2", true);
+
         } catch (ErrnoException e) {
             throw new RuntimeException(e);
         }

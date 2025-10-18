@@ -4,7 +4,6 @@ project(dependencies)
 
 set(INSTALL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../libs" CACHE BOOL "" FORCE)
 
-
 set(SDL_STATIC OFF CACHE BOOL "" FORCE)
 add_subdirectory(SDL)
 add_custom_target(install_sdl ALL
@@ -54,6 +53,7 @@ add_subdirectory(gl4es)
 set_target_properties(GL PROPERTIES SUFFIX ".so")
 add_custom_target(install_gl4es ALL
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/gl4es/include" "${INSTALL_PATH}/gl4es/include"
+	COMMAND ${CMAKE_COMMAND} -E make_directory "${INSTALL_PATH}/gl4es/${ANDROID_ABI}"
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/lib/libGL.so" "${INSTALL_PATH}/gl4es/${ANDROID_ABI}"
 	DEPENDS GL
 )
