@@ -30,7 +30,7 @@ android {
              cmake {
                  arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared"
                  // abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-                 abiFilters 'arm64-v8a'
+                 abiFilters 'x86_64'
              }
         }
     }
@@ -76,6 +76,24 @@ android {
     	release {
     		signingConfig signingConfigs.release
     	}
+    }
+
+
+    sourceSets {
+        main {
+            def depInst = "$rootDir/libs"
+            def abis = android.defaultConfig.externalNativeBuild.cmake.abiFilters
+
+            jniLibs.srcDirs = [
+                "$depInst/SDL",
+                "$depInst/SDL_mixer",
+                "$depInst/miniupnpc",
+                "$depInst/lua",
+                "$depInst/gl4es",
+                "$depInst/bzip2",
+                "$depInst/boost"
+            ]
+        }
     }
 }
 

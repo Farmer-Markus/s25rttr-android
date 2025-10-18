@@ -51,8 +51,9 @@ add_custom_target(install_bz2 ALL
 
 # Opengl2.* to Opengl-es translation library
 add_subdirectory(gl4es)
+set_target_properties(GL PROPERTIES SUFFIX ".so")
 add_custom_target(install_gl4es ALL
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/gl4es/include" "${INSTALL_PATH}/gl4es/include"
-	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/lib/libGL.so.1" "${INSTALL_PATH}/gl4es/${ANDROID_ABI}/libGL.so"
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/lib/libGL.so" "${INSTALL_PATH}/gl4es/${ANDROID_ABI}"
 	DEPENDS GL
 )
