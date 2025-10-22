@@ -6,7 +6,6 @@ project(s25rttr)
 # include(AndroidNdkModules)
 # android_ndk_import_module_cpufeatures()
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 set(LIB_DIR "${CMAKE_SOURCE_DIR}/../../libs")
 
 set(Boost_LIBRARY_DIR 		"${LIB_DIR}/boost/${ANDROID_ABI}"			CACHE INTERNAL "" FORCE)
@@ -34,7 +33,7 @@ set(BZIP2_LIBRARY 		"${LIB_DIR}/bzip2/${ANDROID_ABI}/libbz2.so" 		CACHE INTERNAL
 set(BZIP2_LIBRARIES 		"${LIB_DIR}/bzip2/${ANDROID_ABI}" 			CACHE INTERNAL "" FORCE)
 
 set(GL4ES_INCLUDE_DIR 		"${LIB_DIR}/gl4es/include"				CACHE INTERNAL "" FORCE)
-set(GL4ES_LIBRARY 		"${LIB_DIR}/gl4es/${ANDROID_ABI}/libGL.so"				CACHE INTERNAL "" FORCE)
+set(GL4ES_LIBRARY 		"${LIB_DIR}/gl4es/${ANDROID_ABI}/libGL.so"		CACHE INTERNAL "" FORCE)
 
 
 add_library(GL SHARED IMPORTED GLOBAL)

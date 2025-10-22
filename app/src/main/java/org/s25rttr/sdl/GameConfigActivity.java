@@ -136,7 +136,7 @@ public class GameConfigActivity extends Activity {
 
                     new Thread(()->{
                         try {
-                            Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share"),
+                            Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share/s25rttr"),
                                     dialog.findViewById(R.id.additionalText));
                         } catch (IOException e) {
                             dialog.dismiss();

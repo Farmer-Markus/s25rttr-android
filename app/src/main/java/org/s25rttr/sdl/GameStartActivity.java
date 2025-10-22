@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.system.ErrnoException;
 import android.system.Os;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import org.s25rttr.sdl.utils.Data;
 import org.s25rttr.sdl.utils.Filesystem;
@@ -66,7 +69,7 @@ public class GameStartActivity extends Activity {
 
                 new Thread(()->{
                     try {
-                        Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share"), dialog.findViewById(R.id.additionalText));
+                        Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share/s25rttr"), dialog.findViewById(R.id.additionalText));
                     } catch (IOException e) {
                         dialog.dismiss();
                         throw new RuntimeException(e);
@@ -94,8 +97,8 @@ public class GameStartActivity extends Activity {
             // Set driver dir for rttr
             Os.setenv("RTTR_DRIVER_DIR", getCacheDir().toString() + "/driver", true);
 
-            Os.setenv("RTTR_RTTR_DIR", data.gameFolder + "/share/RTTR", true);
-            Os.setenv("RTTR_GAME_DIR", data.gameFolder + "/share/S2", true);
+            Os.setenv("RTTR_RTTR_DIR", data.gameFolder + "/share/s25rttr/RTTR", true);
+            Os.setenv("RTTR_GAME_DIR", data.gameFolder + "/share/s25rttr/S2", true);
 
         } catch (ErrnoException e) {
             throw new RuntimeException(e);
@@ -116,7 +119,7 @@ public class GameStartActivity extends Activity {
         Intent intent = new Intent(this, SDLActivity.class);
         intent.putExtra("rotation", data.orientation);
 
-        // For result to make the app start this activity when clicket on app overview instead of sdl activity
+        // For result to make the app start this activity when clicked on app overview instead of sdl activity
         startActivityForResult(intent, SDL_CODE);
     }
 }
