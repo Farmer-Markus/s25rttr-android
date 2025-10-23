@@ -3,8 +3,21 @@ Android port of the fan-project [Return to the Roots](https://github.com/Return-
 
 This project is work in progress, please report bugs [here](https://github.com/Farmer-Markus/s25rttr-android/issues). <br>
 
+Planned bugfixes:
+
+- Working multiplayer
+- Virtual keyboard
+
 ## Downloads
-Download from [github releases](https://github.com/Farmer-Markus/s25rttr-android/releases) or [build it yourself](#Compiling) as described below.
+Download from [github releases](https://github.com/Farmer-Markus/s25rttr-android/releases) or [build it yourself](#compiling) as described below.
+
+## Screenshots
+<img width="2400" height="1080" alt="Screenshot_2" src="https://github.com/user-attachments/assets/de717269-e9e1-4120-a8b2-efb4a004abd3" />
+
+![Screenshot_3](https://github.com/user-attachments/assets/e5d43288-e253-4d64-a5c1-d08ed8910766)
+
+![Screenshot1](https://github.com/user-attachments/assets/b05e7b3c-319e-40e8-a87b-4c9eee83e876)
+
 
 ## Compiling
 You will need git <br>
