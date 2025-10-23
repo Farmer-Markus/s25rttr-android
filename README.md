@@ -3,10 +3,17 @@ Android port of the fan-project [Return to the Roots](https://github.com/Return-
 
 This project is work in progress, please report bugs [here](https://github.com/Farmer-Markus/s25rttr-android/issues). <br>
 
-Planned bugfixes:
+Features:
+- Touch controls (also shortcut: double tap on window to close)
+- Mouse works fine like on pc
+- App config menu to create/choose folder, set default username, orientation and view/delete log files
 
+Planned bugfixes:
 - Working multiplayer
 - Virtual keyboard
+
+Planned features:
+- Java: Detect app update & update game files
 
 ## Downloads
 Download from [github releases](https://github.com/Farmer-Markus/s25rttr-android/releases) or [build it yourself](#compiling) as described below.
