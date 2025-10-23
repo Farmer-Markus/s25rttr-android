@@ -201,10 +201,11 @@ tasks.named("clean").configure {
 
 afterEvaluate {
     def taskNames = ["assemble", "assembleDebug", "assembleRelease", "bundleDebug", "bundleRelease", "build", "installDebug", "installRelease"]
+
     taskNames.each { taskName ->
-        tasks.named(taskName).configure { task ->
-            if (task) {
-                dependsOn("buildDependencies")
+        if (tasks.findByName(taskName)) {
+            tasks.named(taskName).configure { task ->
+                task.dependsOn("buildDependencies")
             }
         }
     }

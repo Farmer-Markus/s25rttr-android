@@ -22,15 +22,15 @@ Also you will need the android sdk, ndk, buildtools and android cmake.
 These can be installed using the sdkmanager cmdline tool.
 
 ##### Archlinux
-To install gradle and java run:
+To install gradle, java and make run:
 
-	sudo pacman -S gradle jdk17-openjdk
+	sudo pacman -S gradle jdk17-openjdk make
 To install the android sdkmanager you can use the [AUR package](https://aur.archlinux.org/packages/android-sdk-cmdline-tools-latest) or download the tools yourself on [Googles website](https://developer.android.com/studio?hl=de#command-tools).
 
 ##### Debian
-To install gradle, java and the android sdkmanager run:
+To install gradle, java, make and the android sdkmanager run:
 
-	sudo apt-get install gradle openjdk-17-jdk sdkmanager
+	sudo apt-get install gradle openjdk-17-jdk sdkmanager make
 
 ##### Windows
 coming soon...
