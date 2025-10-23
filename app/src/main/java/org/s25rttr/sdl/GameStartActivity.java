@@ -69,7 +69,8 @@ public class GameStartActivity extends Activity {
 
                 new Thread(()->{
                     try {
-                        Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share/s25rttr"), dialog.findViewById(R.id.additionalText));
+                        Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share/s25rttr"),
+                                dialog.findViewById(R.id.additionalText));
                     } catch (IOException e) {
                         dialog.dismiss();
                         throw new RuntimeException(e);
@@ -105,11 +106,8 @@ public class GameStartActivity extends Activity {
         }
 
         try {
-            if (!Filesystem.prepareDrivers(this, true)) {
-                Ui.alertDialog(this, "Filesystem error", "Failed to create symlinks in app cache.",
-                        this::finish);
-                return;
-            }
+            Filesystem.prepareDrivers(this, true);
+
         } catch (IOException e) {
             Ui.alertDialog(this, "Filesystem error", "Failed to create symlinks in app cache: " + e,
                     this::finish);

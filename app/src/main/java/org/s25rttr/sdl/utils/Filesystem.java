@@ -54,34 +54,6 @@ public class Filesystem {
         } else {
             return "/storage/" + storageCode + "/" + restPath;
         }
-
-        /*
-        // removed "/tree/"
-        path = path.substring(6);
-
-        String storageCode = "";
-        int pathOffset = path.length();
-
-        int i = 0;
-        for(; i < pathOffset; i++) {
-            char c = path.charAt(i);
-            if(c == ':') break;
-
-            storageCode += c;
-        }
-        // Set offset to folder begin
-        pathOffset = i + 1;
-
-        // If internal storage
-        if(storageCode.equals("primary")) {
-            path = "/storage/emulated/0/" + path.substring(pathOffset);
-
-        } else {
-            // Apply sdcard code |
-            path = "/storage/" + storageCode + "/" + path.substring(pathOffset);
-        }
-
-        return path;*/
     }
 
     public static boolean pathIsWritable(String path) {
@@ -103,7 +75,7 @@ public class Filesystem {
         return false;
     }
 
-    public static boolean prepareDrivers(Context context, boolean overWrite) throws IOException {
+    public static void prepareDrivers(Context context, boolean overWrite) throws IOException {
         // Location of .so libraries including rttr audio/video driver
         File libDir = new File(context.getApplicationInfo().nativeLibraryDir);
         File cacheDir = context.getCacheDir();
@@ -119,33 +91,20 @@ public class Filesystem {
             Files.deleteIfExists(audioDest.toPath());
 
         } else {
-            if(videoDest.exists() && audioDest.exists()) return true;
+            if(videoDest.exists() && audioDest.exists()) return;
         }
 
         // Ensures that destination dirs exist
         boolean videoSuccsess = videoDir.exists() || videoDir.mkdirs();
         boolean audioSuccsess = audioDir.exists() || audioDir.mkdirs();
 
-        if(!videoSuccsess || !audioSuccsess) {
-            Log.e("org.s25rttr.sdl", "Filesystem::prepareDrivers: Failed to create video/audio driver cache directory.");
-            return false;
-        }
-
-        /*try {
-            Files.copy(libDir.toPath().resolve("libvideoSDL2.so"), videoDest.toPath());
-            Files.copy(libDir.toPath().resolve("libaudioSDL.so"), audioDest.toPath());
-        } catch (IOException e) {
-            Log.e("org.s25rttr.sdl", "Filesystem::prepareDrivers: Failed to copy driver libraries.");
-            Log.e("org.s25rttr.sdl", e.toString());
-            return false;
-        }*/
+        if(!videoSuccsess || !audioSuccsess)
+            throw new IOException("Failed to create video/audio driver cache directory.");
 
         Files.createSymbolicLink(videoDest.toPath(), libDir.toPath().resolve("libvideoSDL2.so"));
         Files.createSymbolicLink(audioDest.toPath(), libDir.toPath().resolve("libaudioSDL.so"));
 
         if(!videoDest.exists() || !audioDest.exists()) throw new IOException("Audio/Video driver link does not exist!");
-
-        return true;
     }
 
     public static boolean copyAssets(Activity activity, AssetManager manager, String source, File destination) throws IOException {

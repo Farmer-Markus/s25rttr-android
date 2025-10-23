@@ -149,20 +149,6 @@ public class GameConfigActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // When returning from requesting permission
-        /*if(Permission.waitingForPermission) {
-            Permission.waitingForPermission = false;
-
-            reloadUi();
-            if(!Permission.checkPermission(this))
-                Permission.requestPermission(this, PERMISSION_CODE);
-        }*/
-    }
-
     private void saveAndExit() {
         if(startedByShortcut || data.firstStart) {
             data.firstStart = false;
@@ -176,11 +162,9 @@ public class GameConfigActivity extends Activity {
 
     private void openFilePicker() {
         if(!Permission.checkPermission(this)) {
-            //Permission.requestPermission(this, PERMISSION_CODE);
             Ui.questionDialog(this, "Missing permission", getString(R.string.config_question_missing_permission_dialog), () -> {
                 Permission.requestPermission(this, PERMISSION_CODE);
             }, null);
-            //Ui.alertDialog(this, "Missing permission", getString(R.string.config_inform_permission_dialog), null);
             return;
         }
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
@@ -256,5 +240,4 @@ public class GameConfigActivity extends Activity {
         );
         spinner.setAdapter(adapter);
     }
-
 }
