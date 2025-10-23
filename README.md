@@ -45,13 +45,22 @@ You will need at least the following packages
 	android sdk 34
 	android cmake 3.22.1
 	Platform-Tools v.35.0.2
-	android ndk r27
+	android build-tools 35.0.0
+	android ndk 27.0.12077973
 
 You can install them via the `sdkmanager --install` command:
 
-	sdkmanager --install "platforms;android-34" "cmake;4.1.2" "platform-tools;36.0.2" "ndk;r27"
+	sdkmanager --install "platforms;android-34" "cmake;4.1.2" "platform-tools;36.0.2" "ndk;27.0.12077973" "build-tools;35.0.0"
 
 This will install the SDK to a specific location. (Remember the location) <br>
+You need to accept the licenses using the sdkmanager
+
+	sdkmanager --licenses
+You may want to move the SDK to another folder like ~/Android/Sdk (Default in android studio)
 
 Now you need to give the gradle script the path to the android sdk. <br>
+You can create a `local.properties` file containing the following. <br>
+
+	sdk.dir=<path to the sdk>
+Or set the enviroment variable `ANDROID_HOME` to the sdk installation.
 
