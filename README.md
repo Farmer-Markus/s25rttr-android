@@ -22,15 +22,15 @@ Also you will need the android sdk, ndk, buildtools and android cmake.
 These can be installed using the sdkmanager cmdline tool.
 
 ##### Archlinux
-To install gradle, java and make run:
+To install the required packages run:
 
-	sudo pacman -S gradle jdk17-openjdk make
+	sudo pacman -S gradle jdk17-openjdk make gettext
 To install the android sdkmanager you can use the [AUR package](https://aur.archlinux.org/packages/android-sdk-cmdline-tools-latest) or download the tools yourself on [Googles website](https://developer.android.com/studio?hl=de#command-tools).
 
 ##### Debian
-To install gradle, java, make and the android sdkmanager run:
+To install the required packages run:
 
-	sudo apt-get install gradle openjdk-17-jdk sdkmanager make
+	sudo apt-get install gradle openjdk-17-jdk sdkmanager make gettext
 
 ##### Windows
 coming soon...
@@ -39,7 +39,6 @@ coming soon...
 To show every available package run:
 
 	sdkmanager --list
-
 You will need at least the following packages
 
 	android sdk 34
@@ -47,7 +46,6 @@ You will need at least the following packages
 	Platform-Tools v.35.0.2
 	android build-tools 35.0.0
 	android ndk 27.0.12077973
-
 You can install them via the `sdkmanager --install` command:
 
 	sdkmanager --install "platforms;android-34" "cmake;4.1.2" "platform-tools;36.0.2" "ndk;27.0.12077973" "build-tools;35.0.0"
@@ -64,3 +62,12 @@ You can create a `local.properties` file containing the following. <br>
 	sdk.dir=<path to the sdk>
 Or set the enviroment variable `ANDROID_HOME` to the sdk installation.
 
+### Building
+Now you should able to run the build command.
+
+	./gradlew.sh assembleDebug	# Debug build on linux
+	./gradlew.bat assembleDebug	# Debug build on windows
+To build the release version you need to look a bit deeper into the android apk signing system.
+
+	./gradlew.sh assembleRelease	# Release build on Linux
+	./gradlew.bat assembleRelease	# Release build on Windows
