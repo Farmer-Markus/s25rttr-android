@@ -5,6 +5,12 @@ on:
     branches: [ "rewrite" ]
   pull_request:
     branches: [ "rewrite" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Build manually'
+        required: true
+        default: 'development'
 
 jobs:
   build:
