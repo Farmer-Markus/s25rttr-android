@@ -14,6 +14,8 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
         return new String[] {
                 "SDL2",
                 "SDL2_mixer",
+                "videoSDL2",
+                "audioSDL",
                 "s25client"
         };
     }
