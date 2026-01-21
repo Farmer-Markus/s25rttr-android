@@ -228,9 +228,9 @@
 [submodule "app/jni/boost/interprocess"]
 	path = external/boost/interprocess
 	url = https://github.com/boostorg/interprocess
-[submodule "app/jni/s25client"]
-	path = app/jni/s25client
-	url = https://github.com/Return-To-The-Roots/s25client
 [submodule "external/gl4es"]
 	path = external/gl4es
 	url = https://github.com/ptitSeb/gl4es
+[submodule "app/jni/s25client"]
+	path = app/jni/s25client
+	url = https://github.com/Return-To-The-Roots/s25client
