@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shortcut_config_name">Konfigurieren</string>
+    <string name="config_title_text">Return to the Roots Konfiguration</string>
+    <string name="config_rttr_dir_title">RTTR Spielordner:</string>
+    <string name="config_rttr_dir_info">In diesem Ordner werden Spieldateien gespeichert (Einstellungen, Logs, Speicherstände)</string>
+    <string name="config_game_dir_title">Siedler 2 Ordner:</string>
+    <string name="config_game_dir_info">Originale Siedler 2 Gold Edition (msdos) Installation. Wird von RTTR benötigt</string>
+    <string name="config_default_name_title">Standard Name: (Vor erstem Start setzen)</string>
+    <string name="config_orientation_title">Ausrichtung:</string>
+    <string name="config_log_delete_button">Logs löschen</string>
+    <string name="config_game_start_button">Spiel starten/Einstellungen speichern</string>
+    <string name="config_dialog_permission_title">Berechtigung</string>
+    <string name="config_dialog_discard_changes_title">Änderungen verwerfen?</string>
+    <string name="config_dialog_discard_changes_message">Deine Änderungen wurden nicht gespeichert, möchtest du trotzdem verlassen?</string>
+    <string name="config_dialog_permission_request">Diese App braucht die Berechtigung alle Dateien zu verwalten(lesen/schreiben). Bitte erlaube alle Dateiberechtigungen in den App Systemeinstellungen</string>
+    <string name="config_dialog_exit_dialog">Du kannst dieses Konfigurations Menü durch langes Drücken auf das App Icon und dann das Tippen auf  \"Konfigurieren\" öffnen</string>    <string name="config_dialog_s2files_title">Siedler 2 Daten</string>
+    <string name="config_dialog_s2files_message">Der gewählte Ordner beinhaltet keine valide Siedler 2 Gold Edition (msdos) Installation!</string>
+    <string name="config_updater_button">Spieldaten aktualisieren</string>
+    <string name="config_enable_updater_checkbox">Updater aktivieren</string>
+    <string name="config_updater_info">Spieldateien im RTTR Ordner nach App Updates auf dem neusten Stand bringen (empfohlen)</string>
+    <string name="config_orientation_dynamic_landscape">Dynamisches Querformat (Standard)</string>
+    <string name="config_orientation_dynamic_portrait">Dynamisches Hochformat</string>
+    <string name="config_orientation_landscape">Querformat</string>
+    <string name="config_orientation_portrait">Hochformat</string>
+    <string name="config_orientation_reverse_landscape">Umgekehrtes Querformat</string>
+    <string name="config_orientation_reverse_portrait">Umgekehrtes Hochformat</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_yes">JA</string>
+    <string name="dialog_no">NEIN</string>
+    <string name="dialog_not_show">Nicht erneut anzeigen</string>
+    <string name="assets_dialog_dir_not_writable_message">RTTR Spielordner konnte nicht beschrieben werden! Bitte überprüfe deine Einstellungen</string>
+    <string name="game_dialog_missing_config_title">Fehlende Konfiguration</string>
+    <string name="game_dialog_missing_config_message">Bitte überprüfe ob alle Pfade in der Konfiguration auf gültige Ordner zeigen</string>
+    <string name="game_dialog_driver_failed_title">Treiber fehlgeschlagen</string>
+    <string name="game_dialog_driver_failed_message">Konnte Treiber nicht verlinken. Versuche den App Cache zu löschen. Wenn dies öfters passiert bitte öffne einen Bug Report auf Github</string>
+    <string name="assets_dialog_dir_not_writable_title">Pfad nicht beschreibbar</string>
+    <string name="assets_dialog_searching_title">Updates werden gesucht…</string>
+    <string name="assets_dialog_update_ready_title">Update bereit</string>
+    <string name="assets_dialog_update_message">%1$d Datei/-en können aktualisiert werden. Möchtest du sie aktualisieren? (Manuell ersetzte Assets wie Texturen werden überschrieben)</string>
+    <string name="assets_dialog_updating">Spieldaten werden aktualisiert…</string>
+    <string name="assets_dialog_update_failed_title">Update fehlgeschlagen</string>
+    <string name="assets_dialog_update_failed_message">Beim Kopierprozess ist ein Fehler aufgetreten: %1$s</string>
+    <string name="assets_dialog_updater_disable_title">Updater deaktivieren</string>
+    <string name="assets_dialog_updater_disable_message">Soll der updater deaktiviert werden? (Kann in der Konfiguration wieder aktiviert werden)</string>
+    <string name="assets_toast_updater_disable">Updater deaktiviert</string>
+    <string name="assets_dialog_updated_title">Neuster Stand</string>
+    <string name="assets_dialog_updated_message">Alle Return to the Roots Spieldateien sind auf dem neusten Stand</string>
+    <string name="assets_dialog_copy_failed_message">Fehler beim kopieren der Spieldateien zum RTTR Ordner: %1$s</string>
+    <string name="assets_dialog_copying_title">Spieldateien werden in den RTTR Ordner kopiert…</string>
+    <string name="assets_toast_saved_settings">Einstellungen gespeichert</string>
+    <string name="assets_dialog_update_done_title">Update erfolgreich</string>
+    <string name="assets_dialog_update_done_message">Die Return to the Roots Spieldateien wurden erfolgreich aktualisiert</string>
+    <string name="config_dialog_generic_error_title">Ein Fehler ist aufgetreten</string>
+    <string name="assets_toast_no_updates">Auf dem neusten Stand</string>
+</resources>

@@ -1,243 +1,397 @@
 package org.s25rttr.sdl;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
-import org.s25rttr.sdl.utils.Filesystem;
-import org.s25rttr.sdl.utils.Data;
-import org.s25rttr.sdl.utils.Permission;
-import org.s25rttr.sdl.utils.Ui;
+import org.s25rttr.sdl.data.Filesystem;
+import org.s25rttr.sdl.utils.Permissions;
+import org.s25rttr.sdl.data.Settings;
+import org.s25rttr.sdl.utils.RttrHelper;
+import org.s25rttr.sdl.utils.UiHelper;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
 
-public class GameConfigActivity extends Activity {
-    private static final Data data = new Data();
-
-    private boolean startedByShortcut = false;
-
-    private static final int FILE_PICKER_CODE = 1;
+/*
+  Config activity.
+  Allows user to set various settings, open logs
+  pick folders
+ */
+public class GameConfigActivity extends Activity
+{
+    // Activity result codes
+    private static final int RTTR_DIR_PICKER_CODE = 0;
+    private static final int GAME_DIR_PICKER_CODE = 1;
     private static final int PERMISSION_CODE = 2;
+    private static final int UPDATER_CODE = 3;
+
+    private Settings settings;
+
+
+    public GameConfigActivity()
+    {
+        settings = new Settings();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.game_config);
-        View view = findViewById(R.id.mainLayout);
-
-
-        startedByShortcut = getIntent().getBooleanExtra("shortcut", false);
-
-        if(Build.VERSION.SDK_INT >= 33) {
+        if(Build.VERSION.SDK_INT >= 33)
+        {
             getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
                     OnBackInvokedDispatcher.PRIORITY_DEFAULT,
                     ()->{
-                        if(!backPressed()) super.getOnBackInvokedDispatcher();
+                        if(!HandleBackPressed())
+                            super.getOnBackInvokedDispatcher();
                     }
             );
         }
 
-        // Loads saved data into the UI
-        loadData(data);
-
-        Button button = findViewById(R.id.folderPickButton);
-        button.setOnClickListener(v -> {
-            openFilePicker();
-        });
-
-        button = findViewById(R.id.logOpenButton);
-        button.setOnClickListener(v -> {
-            Spinner spinner = findViewById(R.id.logInput);
-            if(spinner.getSelectedItemPosition() >= 0 && !((Ui.SpinnerItem) spinner.getSelectedItem()).additional.equals("N/a"))
-                Filesystem.openTextFile(this, data.gameFolder + "/.s25rttr/LOGS/" + spinner.getSelectedItem().toString());
-
-        });
-
-        button = findViewById(R.id.logDeleteButton);
-        button.setOnClickListener(v -> {
-            if(Filesystem.deleteDirectory(new File(data.gameFolder, ".s25rttr/LOGS"))) {
-                reloadUi();
-                Toast toast = Toast.makeText(this, "Logs deleted", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Toast toast = Toast.makeText(this, "Failed to delete logs", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
-
-        button = findViewById(R.id.launchGameButton);
-        button.setOnClickListener(v -> {
-            getData(data);
-            if(data.gameFolder.isEmpty() || !Filesystem.pathIsWritable(data.gameFolder)) {
-                Ui.alertDialog(this, "Info", getString(R.string.config_alert_select_folder), null);
-                return;
-            }
-
-            if(data.showExitDialog) {
-                Ui.informDialog(this, "Info", getString(R.string.config_inform_exit_dialog),
-                        this::saveAndExit, ()->{
-                    data.showExitDialog = false;
-                    saveAndExit();
-                });
-            } else {
-                saveAndExit();
-            }
-        });
-
-
-        if(!Permission.checkPermission(this))
-            Permission.requestPermission(this, PERMISSION_CODE);
+        settings.Load(this);
+        InitUi();
+        EnsurePermission();
     }
 
     @Override
-    public void onBackPressed() {
-        if(!backPressed()) super.onBackPressed();
+    protected void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        // Store current unsaved settings until going back to this activity
+        outState.putSerializable("config_settings", settings);
     }
 
-    private boolean backPressed() {
-        if(dataChanged()) {
-            Ui.questionDialog(this, getString(R.string.config_question_discard_changes_title),
-                    getString(R.string.config_question_discard_changes_message), this::finish, null);
-        } else {
-            return false;
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        settings = (Settings)savedInstanceState.getSerializable("config_settings");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultData)
+    {
+        if(resultCode == RESULT_OK)
+        {
+            switch(requestCode)
+            {
+                case RTTR_DIR_PICKER_CODE:
+                    HandleRttrDirPickerResult(resultData);
+                    break;
+
+                case GAME_DIR_PICKER_CODE:
+                    HandleGameDirPickerResult(resultData);
+                    break;
+
+                case PERMISSION_CODE:
+                    // Do... Nothing? No I don't think so :-/
+                    break;
+
+                case UPDATER_CODE:
+                    // Setting could have been changed
+                    settings.EnableUpdater = new Settings().Load(this).EnableUpdater;
+                    ReloadUi();
+                    break;
+            }
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(!HandleBackPressed())
+            super.onBackPressed();
+    }
+
+    private boolean HandleBackPressed()
+    {
+        if(SettingsChanged())
+        {
+            // Open dialog "do you really want to discard changes" etc.
+            UiHelper.QuestionDialog(
+                    this,
+                    getString(R.string.config_dialog_discard_changes_title),
+                    getString(R.string.config_dialog_discard_changes_message),
+                    ()->{
+                        ExitDialog(this::finish);
+                    },
+                    null
+            );
+        } else
+            ExitDialog(this::finish);
+
         return true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        // Returned from file picker
-        if(requestCode == FILE_PICKER_CODE && resultCode == RESULT_OK) {
-            Uri uri = null;
-            if(resultData != null) {
-                uri = resultData.getData();
-                data.gameFolder =  Filesystem.getRealPath(uri);
-                reloadUi();
-                if(!Files.exists(Paths.get(data.gameFolder).resolve("share"))) {
-                    Dialog dialog = Ui.manualDialog(this, getString(R.string.config_dialog_copying_title),
-                            getString(R.string.config_dialog_copying_message));
+    private void HandleRttrDirPickerResult(Intent resultData)
+    {
+        if(resultData != null && EnsurePermission())
+        {
+            Uri uri = resultData.getData();
+            settings.RttrDirectory = Filesystem.UriToRealPath(uri);
+            if(!Filesystem.IsPathWritable(settings.RttrDirectory))
+            {
+                UiHelper.AlertDialog(
+                        this,
+                        getString(R.string.assets_dialog_dir_not_writable_title),
+                        getString(R.string.assets_dialog_dir_not_writable_message),
+                        null
+                );
+                return;
+            }
+            // Maybe an old installation folder was selected so we can use the old location
+            if(settings.GameDirectory.isEmpty())
+            {
+                settings.GameDirectory = RttrHelper.COMPAT_FindS2Installation(settings);
+                ReloadUi();
+            }
+            // Assets will be copied on game start
+        }
+    }
 
-                    new Thread(()->{
-                        try {
-                            Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share/s25rttr"),
-                                    dialog.findViewById(R.id.additionalText));
-                        } catch (IOException e) {
-                            dialog.dismiss();
-                            throw new RuntimeException(e);
-                        }
-                        dialog.dismiss();
-                    }).start();
-                }
+    private void HandleGameDirPickerResult(Intent resultData)
+    {
+        if(resultData != null && EnsurePermission())
+        {
+            Uri uri = resultData.getData();
+            settings.GameDirectory = Filesystem.UriToRealPath(uri);
+            ReloadUi();
+            if(!RttrHelper.CheckS2Files(settings))
+            {
+                UiHelper.AlertDialog(
+                        this,
+                        getString(R.string.config_dialog_s2files_title),
+                        getString(R.string.config_dialog_s2files_message),
+                        null
+                );
             }
         }
     }
 
-    private void saveAndExit() {
-        if(startedByShortcut || data.firstStart) {
-            data.firstStart = false;
-            data.saveSettings(this);
-
-            startActivity(new Intent(this, GameStartActivity.class));
+    private void OpenFilePicker(int activityCode)
+    {
+        if(EnsurePermission())
+        {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            startActivityForResult(intent, activityCode);
         }
-        data.saveSettings(this);
-        finish();
     }
 
-    private void openFilePicker() {
-        if(!Permission.checkPermission(this)) {
-            Ui.questionDialog(this, "Missing permission", getString(R.string.config_question_missing_permission_dialog), () -> {
-                Permission.requestPermission(this, PERMISSION_CODE);
-            }, null);
-            return;
-        }
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(intent, FILE_PICKER_CODE);
-    }
+    // Set listeners for buttons & update ui
+    private void InitUi()
+    {
+        setContentView(R.layout.game_config);
 
-    private void loadData(Data data) {
-        data.loadSettings(this);
-        reloadUi();
-    }
+        Button button = findViewById(R.id.RttrDirPickButton);
+        button.setOnClickListener(view -> {
+            OpenFilePicker(RTTR_DIR_PICKER_CODE);
+        });
 
-    private void getData(Data data) {
-        EditText editText = findViewById(R.id.folderTextInput);
-        data.gameFolder = editText.getText().toString();
-        editText = findViewById(R.id.nameTextInput);
-        data.defaultName = editText.getText().toString();
+        EditText et = findViewById(R.id.RttrDirEditText);
+        et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                settings.RttrDirectory = editable.toString();
+                CheckRttrDirUi();
+            }
+        });
 
-        Spinner spinner = findViewById(R.id.orientationInput);
-        Ui.SpinnerItem item = (Ui.SpinnerItem)spinner.getAdapter().getItem(spinner.getSelectedItemPosition());
-        data.orientation = item.id;
-    }
+        button = findViewById(R.id.GameDirPickButton);
+        button.setOnClickListener(view -> {
+            OpenFilePicker(GAME_DIR_PICKER_CODE);
+        });
 
-    private boolean dataChanged() {
-        Data newData = new Data();
-        getData(newData);
-        return !newData.equals(data);
-    }
+        et = findViewById(R.id.GameDirEditText);
+        et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                settings.GameDirectory = editable.toString();
+                CheckGameDirUi();
+            }
+        });
 
-    private void reloadUi() {
-        EditText editText = findViewById(R.id.folderTextInput);
-        editText.setText(data.gameFolder);
-        editText = findViewById(R.id.nameTextInput);
-        editText.setText(data.defaultName);
+        et = findViewById(R.id.DefaultNameEditText);
+        et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                settings.DefaultName = editable.toString();
+            }
+        });
 
-        Spinner spinner = findViewById(R.id.orientationInput);
-        Ui.SpinnerItem[] orientations = {
-                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE, getString(R.string.config_orientation_dynamic_landscape)),
-                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT, getString(R.string.config_orientation_dynamic_portrait)),
-                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, getString(R.string.config_orientation_landscape)),
-                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, getString(R.string.config_orientation_portrait)),
-                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE, getString(R.string.config_orientation_reverse_landscape)),
-                new Ui.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT, getString(R.string.config_orientation_reverse_portrait))
+        button = findViewById(R.id.LogOpenButton);
+        button.setOnClickListener(view -> {
+            // TODO: Open log viewer
+        });
+
+        button = findViewById(R.id.LogDeleteButton);
+        button.setOnClickListener(view -> {
+            // TODO: Delete logs
+        });
+
+        CheckBox checkBox = findViewById(R.id.EnableUpdaterCheckbox);
+        checkBox.setOnClickListener(view -> {
+            settings.EnableUpdater = ((CheckBox)view).isChecked();
+        });
+
+        button = findViewById(R.id.UpdaterButton);
+        button.setOnClickListener(view -> {
+            startActivityForResult(new Intent(this, AssetManagerActivity.class), UPDATER_CODE);
+        });
+
+        button = findViewById(R.id.GameStartButton);
+        button.setOnClickListener(view -> {
+            if(SettingsChanged())
+            {
+                settings.Save(this);
+                Toast.makeText(this, getText(R.string.assets_toast_saved_settings), LENGTH_SHORT).show();
+            }
+            ExitDialog(()->{
+                startActivity(new Intent(this, GameStartActivity.class));
+                finish();
+            });
+        });
+
+        // Initialize orientation spinner
+        Spinner spinner = findViewById(R.id.OrientationSpinner);
+        final UiHelper.SpinnerItem[] orientations = {
+                new UiHelper.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE, getString(R.string.config_orientation_dynamic_landscape)),
+                new UiHelper.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT, getString(R.string.config_orientation_dynamic_portrait)),
+                new UiHelper.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, getString(R.string.config_orientation_landscape)),
+                new UiHelper.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, getString(R.string.config_orientation_portrait)),
+                new UiHelper.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE, getString(R.string.config_orientation_reverse_landscape)),
+                new UiHelper.SpinnerItem(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT, getString(R.string.config_orientation_reverse_portrait))
         };
 
-        ArrayAdapter<Ui.SpinnerItem> adapter = new ArrayAdapter<>(
+        ArrayAdapter<UiHelper.SpinnerItem> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
                 orientations
         );
-
         spinner.setAdapter(adapter);
-        Ui.SpinnerItem.selectItemWithId(spinner, data.orientation);
+        UiHelper.SpinnerItem.SelectItemById(spinner, settings.Orientation);
 
-
-        spinner = findViewById(R.id.logInput);
-        ArrayList<Ui.SpinnerItem> logs = new ArrayList<>();
-        File logDir = new File(data.gameFolder, ".s25rttr/LOGS");
-
-        String[] logNames = logDir.list();
-        if(logNames != null && logNames.length > 0) {
-            for (int i = 0; i < logNames.length; i++) {
-                logs.add(new Ui.SpinnerItem(i, logNames[i]));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                settings.Orientation = ((UiHelper.SpinnerItem)parent.getAdapter().getItem(position)).id;
             }
-        } else {
-            logs.add(new Ui.SpinnerItem(0, getString(R.string.config_log_not_found_text), "N/a"));
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                UiHelper.SpinnerItem.SelectItemById((Spinner)parent, settings.Orientation);
+            }
+        });
+        // ~Initialize orientation spinner
+
+        // Set saved values
+        ReloadUi();
+    }
+
+    private void CheckRttrDirUi()
+    {
+        if(Filesystem.IsPathWritable(settings.RttrDirectory))
+            ((EditText)findViewById(R.id.RttrDirEditText)).setBackgroundColor(Color.GREEN);
+        else
+            ((EditText)findViewById(R.id.RttrDirEditText)).setBackgroundColor(Color.RED);
+    }
+
+    private void CheckGameDirUi()
+    {
+        if(RttrHelper.CheckS2Files(settings))
+            ((EditText)findViewById(R.id.GameDirEditText)).setBackgroundColor(Color.GREEN);
+        else
+            ((EditText)findViewById(R.id.GameDirEditText)).setBackgroundColor(Color.RED);
+    }
+
+    private void ReloadUi()
+    {
+        EditText editText = findViewById(R.id.RttrDirEditText);
+        editText.setText(settings.RttrDirectory);
+        CheckRttrDirUi();
+
+        editText = findViewById(R.id.GameDirEditText);
+        editText.setText(settings.GameDirectory);
+        CheckGameDirUi();
+
+        editText = findViewById(R.id.DefaultNameEditText);
+        editText.setText(settings.DefaultName);
+
+        Spinner spinner = findViewById(R.id.OrientationSpinner);
+        UiHelper.SpinnerItem.SelectItemById(spinner, settings.Orientation);
+
+        spinner = findViewById(R.id.LogSpinner);
+        // TODO: lookup logs & put them into spinner
+
+        CheckBox checkBox = findViewById(R.id.EnableUpdaterCheckbox);
+        checkBox.setChecked(settings.EnableUpdater);
+    }
+
+    // Did settings change?
+    private boolean SettingsChanged()
+    {
+        Settings temp = new Settings();
+        temp.Load(this);
+        return !settings.equals(temp);
+    }
+
+    // Request permission(false) if not already granted(true)
+    private boolean EnsurePermission()
+    {
+        if(!Permissions.HasPermission(this))
+        {
+            UiHelper.AlertDialog(
+                    this,
+                    getString(R.string.config_dialog_permission_title),
+                    getString(R.string.config_dialog_permission_request),
+                    ()->{
+                        Permissions.RequestPermission(this, PERMISSION_CODE);
+                    }
+            );
+            return false;
         }
 
-        Collections.sort(logs);
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                logs
-        );
-        spinner.setAdapter(adapter);
+        return true;
+    }
+
+    private void ExitDialog(UiHelper.DialogCallback okCallback)
+    {
+        if(settings.ShowExitDialog)
+        {
+            UiHelper.InformDialog(
+                    this,
+                    getString(R.string.config_dialog_info_title),
+                    getString(R.string.config_dialog_exit_dialog),
+                    okCallback,
+                    ()->{ // Disable message for next time
+                        // Directly save
+                        Settings temp = new Settings().Load(this);
+                        temp.ShowExitDialog = false;
+                        temp.Save(this);
+
+                        okCallback.Callback();
+                    }
+            );
+        } else
+            okCallback.Callback();
     }
 }

@@ -1,36 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">s25rttr</string>
-    <string name="config_caption">Settlers 2 Return to the Roots configuration</string>
-    <string name="config_folder_text">Game folder:</string>
-    <string name="config_folder_pick_button">Choose</string>
-    <string name="config_name_text">Default username:</string>
-    <string name="config_launch_game_button">Save/Launch</string>
-    <string name="alert_file_write_error">Please check if the chosen directory is writable and all permissions are accepted.</string>
     <string name="shortcut_config_name">Configure</string>
-    <string name="config_question_discard_changes_title">Discard changes?</string>
-    <string name="config_question_discard_changes_message">Do you want to exit without saving? Your changed values will not be saved!</string>
-    <string name="config_orientation_text">Orientation:</string>
+    <string name="config_title_text">Return to the Roots configuration</string>
+    <string name="config_rttr_dir_title">RTTR game directory:</string>
+    <string name="config_rttr_dir_info">Directory to store gamedate (settings, logs, saves)</string>
+    <string name="config_game_dir_title">Settlers 2 directory:</string>
+    <string name="config_game_dir_info">Original Settlers 2 Gold Edition (msdos) installation. Needed by RTTR to run</string>
+    <string name="config_default_name_title">Default name: (set before first startup)</string>
+    <string name="config_orientation_title">Orientation:</string>
+    <string name="config_log_title" translatable="false">Logs:</string>
+    <string name="config_log_delete_button">Delete logs</string>
+    <string name="config_game_start_button">Start game/Save settings</string>
+    <string name="config_pick_button" translatable="false">Pick</string>
+    <string name="config_dialog_permission_title">Permission</string>
+    <string name="config_dialog_discard_changes_title">Discard changes?</string>
+    <string name="config_dialog_discard_changes_message">You have unsaved changes do you really want to exit without saving?</string>
+    <string name="config_dialog_permission_request">This app needs permission to read and write all files to work. Please allow all file permission in the app system settings</string>
+    <string name="config_dialog_info_title" translatable="false">Info</string>
+    <string name="config_dialog_exit_dialog">You can access this config by long pressing on the app icon and choosing \"Configure\"</string>
+    <string name="config_dialog_s2files_title">Settlers 2 data</string>
+    <string name="config_dialog_s2files_message">The chosen directory does not contain a valid Settlers 2 Gold Edition (msdos) installation!</string>
+    <string name="config_log_button" translatable="false">Show</string>
+    <string name="config_updater_button">Update assets</string>
+    <string name="config_enable_updater_checkbox">Enable updater</string>
+    <string name="config_updater_info">Update assets in RTTR directory after app update (recommended)</string>
     <string name="config_orientation_dynamic_landscape">Dynamic landscape (Default)</string>
     <string name="config_orientation_dynamic_portrait">Dynamic portrait</string>
     <string name="config_orientation_landscape">Landscape</string>
     <string name="config_orientation_portrait">Portrait</string>
     <string name="config_orientation_reverse_landscape">Reverse landscape</string>
     <string name="config_orientation_reverse_portrait">Reverse portrait</string>
-    <string name="config_game_files_explanation">You will need the original Settlers 2 Gold edition(DOS) to run RTTR! Please copy the \'GFX\' and \'DATA\' folder of the original Settlers 2 game into: [your picked folder]/share/s25rttr/S2</string>
-    <string name="config_dialog_copying_title">Copying game files</string>
-    <string name="config_dialog_copying_message">Copying RTTR game files to chosen Directory:</string>
-    <string name="alert_assets_missing">Could not find game assets! Do you want to copy them now?</string>
-    <string name="config_log_text">Logs available:</string>
-    <string name="config_log_delete_button">Delete logs</string>
-    <string name="textview_back_button">Back</string>
-    <string name="config_log_view_button">View log</string>
-    <string name="textview_up_button">Up</string>
-    <string name="textview_down_button">Down</string>
-    <string name="config_log_not_found_text">No logs found</string>
-    <string name="config_inform_exit_dialog">To open this configuration long press on the app icon and choose \"Configure\"</string>
-    <string name="config_inform_not_show_again">Do not show again</string>
-    <string name="config_dialog_yes">Yes</string>
-    <string name="conifg_dialog_no">No</string>
-    <string name="config_alert_select_folder">Please select a valid game folder</string>
-    <string name="config_question_missing_permission_dialog">Please go to the app settings and allow managing all files. Open Settings?</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_yes">YES</string>
+    <string name="dialog_no">NO</string>
+    <string name="dialog_not_show">Do not show again</string>
+    <string name="game_dialog_missing_config_title">Missing config</string>
+    <string name="game_dialog_missing_config_message">Please ensure all paths in config are set to a valid directory</string>
+    <string name="game_dialog_driver_failed_title">Driver failed</string>
+    <string name="game_dialog_driver_failed_message">Failed to link drivers in cache directory. Try to clear the app cache. If this happens multiple times please open a bug report on github</string>
+    <string name="assets_dialog_dir_not_writable_message">RTTR Game directory is not writable! Please check your settings</string>
+    <string name="assets_dialog_dir_not_writable_title">Path not writable</string>
+    <string name="assets_dialog_searching_title">Searching for updates…</string>
+    <string name="assets_dialog_update_ready_title">Update ready</string>
+    <string name="assets_dialog_update_message">There are %1$d files ready to update. Do you want to update them? (Manually replaced assets/textures will be overwritten)</string>
+    <string name="assets_dialog_updating_title" translatable="false">Updating</string>
+    <string name="assets_dialog_updating">Updating game assets…</string>
+    <string name="assets_dialog_update_failed_title">Update failed</string>
+    <string name="assets_dialog_update_failed_message">An error occurred during the copy process: %1$s</string>
+    <string name="assets_dialog_updater_disable_title">Disable updater</string>
+    <string name="assets_dialog_updater_disable_message">Do you want to disable the updater? (Can be activated in configuration)</string>
+    <string name="assets_dialog_updated_title">Up to date</string>
+    <string name="assets_dialog_updated_message">All Return to the Roots Asset files are up to date</string>
+    <string name="assets_dialog_copy_failed_title" translatable="false">Assets failed</string>
+    <string name="assets_dialog_copy_failed_message">Failed to copy assets to RTTR directory: %1$s</string>
+    <string name="assets_dialog_copying_title">Copying assets to RTTR directory…</string>
+    <string name="assets_dialog_update_done_title">Update successfully</string>
+    <string name="assets_dialog_update_done_message">Return to the Roots assets updated successfully</string>
+    <string name="assets_toast_updater_disable">Updater disabled</string>
+    <string name="assets_toast_saved_settings">Saved settings</string>
+    <string name="config_dialog_generic_error_title">An error occured</string>
+    <string name="assets_toast_no_updates">Up to date</string>
 </resources>

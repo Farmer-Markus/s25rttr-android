@@ -1,123 +1,179 @@
 package org.s25rttr.sdl;
 
 import android.app.Activity;
-
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.system.ErrnoException;
 import android.system.Os;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
-import org.s25rttr.sdl.utils.Data;
-import org.s25rttr.sdl.utils.Filesystem;
-import org.s25rttr.sdl.utils.Ui;
+import org.s25rttr.sdl.data.Path;
+import org.s25rttr.sdl.utils.AssetHelper;
+import org.s25rttr.sdl.data.Filesystem;
+import org.s25rttr.sdl.data.Settings;
+import org.s25rttr.sdl.utils.RttrHelper;
+import org.s25rttr.sdl.utils.UiHelper;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Locale;
 
-public class GameStartActivity extends Activity {
-    private static final int SDL_CODE = 1;
+public class GameStartActivity extends Activity
+{
+    private boolean asset_init = false;
+
+    private static final int SDL_ACTIVITY_CODE = 0;
+    private static final int UPDATER_CODE = 1;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
-        checkValues();
-    }
-
-    protected void onResume() {
-        super.onResume();
-
-        checkValues();
+        if(savedInstanceState != null)
+            asset_init = savedInstanceState.getBoolean("asset_init");
+        PrepareGame();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        // Returned from sdl activity
-        if(requestCode == SDL_CODE) {
-            finishAffinity();
-            System.exit(0);
+    protected void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        // Store current unsaved settings until going back to this activity
+        if(asset_init) outState.putBoolean("asset_init", true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultData)
+    {
+        switch(requestCode)
+        {
+            case SDL_ACTIVITY_CODE:
+                Exit();
+                break;
+
+            case UPDATER_CODE:
+                if(resultCode == RESULT_OK)
+                    PrepareGame();
+                else
+                {
+                    startActivity(new Intent(this, GameConfigActivity.class));
+                    finish();
+                }
+                break;
         }
     }
 
-    private void checkValues() {
-        Data data = new Data();
-        data.loadSettings(this);
-        if (data.gameFolder.isEmpty()) {
-            startActivity(new Intent(this, GameConfigActivity.class));
-            return;
-        }
-        if (!Filesystem.pathIsWritable(data.gameFolder)) {
+    private void PrepareGame()
+    {
+        Settings s = new Settings();
+        s.Load(this);
 
-            Ui.alertDialog(this, "Filesystem error", getString(R.string.alert_file_write_error),
-                    ()->{startActivity(new Intent(this, GameConfigActivity.class));
-            });
-            return;
-        }
+        if(!Filesystem.IsPathWritable(s.RttrDirectory) || s.RttrDirectory.isEmpty())
+        {
+            if(s.RttrDirectory.isEmpty() && (s.RttrDirectory = Settings.COMPAT_GetOld(this)) != null)
+            {
+                s.GameDirectory = RttrHelper.COMPAT_FindS2Installation(s);
+                s.Save(this);
+                PrepareGame();
+                return;
+            }
 
-        if(!Files.exists(Paths.get(data.gameFolder).resolve("share"))) {
-            Ui.questionDialog(this, "Error! Assets not found", getString(R.string.alert_assets_missing), ()->{
 
-                Dialog dialog = Ui.manualDialog(this, getString(R.string.config_dialog_copying_title),
-                        getString(R.string.config_dialog_copying_message));
-
-                new Thread(()->{
-                    try {
-                        Filesystem.copyAssets(this, getAssets(), "share", new File(data.gameFolder + "/share/s25rttr"),
-                                dialog.findViewById(R.id.additionalText));
-                    } catch (IOException e) {
-                        dialog.dismiss();
-                        throw new RuntimeException(e);
+            UiHelper.AlertDialog(
+                    this,
+                    getString(R.string.game_dialog_missing_config_title),
+                    getString(R.string.game_dialog_missing_config_message),
+                    ()->{
+                        startActivity(new Intent(this, GameConfigActivity.class));
+                        finish();
                     }
-                    dialog.dismiss();
-                    checkValues();
-                }).start();
-            }, this::finish);
-
+            );
             return;
         }
 
-        try {
-            // Set home dir to save Logs/configs
-            Os.setenv("HOME", data.gameFolder, true);
-            
-            // Set default system user name
-            Os.setenv("USER", data.defaultName, true);
+        Path assetDir = AssetHelper.GetExternalAssetDirPath(s);
+        if(!assetDir.Exists())
+        {
+            startActivityForResult(new Intent(this, AssetManagerActivity.class), UPDATER_CODE);
+            asset_init = true;
+            return;
+        }
 
+        // Don't need updater if assets were just copied
+        if(!asset_init && s.EnableUpdater && AssetHelper.AppUpdated(this, s))
+        {
+            Intent intent = new Intent(this, AssetManagerActivity.class);
+            intent.putExtra("short_dialog", true);
+            startActivityForResult(intent, UPDATER_CODE);
+            return;
+        }
+
+        if(!RttrHelper.CheckS2Files(s))
+        {
+            UiHelper.AlertDialog(
+                    this,
+                    getString(R.string.config_dialog_s2files_title),
+                    getString(R.string.config_dialog_s2files_message),
+                    ()->{
+                        startActivity(new Intent(this, GameConfigActivity.class));
+                        finish();
+                    }
+            );
+            return;
+        }
+
+        if(!RttrHelper.PrepareDrivers(this))
+        {
+            UiHelper.AlertDialog(
+                    this,
+                        getString(R.string.game_dialog_driver_failed_title),
+                        getString(R.string.game_dialog_driver_failed_message),
+                        this::Exit
+            );
+            return;
+        }
+
+        try
+        {
+            // Linux env vars
+            Os.setenv("HOME", s.RttrDirectory, true);
+            Os.setenv("USER", s.DefaultName, true);
             Os.setenv("LANG", Locale.getDefault().toString(), true);
-            
-            // Set the dir to search for game data
-            Os.setenv("RTTR_PREFIX_DIR", data.gameFolder, true);
-            
-            // Set driver dir for rttr
-            Os.setenv("RTTR_DRIVER_DIR", getCacheDir().toString() + "/driver", true);
 
-            Os.setenv("RTTR_RTTR_DIR", data.gameFolder + "/share/s25rttr/RTTR", true);
-            Os.setenv("RTTR_GAME_DIR", data.gameFolder + "/share/s25rttr/S2", true);
+            // RTTR specific env vars
+            Os.setenv("RTTR_PREFIX_DIR", s.RttrDirectory, true);
+            Os.setenv("RTTR_DRIVER_DIR", RttrHelper.GetDriverDir(this), true);
+            Os.setenv("RTTR_RTTR_DIR", AssetHelper.GetExternalAssetDirPath(s).toString(), true);
+            Os.setenv("RTTR_GAME_DIR", s.GameDirectory, true);
 
-        } catch (ErrnoException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            Filesystem.prepareDrivers(this, true);
-
-        } catch (IOException e) {
-            Ui.alertDialog(this, "Filesystem error", "Failed to create symlinks in app cache: " + e,
-                    this::finish);
+        } catch (ErrnoException e)
+        {
+            UiHelper.AlertDialog(
+                    this,
+                    "Critical error",
+                    "Failed to set essential environment variables. If your running in an emulator ensure you are using the right ABI!" + e.toString(),
+                    this::Exit
+            );
             return;
         }
 
-        Intent intent = new Intent(this, SDLActivity.class);
-        intent.putExtra("rotation", data.orientation);
+        // Finally start RTTR
+        StartGame(s.Orientation);
+    }
 
-        // For result to make the app start this activity when clicked on app overview instead of sdl activity
-        startActivityForResult(intent, SDL_CODE);
+    private void StartGame(int orientation)
+    {
+        Intent intent = new Intent(this, SDLActivity.class);
+        intent.putExtra("orientation", orientation);
+
+        // Make sure this activity gets started instead of directly the SDLActivity
+        // (in app overview when app was soft closed)
+        startActivityForResult(intent, SDL_ACTIVITY_CODE);
+    }
+
+    private void Exit()
+    {
+        finishAffinity();
+        System.exit(0);
     }
 }

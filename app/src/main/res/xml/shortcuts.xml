@@ -9,7 +9,7 @@
             android:action="android.intent.action.VIEW"
             android:targetPackage="org.s25rttr.sdl"
             android:targetClass="org.s25rttr.sdl.GameConfigActivity" >
-            <extra android:name="shortcut" android:value="true" />
+            <!--<extra android:name="shortcut" android:value="true" />-->
         </intent>
     </shortcut>
 </shortcuts>
