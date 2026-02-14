@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.6)
 
 project(dependencies)
 
+# 16kb alignment
+if(ANDROID_ABI STREQUAL "arm64-v8a")
+	add_link_options(
+			"-Wl,-z,max-page-size=16384"
+			"-Wl,-z,common-page-size=16384"
+	)
+endif()
+
 set(INSTALL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../libs" CACHE BOOL "" FORCE)
 
 set(SDL_STATIC OFF CACHE BOOL "" FORCE)

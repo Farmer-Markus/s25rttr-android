@@ -15,8 +15,7 @@ import java.io.Serializable;
   Store & load all userset variables
   paths and username
  */
-public class Settings implements Serializable
-{
+public class Settings implements Serializable {
     public String RttrDirectory;
     public String GameDirectory;
     public String DefaultName;
@@ -28,8 +27,7 @@ public class Settings implements Serializable
 
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if(this == obj) return true;
         if(!(obj instanceof Settings)) return false;
 
@@ -41,8 +39,7 @@ public class Settings implements Serializable
     }
 
     // Save current settings
-    public Settings Save(Context context)
-    {
+    public Settings Save(Context context) {
         SharedPreferences pref = context.getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
@@ -59,8 +56,7 @@ public class Settings implements Serializable
     }
 
     // Load saved settings
-    public Settings Load(Context context)
-    {
+    public Settings Load(Context context) {
         SharedPreferences pref = context.getSharedPreferences("settings", MODE_PRIVATE);
 
         RttrDirectory = pref.getString("rttr_directory", "");
@@ -73,17 +69,14 @@ public class Settings implements Serializable
         return this;
     }
 
-    public static String COMPAT_GetOld(Context context)
-    {
+    public static String COMPAT_GetOld(Context context) {
         Path oldConf = new Path(context.getFilesDir().toString()).Append("AppPathConfig.conf");
         if(!oldConf.Exists())
             return null;
 
-        try(BufferedReader br = new BufferedReader(new FileReader(oldConf.toString())))
-        {
+        try(BufferedReader br = new BufferedReader(new FileReader(oldConf.toString()))) {
             return br.readLine();
-        } catch (Exception ignore)
-        {
+        } catch (Exception ignore) {
             return null;
         }
     }

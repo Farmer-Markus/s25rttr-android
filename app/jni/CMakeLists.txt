@@ -6,6 +6,14 @@ project(s25rttr)
 # include(AndroidNdkModules)
 # android_ndk_import_module_cpufeatures()
 
+# 16kb alignment
+if(ANDROID_ABI STREQUAL "arm64-v8a")
+    add_link_options(
+            "-Wl,-z,max-page-size=16384"
+            "-Wl,-z,common-page-size=16384"
+    )
+endif()
+
 set(LIB_DIR "${CMAKE_SOURCE_DIR}/../../libs")
 
 # Set variables for find_package in s25client

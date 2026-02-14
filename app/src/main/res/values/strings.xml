@@ -24,7 +24,7 @@
     <string name="config_log_button" translatable="false">Show</string>
     <string name="config_updater_button">Update assets</string>
     <string name="config_enable_updater_checkbox">Enable updater</string>
-    <string name="config_updater_info">Update assets in RTTR directory after app update (recommended)</string>
+    <string name="config_updater_info">Update assets in RTTR directory after app update (no internet, recommended)</string>
     <string name="config_orientation_dynamic_landscape">Dynamic landscape (Default)</string>
     <string name="config_orientation_dynamic_portrait">Dynamic portrait</string>
     <string name="config_orientation_landscape">Landscape</string>
@@ -61,4 +61,6 @@
     <string name="assets_toast_saved_settings">Saved settings</string>
     <string name="config_dialog_generic_error_title">An error occured</string>
     <string name="assets_toast_no_updates">Up to date</string>
+    <string name="config_toast_no_selected_log">No log selected</string>
+    <string name="config_spinner_logs_not_found">No logs available</string>
 </resources>

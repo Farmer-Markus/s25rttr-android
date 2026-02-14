@@ -1,3 +1,5 @@
+import java.security.MessageDigest
+
 def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
 def buildAsApplication = !buildAsLibrary
 if (buildAsApplication) {
@@ -18,7 +20,7 @@ android {
         }
     }
     
-    compileSdkVersion 34
+    compileSdkVersion 36
     defaultConfig {
     	applicationId "org.s25rttr.sdl"
         minSdkVersion 28 // 19
@@ -40,8 +42,11 @@ android {
         }
     }
     applicationVariants.all { variant ->
-        tasks["merge${variant.name.capitalize()}Assets"]
+        tasks[("merge${variant.name.capitalize()}Assets")]
             .dependsOn("externalNativeBuild${variant.name.capitalize()}")
+
+        tasks[("externalNativeBuild${variant.name.capitalize()}")]
+            .dependsOn(["buildDependencies", "genAssetHashes"])
     }
     if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
         sourceSets.main {
@@ -89,8 +94,6 @@ android {
     sourceSets {
         main {
             def depInst = "$rootDir/libs"
-            def abis = android.defaultConfig.externalNativeBuild.cmake.abiFilters
-
             jniLibs.srcDirs = [
                 "$depInst/SDL",
                 "$depInst/SDL_mixer",
@@ -132,7 +135,7 @@ tasks.register("buildDependencies") {
 
     onlyIf {
         !abis.every { abi ->
-            // Gucken ob alle libs da sind
+            // Every lib present?
             file("$depInst/SDL/$abi/libSDL2.so").exists() &&
             file("$depInst/SDL_mixer/$abi/libSDL2_mixer.so").exists() &&
             file("$depInst/miniupnpc/$abi/libminiupnpc.so").exists() &&
@@ -183,31 +186,70 @@ tasks.register("buildDependencies") {
     }
 }
 
-// Clean up dependency build files but NOT compiled dependency libs!!
-tasks.register("cleanDependencyBuild") {
-    doLast {
-        def buildDir = file(".cxx/depBuild")
+// Same as in Filesystem::FileGenSha256
+static def FileGenSha256(File file) {
+    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    file.eachByte(256) {buffer, bytesRead ->
+        digest.update(buffer,0, bytesRead);
+    }
+    return Base64.encoder.encodeToString(digest.digest());
+}
 
-        if(buildDir.exists()) {
-            buildDir.deleteDir()
+static def WriteAssetHashes(fileList, File hashFile) {
+    hashFile.withWriter { writer ->
+        fileList.each { pair ->
+            writer.writeLine("${pair.hash} ${pair.path}")
         }
     }
 }
 
-// hänge es an den Standard-clean Task
+tasks.register("genAssetHashes") {
+    def assetDir = "$rootDir/app/src/main/assets/RTTR"
+    def hashFile = file("$rootDir/app/src/main/assets/assetHashes")
+
+    def files = []
+
+    doLast {
+        // Generate hashes for every asset
+        fileTree(assetDir).visit { FileVisitDetails details ->
+            if(!details.isDirectory())
+                files << [hash: FileGenSha256(details.getFile()), path: details.getRelativePath()]
+        }
+
+        WriteAssetHashes(files, hashFile);
+    }
+}
+
+// Clean up dependency build files but NOT compiled dependency libs!!
+tasks.register("cleanDependencyBuild") {
+    doLast {
+        def buildDir = file("$rootDir/app/.cxx/depBuild")
+
+        if(buildDir.exists())
+            buildDir.deleteDir();
+    }
+}
+
+tasks.register("cleanRttrAssets") {
+    doLast {
+        def assetDir = file("$rootDir/app/src/main/assets/RTTR")
+        if(assetDir.exists())
+            assetDir.deleteDir();
+
+        def hashFile = file("$rootDir/app/src/main/assets/assetHashes")
+        if(hashFile.exists())
+            hashFile.delete();
+    }
+}
+
+// Use clean command to also clean dependencies & copied assets
 tasks.named("clean").configure {
-    dependsOn("cleanDependencyBuild")
+    dependsOn(["cleanDependencyBuild", "cleanRttrAssets"])
 }
 
 afterEvaluate {
-    def taskNames = ["assemble", "assembleDebug", "assembleRelease", "bundleDebug", "bundleRelease", "build", "installDebug", "installRelease"]
-
-    taskNames.each { taskName ->
-        if (tasks.findByName(taskName)) {
-            tasks.named(taskName).configure { task ->
-                task.dependsOn("buildDependencies")
-            }
-        }
+    tasks.matching { it.name.startsWith("configureCMake") }.configureEach {
+        dependsOn("buildDependencies")
     }
 }
 

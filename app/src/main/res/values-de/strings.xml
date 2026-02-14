@@ -18,7 +18,7 @@
     <string name="config_dialog_s2files_message">Der gewählte Ordner beinhaltet keine valide Siedler 2 Gold Edition (msdos) Installation!</string>
     <string name="config_updater_button">Spieldaten aktualisieren</string>
     <string name="config_enable_updater_checkbox">Updater aktivieren</string>
-    <string name="config_updater_info">Spieldateien im RTTR Ordner nach App Updates auf dem neusten Stand bringen (empfohlen)</string>
+    <string name="config_updater_info">Spieldateien im RTTR Ordner nach App Updates auf dem neusten Stand bringen (kein Internet, empfohlen)</string>
     <string name="config_orientation_dynamic_landscape">Dynamisches Querformat (Standard)</string>
     <string name="config_orientation_dynamic_portrait">Dynamisches Hochformat</string>
     <string name="config_orientation_landscape">Querformat</string>
@@ -53,4 +53,6 @@
     <string name="assets_dialog_update_done_message">Die Return to the Roots Spieldateien wurden erfolgreich aktualisiert</string>
     <string name="config_dialog_generic_error_title">Ein Fehler ist aufgetreten</string>
     <string name="assets_toast_no_updates">Auf dem neusten Stand</string>
+    <string name="config_toast_no_selected_log">Kein Log ausgewählt</string>
+    <string name="config_spinner_logs_not_found">Keine Logs verfügbar</string>
 </resources>

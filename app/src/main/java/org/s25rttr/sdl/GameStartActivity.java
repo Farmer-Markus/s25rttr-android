@@ -3,7 +3,6 @@ package org.s25rttr.sdl;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.system.ErrnoException;
 import android.system.Os;
 
@@ -15,38 +14,23 @@ import org.s25rttr.sdl.utils.RttrHelper;
 import org.s25rttr.sdl.utils.UiHelper;
 
 import java.util.Locale;
-
-public class GameStartActivity extends Activity
-{
-    private boolean asset_init = false;
-
+public class GameStartActivity extends Activity {
     private static final int SDL_ACTIVITY_CODE = 0;
     private static final int UPDATER_CODE = 1;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null)
-            asset_init = savedInstanceState.getBoolean("asset_init");
+        /*startActivity(new Intent(this, GameConfigActivity.class));
+        finish();*/
         PrepareGame();
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-        // Store current unsaved settings until going back to this activity
-        if(asset_init) outState.putBoolean("asset_init", true);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent resultData)
-    {
-        switch(requestCode)
-        {
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        switch(requestCode) {
             case SDL_ACTIVITY_CODE:
                 Exit();
                 break;
@@ -54,8 +38,7 @@ public class GameStartActivity extends Activity
             case UPDATER_CODE:
                 if(resultCode == RESULT_OK)
                     PrepareGame();
-                else
-                {
+                else {
                     startActivity(new Intent(this, GameConfigActivity.class));
                     finish();
                 }
@@ -63,15 +46,12 @@ public class GameStartActivity extends Activity
         }
     }
 
-    private void PrepareGame()
-    {
+    private void PrepareGame() {
         Settings s = new Settings();
         s.Load(this);
 
-        if(!Filesystem.IsPathWritable(s.RttrDirectory) || s.RttrDirectory.isEmpty())
-        {
-            if(s.RttrDirectory.isEmpty() && (s.RttrDirectory = Settings.COMPAT_GetOld(this)) != null)
-            {
+        if(!Filesystem.IsPathWritable(s.RttrDirectory) || s.RttrDirectory.isEmpty()) {
+            if(s.RttrDirectory.isEmpty() && (s.RttrDirectory = Settings.COMPAT_GetOld(this)) != null) {
                 s.GameDirectory = RttrHelper.COMPAT_FindS2Installation(s);
                 s.Save(this);
                 PrepareGame();
@@ -92,24 +72,22 @@ public class GameStartActivity extends Activity
         }
 
         Path assetDir = AssetHelper.GetExternalAssetDirPath(s);
-        if(!assetDir.Exists())
-        {
+        if(!assetDir.Exists()) {
             startActivityForResult(new Intent(this, AssetManagerActivity.class), UPDATER_CODE);
-            asset_init = true;
+            // Just to reset updated date to now
+            AssetHelper.AppUpdated(this, s);
             return;
         }
 
         // Don't need updater if assets were just copied
-        if(!asset_init && s.EnableUpdater && AssetHelper.AppUpdated(this, s))
-        {
+        if(s.EnableUpdater && AssetHelper.AppUpdated(this, s)) {
             Intent intent = new Intent(this, AssetManagerActivity.class);
             intent.putExtra("short_dialog", true);
             startActivityForResult(intent, UPDATER_CODE);
             return;
         }
 
-        if(!RttrHelper.CheckS2Files(s))
-        {
+        if(!RttrHelper.CheckS2Files(s)) {
             UiHelper.AlertDialog(
                     this,
                     getString(R.string.config_dialog_s2files_title),
@@ -122,8 +100,7 @@ public class GameStartActivity extends Activity
             return;
         }
 
-        if(!RttrHelper.PrepareDrivers(this))
-        {
+        if(!RttrHelper.PrepareDrivers(this)) {
             UiHelper.AlertDialog(
                     this,
                         getString(R.string.game_dialog_driver_failed_title),
@@ -133,8 +110,7 @@ public class GameStartActivity extends Activity
             return;
         }
 
-        try
-        {
+        try {
             // Linux env vars
             Os.setenv("HOME", s.RttrDirectory, true);
             Os.setenv("USER", s.DefaultName, true);
@@ -142,12 +118,11 @@ public class GameStartActivity extends Activity
 
             // RTTR specific env vars
             Os.setenv("RTTR_PREFIX_DIR", s.RttrDirectory, true);
-            Os.setenv("RTTR_DRIVER_DIR", RttrHelper.GetDriverDir(this), true);
+            Os.setenv("RTTR_DRIVER_DIR", RttrHelper.GetDriverDir(this).toString(), true);
             Os.setenv("RTTR_RTTR_DIR", AssetHelper.GetExternalAssetDirPath(s).toString(), true);
             Os.setenv("RTTR_GAME_DIR", s.GameDirectory, true);
 
-        } catch (ErrnoException e)
-        {
+        } catch (ErrnoException e) {
             UiHelper.AlertDialog(
                     this,
                     "Critical error",
@@ -161,8 +136,7 @@ public class GameStartActivity extends Activity
         StartGame(s.Orientation);
     }
 
-    private void StartGame(int orientation)
-    {
+    private void StartGame(int orientation) {
         Intent intent = new Intent(this, SDLActivity.class);
         intent.putExtra("orientation", orientation);
 
@@ -171,8 +145,7 @@ public class GameStartActivity extends Activity
         startActivityForResult(intent, SDL_ACTIVITY_CODE);
     }
 
-    private void Exit()
-    {
+    private void Exit() {
         finishAffinity();
         System.exit(0);
     }

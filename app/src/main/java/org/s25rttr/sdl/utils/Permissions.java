@@ -11,12 +11,9 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-public class Permissions
-{
-
+public class Permissions {
     // Check if permissions are granted
-    public static boolean HasPermission(Context context)
-    {
+    public static boolean HasPermission(Context context) {
         // Newer permission system
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
             return Environment.isExternalStorageManager();
@@ -27,13 +24,10 @@ public class Permissions
         return readPrm == 0 && writePrm == 0;
     }
 
-    public static boolean RequestPermission(Context context, int activityCode)
-    {
+    public static boolean RequestPermission(Context context, int activityCode) {
         // Newer permission system
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-        {
-            try
-            {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            try {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 intent.setData(Uri.parse("package:" + context.getPackageName()));
                 context.startActivity(intent);

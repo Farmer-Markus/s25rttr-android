@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:id="@+id/MainScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -34,7 +34,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/ScrollViewLayout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -268,7 +268,7 @@
 
         </android.support.constraint.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/LogDeleteButton"

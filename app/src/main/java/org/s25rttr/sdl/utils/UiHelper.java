@@ -16,16 +16,13 @@ import org.s25rttr.sdl.R;
 
 import java.util.Objects;
 
-public class UiHelper
-{
-    public static interface DialogCallback
-    {
+public class UiHelper {
+    public static interface DialogCallback {
         void Callback();
     }
 
     // Simple dialog. Show error message etc. User needs to click OK
-    public static void AlertDialog(Context context, String title, String message, DialogCallback okCallback)
-    {
+    public static void AlertDialog(Context context, String title, String message, DialogCallback okCallback) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
@@ -38,8 +35,7 @@ public class UiHelper
     }
 
     // Simple question dialog. User must click YES or NO
-    public static void QuestionDialog(Context context, String title, String message, DialogCallback yesCallback, DialogCallback noCallback)
-    {
+    public static void QuestionDialog(Context context, String title, String message, DialogCallback yesCallback, DialogCallback noCallback) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
@@ -58,8 +54,7 @@ public class UiHelper
     }
 
     // Imform dialog. User can click OK or Do not show again
-    public static void InformDialog(Context context, String title, String message, DialogCallback okCallback, DialogCallback notAskCallback)
-    {
+    public static void InformDialog(Context context, String title, String message, DialogCallback okCallback, DialogCallback notAskCallback) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
@@ -77,13 +72,11 @@ public class UiHelper
                 .show();
     }
 
-    public static Dialog ManualDialog(Context context, String title, String message)
-    {
+    public static Dialog ManualDialog(Context context, String title, String message) {
         return ManualDialog(context, title, message, null);
     }
 
-    public static Dialog ManualDialog(Context context, String title, String message, String additional)
-    {
+    public static Dialog ManualDialog(Context context, String title, String message, String additional) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.manual_dialog);
@@ -98,8 +91,8 @@ public class UiHelper
         return dialog;
     }
 
-    public static void FatalError(Context context, String message)
-    {
+    // calls finish() after clicking ok
+    public static void FatalError(Context context, String message) {
         AlertDialog(
                 context,
                 context.getString(R.string.config_dialog_generic_error_title),
@@ -108,16 +101,14 @@ public class UiHelper
         );
     }
 
-    public static class SpinnerItem implements Comparable<SpinnerItem>
-    {
+    public static class SpinnerItem implements Comparable<SpinnerItem> {
         public int id;
         public String label;
         public String additional;
 
 
         @Override
-        public int compareTo(SpinnerItem other)
-        {
+        public int compareTo(SpinnerItem other) {
             return other.label.compareToIgnoreCase(this.label);
         }
 
@@ -125,29 +116,24 @@ public class UiHelper
         @NonNull
         public String toString() { return label; }
 
-        public SpinnerItem(int id, String label)
-        {
+        public SpinnerItem(int id, String label) {
             this.id = id;
             this.label = label;
             this.additional = "";
         }
 
-        public SpinnerItem(int id, String label, String additional)
-        {
+        public SpinnerItem(int id, String label, String additional) {
             this.id = id;
             this.label = label;
             this.additional = additional;
         }
 
-        public static boolean SelectItemById(Spinner spinner, int id)
-        {
+        public static boolean SelectItemById(Spinner spinner, int id) {
             ArrayAdapter<SpinnerItem> adapter = (ArrayAdapter<SpinnerItem>)spinner.getAdapter();
             int items = adapter.getCount();
 
-            for(int item = 0; item < items; item++)
-            {
-                if(Objects.requireNonNull(adapter.getItem(item)).id == id)
-                {
+            for(int item = 0; item < items; item++) {
+                if(Objects.requireNonNull(adapter.getItem(item)).id == id) {
                     spinner.setSelection(item);
                     return true;
                 }
@@ -158,10 +144,12 @@ public class UiHelper
     }
 
     // Just so I don't have to define all functions even if I don't want to use them
-    public abstract static class SimpleTextWatcher implements TextWatcher
-    {
+    public abstract static class SimpleTextWatcher implements TextWatcher {
         @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override public void afterTextChanged(Editable editable) {}
     }
+
+
+
 }
