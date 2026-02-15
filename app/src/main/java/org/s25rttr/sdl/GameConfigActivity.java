@@ -184,7 +184,7 @@ public class GameConfigActivity extends Activity {
         if(!Filesystem.IsPathWritable(settings.RttrDirectory))
             return null;
         Path logPath = RttrHelper.GetLogDir(settings);
-        String[] logFiles = Filesystem.ListFiles(logPath);
+        String[] logFiles = logPath.List();
         if(logFiles == null)
             return null;
 
@@ -200,14 +200,15 @@ public class GameConfigActivity extends Activity {
     private void OpenSelectedLog()
     {
         Spinner spinner = findViewById(R.id.LogSpinner);
-        String log = spinner.getSelectedItem().toString();
-        if(log.isEmpty()) {
+        UiHelper.SpinnerItem item  = (UiHelper.SpinnerItem)spinner.getSelectedItem();
+
+        if(item.label.isEmpty() || item.additional.equals("nolog")) {
             Toast.makeText(this, getString(R.string.config_toast_no_selected_log), LENGTH_SHORT).show();
             return;
         }
 
         Intent intent = new Intent(this, LogViewActivity.class);
-        intent.putExtra("log_path", RttrHelper.GetLogDir(settings).Append(log));
+        intent.putExtra("log_path", RttrHelper.GetLogDir(settings).Append(item.label));
         startActivity(intent);
     }
 
@@ -259,7 +260,14 @@ public class GameConfigActivity extends Activity {
 
         button = findViewById(R.id.LogDeleteButton);
         button.setOnClickListener(view -> {
-            // TODO: Delete logs
+            UiHelper.QuestionDialog(this, getString(R.string.config_log_delete_button), getString(R.string.config_dialog_log_delete_message), () -> {
+                Path logDir = RttrHelper.GetLogDir(settings);
+                if(logDir.Exists()) { // not really needed
+                    Filesystem.DeleteDirectory(logDir);
+                    ReloadUi();
+                }
+
+            }, null);
         });
 
         CheckBox checkBox = findViewById(R.id.EnableUpdaterCheckbox);
@@ -356,7 +364,7 @@ public class GameConfigActivity extends Activity {
         UiHelper.SpinnerItem[] items = GetAvailableLogItems();
         if(items == null || items.length == 0) {
             items = new UiHelper.SpinnerItem[] {
-                    new UiHelper.SpinnerItem(0, getString(R.string.config_spinner_logs_not_found))
+                    new UiHelper.SpinnerItem(0, getString(R.string.config_spinner_logs_not_found), "nolog")
             };
         }
 

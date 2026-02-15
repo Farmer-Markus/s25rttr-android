@@ -39,27 +39,39 @@ public class AssetHelper {
     }
 
     /**
-     * Call function only once. LastUpdated will get overwritten after first call
+     * Check if app was recently updated
      * @param context
      * @param settings
      * @return <code>true</code> if app was recently updated
      */
-    public static boolean AppUpdated(Context context, Settings settings) {
+    public static boolean AppWasUpdated(Context context, Settings settings) {
         try {
             long last = context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
                     .lastUpdateTime;
-            if(last != settings.LastUpdated) {
-                settings.LastUpdated = last;
-
-                // Save in case current settings won't get saved
-                Settings s = new Settings().Load(context);
-                s.LastUpdated = last;
-                s.Save(context);
+            if(last != settings.LastUpdated)
                 return true;
-            }
         } catch (PackageManager.NameNotFoundException e) {
             UiHelper.FatalError(context, e.toString());
         }
         return false;
+    }
+
+    /**
+     * Save app update date. AppUpdated() won't be triggered until next update
+     * Only run on ui thread!
+     */
+    public static void SaveAppUpdated(Context context, Settings settings) {
+        try {
+            long updated = context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
+                    .lastUpdateTime;
+            settings.LastUpdated = updated;
+
+            // Save in case current settings won't get saved
+            Settings s = new Settings().Load(context);
+            s.LastUpdated = updated;
+            s.Save(context);
+        } catch (Exception e) {
+            UiHelper.FatalError(context, e.toString());
+        }
     }
 }

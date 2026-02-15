@@ -123,6 +123,13 @@ public class Path implements Parcelable {
     }
 
     /**
+     * Tests if path points to directory
+     * @return <code>true</code> if path is a directory,
+     * <code>false</code> otherwise
+     */
+    public boolean IsDirectory() { return new File(data).isDirectory(); }
+
+    /**
      * Creates folder with all needed parents
      * @return <code>true</code> if folder was created,
      * <code>false</code> otherwise
@@ -139,6 +146,21 @@ public class Path implements Parcelable {
     public boolean Mkdir() {
         return new File(data).mkdir();
     }
+
+    /**
+     * Delete file or empty directory
+     * @return <code>true</code> if file or folder was deleted,
+     * <code>false</code> otherwise
+     */
+    public boolean Delete() { return new File(data).delete(); }
+
+    /**
+     * Get list of filenames in current directory
+     * @return <code>Array of filenames</code> when pointing to directory,
+     * <code>empty array</code> if not so,
+     * <code>null</code> otherwise
+     */
+    public String[] List() { return new File(data).list(); }
 
     /**
      * Get name of destination (file or directory)

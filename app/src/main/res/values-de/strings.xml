@@ -13,7 +13,7 @@
     <string name="config_dialog_permission_title">Berechtigung</string>
     <string name="config_dialog_discard_changes_title">Änderungen verwerfen?</string>
     <string name="config_dialog_discard_changes_message">Deine Änderungen wurden nicht gespeichert, möchtest du trotzdem verlassen?</string>
-    <string name="config_dialog_permission_request">Diese App braucht die Berechtigung alle Dateien zu verwalten(lesen/schreiben). Bitte erlaube alle Dateiberechtigungen in den App Systemeinstellungen</string>
+    <string name="config_dialog_permission_request">Diese App braucht die Berechtigung das Dateisystem zu verwalten(lesen/schreiben). Bitte erlaube alle Dateiberechtigungen in den App Systemeinstellungen</string>
     <string name="config_dialog_exit_dialog">Du kannst dieses Konfigurations Menü durch langes Drücken auf das App Icon und dann das Tippen auf  \"Konfigurieren\" öffnen</string>    <string name="config_dialog_s2files_title">Siedler 2 Daten</string>
     <string name="config_dialog_s2files_message">Der gewählte Ordner beinhaltet keine valide Siedler 2 Gold Edition (msdos) Installation!</string>
     <string name="config_updater_button">Spieldaten aktualisieren</string>
@@ -29,7 +29,7 @@
     <string name="dialog_yes">JA</string>
     <string name="dialog_no">NEIN</string>
     <string name="dialog_not_show">Nicht erneut anzeigen</string>
-    <string name="assets_dialog_dir_not_writable_message">RTTR Spielordner konnte nicht beschrieben werden! Bitte überprüfe deine Einstellungen</string>
+    <string name="assets_dialog_dir_not_writable_message">RTTR Spielordner konnte nicht beschrieben werden! Bitte überprüfe/speichere deine Einstellungen</string>
     <string name="game_dialog_missing_config_title">Fehlende Konfiguration</string>
     <string name="game_dialog_missing_config_message">Bitte überprüfe ob alle Pfade in der Konfiguration auf gültige Ordner zeigen</string>
     <string name="game_dialog_driver_failed_title">Treiber fehlgeschlagen</string>
@@ -55,4 +55,8 @@
     <string name="assets_toast_no_updates">Auf dem neusten Stand</string>
     <string name="config_toast_no_selected_log">Kein Log ausgewählt</string>
     <string name="config_spinner_logs_not_found">Keine Logs verfügbar</string>
+    <string name="config_dialog_log_delete_message">Sollen wirklich alle logs gelöscht werden?</string>
+    <string name="logview_button_back">Zurück</string>
+    <string name="logview_button_down">Runter</string>
+    <string name="logview_button_up">Hoch</string>
 </resources>

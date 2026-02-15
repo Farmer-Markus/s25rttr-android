@@ -16,7 +16,7 @@
     <string name="config_dialog_permission_title">Permission</string>
     <string name="config_dialog_discard_changes_title">Discard changes?</string>
     <string name="config_dialog_discard_changes_message">You have unsaved changes do you really want to exit without saving?</string>
-    <string name="config_dialog_permission_request">This app needs permission to read and write all files to work. Please allow all file permission in the app system settings</string>
+    <string name="config_dialog_permission_request">This app needs permission to read and write to your filesystem to work. Please allow all file permission in the app system settings</string>
     <string name="config_dialog_info_title" translatable="false">Info</string>
     <string name="config_dialog_exit_dialog">You can access this config by long pressing on the app icon and choosing \"Configure\"</string>
     <string name="config_dialog_s2files_title">Settlers 2 data</string>
@@ -39,7 +39,7 @@
     <string name="game_dialog_missing_config_message">Please ensure all paths in config are set to a valid directory</string>
     <string name="game_dialog_driver_failed_title">Driver failed</string>
     <string name="game_dialog_driver_failed_message">Failed to link drivers in cache directory. Try to clear the app cache. If this happens multiple times please open a bug report on github</string>
-    <string name="assets_dialog_dir_not_writable_message">RTTR Game directory is not writable! Please check your settings</string>
+    <string name="assets_dialog_dir_not_writable_message">RTTR Game directory is not writable! Please check/save your settings</string>
     <string name="assets_dialog_dir_not_writable_title">Path not writable</string>
     <string name="assets_dialog_searching_title">Searching for updates…</string>
     <string name="assets_dialog_update_ready_title">Update ready</string>
@@ -63,4 +63,8 @@
     <string name="assets_toast_no_updates">Up to date</string>
     <string name="config_toast_no_selected_log">No log selected</string>
     <string name="config_spinner_logs_not_found">No logs available</string>
+    <string name="config_dialog_log_delete_message">Do you really want do delete all logs</string>
+    <string name="logview_button_back">Back</string>
+    <string name="logview_button_down">Down</string>
+    <string name="logview_button_up">Up</string>
 </resources>

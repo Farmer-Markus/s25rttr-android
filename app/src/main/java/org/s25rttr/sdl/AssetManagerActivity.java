@@ -16,9 +16,7 @@ import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.UiHelper;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,21 +25,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AssetManagerActivity extends Activity {
-    private final Settings settings;
+    private final Settings settings = new Settings();;
     private final List<String> toUpdate = new ArrayList<>();
 
     private boolean short_dialog;
 
-    public AssetManagerActivity() {
-        settings = new Settings();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         short_dialog = getIntent().getBooleanExtra("short_dialog", false);
-
         settings.Load(this);
+
+        // string! if the string is empty, not the folder itself
         if(settings.RttrDirectory.isEmpty() || !Filesystem.IsPathWritable(settings.RttrDirectory)) {
             // Ask to check settings -> open config
             UiHelper.AlertDialog(
@@ -90,7 +86,6 @@ public class AssetManagerActivity extends Activity {
 
         new Thread(()->{
             try {
-                //CheckDir(dialog.findViewById(R.id.ManualAdditionalText));
                 CheckAssets(dialog.findViewById(R.id.ManualAdditionalText));
             } catch (IOException e) {
                 dialog.dismiss();
@@ -298,13 +293,17 @@ public class AssetManagerActivity extends Activity {
         if(toUpdate.isEmpty()) {
             if(short_dialog) {
                 Toast.makeText(this, getString(R.string.assets_toast_no_updates), LENGTH_SHORT).show();
+                AssetHelper.SaveAppUpdated(this, settings);
                 Success();
             } else {
                 UiHelper.AlertDialog(
                         this,
                         getString(R.string.assets_dialog_updated_title),
                         getString(R.string.assets_dialog_updated_message),
-                        this::Success
+                        () -> {
+                            runOnUiThread(() -> AssetHelper.SaveAppUpdated(this, settings));
+                            Success();
+                        }
                 );
             }
         } else {

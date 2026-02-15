@@ -23,9 +23,7 @@ public class GameStartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*startActivity(new Intent(this, GameConfigActivity.class));
-        finish();*/
-        PrepareGame();
+        PrepareGame(false);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class GameStartActivity extends Activity {
 
             case UPDATER_CODE:
                 if(resultCode == RESULT_OK)
-                    PrepareGame();
+                    PrepareGame(true);
                 else {
                     startActivity(new Intent(this, GameConfigActivity.class));
                     finish();
@@ -46,18 +44,16 @@ public class GameStartActivity extends Activity {
         }
     }
 
-    private void PrepareGame() {
-        Settings s = new Settings();
-        s.Load(this);
+    private void PrepareGame(boolean updated) {
+        Settings s = new Settings().Load(this);
 
         if(!Filesystem.IsPathWritable(s.RttrDirectory) || s.RttrDirectory.isEmpty()) {
             if(s.RttrDirectory.isEmpty() && (s.RttrDirectory = Settings.COMPAT_GetOld(this)) != null) {
                 s.GameDirectory = RttrHelper.COMPAT_FindS2Installation(s);
                 s.Save(this);
-                PrepareGame();
+                PrepareGame(false);
                 return;
             }
-
 
             UiHelper.AlertDialog(
                     this,
@@ -72,15 +68,13 @@ public class GameStartActivity extends Activity {
         }
 
         Path assetDir = AssetHelper.GetExternalAssetDirPath(s);
-        if(!assetDir.Exists()) {
+        if(!assetDir.Exists()) { // copy assets
             startActivityForResult(new Intent(this, AssetManagerActivity.class), UPDATER_CODE);
-            // Just to reset updated date to now
-            AssetHelper.AppUpdated(this, s);
+            AssetHelper.SaveAppUpdated(this, s);
             return;
         }
 
-        // Don't need updater if assets were just copied
-        if(s.EnableUpdater && AssetHelper.AppUpdated(this, s)) {
+        if(!updated && s.EnableUpdater && AssetHelper.AppWasUpdated(this, s)) {
             Intent intent = new Intent(this, AssetManagerActivity.class);
             intent.putExtra("short_dialog", true);
             startActivityForResult(intent, UPDATER_CODE);
@@ -126,7 +120,7 @@ public class GameStartActivity extends Activity {
             UiHelper.AlertDialog(
                     this,
                     "Critical error",
-                    "Failed to set essential environment variables. If your running in an emulator ensure you are using the right ABI!" + e.toString(),
+                    "Failed to set essential environment variables. If your running in an emulator ensure you are using the right(native) ABI!" + e.toString(),
                     this::Exit
             );
             return;
@@ -141,7 +135,7 @@ public class GameStartActivity extends Activity {
         intent.putExtra("orientation", orientation);
 
         // Make sure this activity gets started instead of directly the SDLActivity
-        // (in app overview when app was soft closed)
+        // (in app overview when app was soft closed with clicking "quit" button in rttr)
         startActivityForResult(intent, SDL_ACTIVITY_CODE);
     }
 

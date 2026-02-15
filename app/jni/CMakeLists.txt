@@ -52,22 +52,31 @@ set_target_properties(GL PROPERTIES
 )
 
 set(RTTR_BUILD_UPDATER OFF CACHE INTERNAL "Disabled" FORCE)
-set(BUILD_TESTING OFF CACHE INTERNAL "" FORCE)
-set(RTTR_BUILD_LIB ON CACHE INTERNAL "" FORCE)
-set(RTTR_OPENGL GL4ES CACHE INTERNAL "" FORCE)
+set(BUILD_TESTING OFF CACHE INTERNAL "Disabled" FORCE)
+set(RTTR_BUILD_LIB ON CACHE INTERNAL "Enabled" FORCE)
+set(RTTR_OPENGL GL4ES CACHE INTERNAL "GL4ES" FORCE)
 
 # assets/RTTR = gamedata
 get_filename_component(RTTR_DATADIR "${CMAKE_CURRENT_SOURCE_DIR}/../src/main/assets" ABSOLUTE)
 set(RTTR_DATADIR "${RTTR_DATADIR}" CACHE INTERNAL "" FORCE)
-set(RTTR_S2_PLACEHOLDER_PATH "${RTTR_DATADIR}/S2" CACHE INTERNAL "" FORCE)
 
-# Set s25client commit id
-# RTTR get-git-revision function won't work with s25client as submodule
-execute_process(
-        COMMAND git rev-parse HEAD
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/s25client
-        RESULT_VARIABLE GIT_RESULT
-        OUTPUT_VARIABLE RTTR_REVISION
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+find_package(Git QUIET)
+
+if(GIT_FOUND)
+    message(STATUS "Using ${GIT_EXECUTABLE} to get 'RTTR_REVISION'")
+
+    # Set s25client commit id
+    # RTTR get-git-revision function won't work with s25client as submodule
+    execute_process(
+            COMMAND git rev-parse HEAD
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/s25client
+            RESULT_VARIABLE GIT_RESULT
+            OUTPUT_VARIABLE RTTR_REVISION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+else()
+    message(STATUS "Git NOT found! Using 'RTTR_REVISION = 1' !")
+    set(RTTR_REVISION 1)
+endif()
+
 add_subdirectory(s25client)

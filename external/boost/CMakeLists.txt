@@ -85,7 +85,7 @@ foreach(LIB IN LISTS BOOST_LIBS)
   endif()
 endforeach()
 
-# Remove regex. Header files are copied but target is dummy to create real .so file and not just Interface
+# Remove regex. Header files are copied but target is dummy to create real .so file and not just Interface(which throws runtime errors)
 list(REMOVE_ITEM BOOST_LIBS regex)
 
 set(Boost_INCLUDE_DIR "${LIB_DEST}/include" CACHE PATH "" FORCE)

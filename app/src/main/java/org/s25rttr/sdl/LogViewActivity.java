@@ -16,11 +16,8 @@ import android.widget.Toast;
 import org.s25rttr.sdl.data.Path;
 import org.s25rttr.sdl.utils.UiHelper;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;

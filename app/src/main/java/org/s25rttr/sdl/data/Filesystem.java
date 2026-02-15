@@ -69,25 +69,21 @@ public class Filesystem {
         }
     }
 
-    public static String[] ListFiles(Path path) {
-        return new File(path.toString()).list();
-    }
+    /**
+     * Recursively delete a directory
+     * @param directory Path to directory
+     */
+    public static void DeleteDirectory(Path directory) {
+        String[] files = directory.List();
 
-    public static String FileGenSha256(InputStream stream) throws IOException {
-        MessageDigest digest;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException ignore) {
-            throw new IOException("Failed to get SHA-256. Unknown algorithm!");
+        for(String filename : files) {
+            Path file = directory.Append(filename);
+
+            if(file.IsDirectory())
+                DeleteDirectory(file);
+            else
+                file.Delete();
         }
-
-        byte[] buffer = new byte[256];
-        int read;
-
-        while((read = stream.read(buffer)) != -1)
-            digest.update(buffer, 0, read);
-
-        return Base64.encodeToString(digest.digest(), Base64.DEFAULT);
     }
 
     public static String FileGenSha256(FileInputStream stream) throws IOException {
