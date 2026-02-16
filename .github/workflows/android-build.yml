@@ -2,9 +2,9 @@ name: Android CI
 
 on:
   push:
-    branches: [ "rewrite" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "rewrite" ]
+    branches: [ "main" ]
   workflow_dispatch:
     inputs:
       environment:
@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: 'rewrite'
+        ref: 'main'
         submodules: 'recursive'
     - name: set up JDK 17
       uses: actions/setup-java@v4
