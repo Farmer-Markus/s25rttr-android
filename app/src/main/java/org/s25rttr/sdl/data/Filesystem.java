@@ -1,5 +1,6 @@
 package org.s25rttr.sdl.data;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Base64;
 
@@ -67,6 +68,10 @@ public class Filesystem {
         while((read = inStr.read(buffer)) != -1) {
             outStr.write(buffer, 0, read);
         }
+    }
+
+    public static Path GetInternalStoragePath(Context context) {
+        return new Path(context.getFilesDir().toString());
     }
 
     /**

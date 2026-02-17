@@ -18,9 +18,8 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
 
         // if(settings.enableOverlay)
         overlay = new Overlay(this, mLayout).Show();
+        overlay.LoadElements();
     }
-
-
 
     @Override
     protected void onResume() {
