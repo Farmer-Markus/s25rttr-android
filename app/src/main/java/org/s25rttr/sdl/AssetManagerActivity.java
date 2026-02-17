@@ -269,6 +269,8 @@ public class AssetManagerActivity extends Activity {
                 }
             }
 
+            runOnUiThread(() -> AssetHelper.SaveAppUpdated(this, settings));
+
             dialog.dismiss();
             if(short_dialog) {
                 runOnUiThread(()->{
