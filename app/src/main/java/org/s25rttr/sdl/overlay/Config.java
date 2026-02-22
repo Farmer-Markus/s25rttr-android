@@ -5,13 +5,12 @@ import java.io.Serializable;
 
 // Store user defined buttons and locations
 public class Config implements Serializable {
-    public String Text = null;
-    public Pos Pos = null;
+    public String text = null;
+    public Pos pos = null;
 
     public ClickBehaviour clickBehaviour = null;
     public int keyCode = -1;
     public MouseEvent mouseEvent = null;
-
 
 
     public static class Pos {
@@ -44,5 +43,15 @@ public class Config implements Serializable {
         public int Value() {
             return value;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(!(obj instanceof Config)) return false;
+
+        Config c = (Config)obj;
+        return text.equals(c.text) && pos.equals(c.pos) && clickBehaviour == c.clickBehaviour
+                && keyCode == c.keyCode && mouseEvent == c.mouseEvent;
     }
 }

@@ -1,23 +1,21 @@
 package org.s25rttr.sdl.overlay;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
-import android.view.MenuItem;
+import android.text.Editable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import org.s25rttr.sdl.R;
+import org.s25rttr.sdl.utils.UiHelper;
 
 import java.io.IOException;
 
@@ -79,7 +77,40 @@ public class OverlayEditor extends Overlay {
     }
 
     private void OpenButtonMenu(Button button, Config config) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(config.text);
 
+        View view = activity.getLayoutInflater().inflate(R.layout.overlay_button_config, null);
+        builder.setView(view);
+        AlertDialog dialog = builder.show();
+
+        EditText editText = view.findViewById(R.id.ButtonNameEdit);
+        editText.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                config.text = editable.toString();
+                //ReloadButtonMenuContent(dialog, config);
+            }
+        });
+
+        Button btn = view.findViewById(R.id.CloseButton);
+        btn.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        /*btn = view.findViewById(R.id.DeleteButton);
+        btn.setOnClickListener(v -> {
+
+        });*/
+
+        ReloadButtonMenuContent(dialog, config);
+    }
+
+    private void ReloadButtonMenuContent(AlertDialog dialog, Config config) {
+        dialog.setTitle(config.text);
+
+        EditText editText = view.findViewById(R.id.ButtonNameEdit);
+        editText.setText(config.text);
     }
 
     private void OpenGeneralMenu(View view, MotionEvent event) {
@@ -117,10 +148,10 @@ public class OverlayEditor extends Overlay {
     // Create a single button
     private void CreateButton(final FrameLayout layout) {
         Config config = new Config();
-        config.Pos = new Config.Pos();
-        config.Pos.x = mousePos.x;
-        config.Pos.y = mousePos.y;
-        config.Text = "Button " + configs.size();
+        config.pos = new Config.Pos();
+        config.pos.x = mousePos.x;
+        config.pos.y = mousePos.y;
+        config.text = "Button " + configs.size();
         configs.add(config);
         buttons.addAll(CreateButtons(new ConfigList(config), layout));
     }

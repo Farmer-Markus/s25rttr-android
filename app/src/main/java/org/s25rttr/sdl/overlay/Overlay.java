@@ -94,9 +94,9 @@ public class Overlay {
             Button btn = new Button(activity);
             layout.addView(btn);
 
-            btn.setText(cfg.Text);
-            btn.setX(cfg.Pos.x);
-            btn.setY(cfg.Pos.y);
+            btn.setText(cfg.text);
+            btn.setX(cfg.pos.x);
+            btn.setY(cfg.pos.y);
             btn.setLayoutParams(params);
 
             AddButtonBehaviour(btn, cfg);
