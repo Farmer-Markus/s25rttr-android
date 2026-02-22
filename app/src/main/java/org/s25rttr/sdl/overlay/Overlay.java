@@ -1,13 +1,10 @@
 package org.s25rttr.sdl.overlay;
 
 import android.app.Activity;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import org.s25rttr.sdl.data.Actions;
 import org.s25rttr.sdl.data.Filesystem;
 import org.s25rttr.sdl.data.Path;
 import org.s25rttr.sdl.utils.UiHelper;
@@ -21,109 +18,125 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Overlay {
-    protected final Path BUTTON_CONFIG_FILE = new Path("overlay/buttons.bin");
-    protected final Activity parent;
-    protected final ViewGroup parentView;
+    protected final Activity activity;
+    protected final ViewGroup view;
+    protected final FrameLayout overlay;
 
-    protected Config.Pos lastEventPos = new Config.Pos();
+    protected Path DEFAULT_CONFIG_PATH = new Path("overlay/buttons.bin");
+    protected ConfigList configs;
+    protected List<Button> buttons;
 
-
-    protected FrameLayout oLayout;
-    // List of all button configs
-    protected ButtonConfList configList;
-    // Cache with every button
-    protected List<Button> buttonList = new ArrayList<>();
-
-    // If elements are currently hidden
-    protected boolean hidden = false;
+    protected Config.Pos mousePos;
+    protected boolean hidden;
 
 
-    public Overlay(final Activity parent, final ViewGroup parentView) {
-        this.parent = parent;
-        this.parentView = parentView;
+    public Overlay(final Activity activity, final ViewGroup view, boolean hidden) {
+        this.activity = activity;
+        this.view = view;
 
-        oLayout = new FrameLayout(parent);
+        configs = new ConfigList();
+        buttons = new ArrayList<>();
+        mousePos = new Config.Pos();
 
-        oLayout.setOnTouchListener((view, event) -> {
-            lastEventPos.x = event.getX();
-            lastEventPos.y = event.getY();
+        overlay = new FrameLayout(activity);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        overlay.setLayoutParams(params);
+        overlay.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        view.addView(overlay);
+        this.hidden = hidden;
+
+        AttachListeners();
+    }
+
+    protected void AttachListeners() {
+        // Listener to keep track of mouse/touch position used for button mouseClick actions
+        view.setOnTouchListener((view, event) -> {
+            mousePos.x = event.getX();
+            mousePos.y = event.getY();
 
             // Don't consume event, just listen
             return false;
         });
     }
 
-    public boolean LoadElements() {
-        return LoadButtons();
-    }
+    /**
+     * Load config and buttons (Will overwrite all previous loaded buttons/configs)
+     * @return <code>true</code> if config was loaded successfully,
+     * <code>false</code> otherwise
+     */
+    public boolean Load() {
+        boolean ret = true;
+        configs.clear();
+        buttons.clear();
 
-    // Load config with all corresponding buttons
-    protected boolean LoadButtons() {
         try {
-            configList = LoadButtonSettings();
+            configs = LoadButtonSettings(DEFAULT_CONFIG_PATH);
         } catch (IOException | ClassNotFoundException e) {
-            UiHelper.AlertDialog(parent, "Failed to load overlay", e.toString(), null);
-            return false;
+            UiHelper.AlertDialog(activity, "Overlay error", e.toString(), null);
+            ret = false;
         }
 
-        buttonList.clear();
-        oLayout = new FrameLayout(parent);
-        parentView.addView(oLayout);
+        buttons.addAll(CreateButtons(configs, overlay));
+        return ret;
+    }
 
-        // Set btn layouts, styles, texts etc.
-        for(Config cfg : configList) {
-            Button btn = new Button(parent);
-            oLayout.addView(btn);
+    protected List<Button> CreateButtons(final ConfigList configs, final FrameLayout layout) {
+        List<Button> buttons = new ArrayList<>();
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        for(Config cfg : configs) {
+            Button btn = new Button(activity);
+            layout.addView(btn);
 
             btn.setText(cfg.Text);
-
             btn.setX(cfg.Pos.x);
             btn.setY(cfg.Pos.y);
+            btn.setLayoutParams(params);
 
-            // Set onClick callback
-            SetButtonBehaviour(btn, cfg);
-
-            buttonList.add(btn);
+            AddButtonBehaviour(btn, cfg);
+            buttons.add(btn);
         }
 
-        return buttonList.size() == configList.size();
+        return buttons;
     }
 
-    protected void SetButtonBehaviour(Button button, Config btnConfig) {
-        switch(btnConfig.clickBehaviour) {
+    protected boolean AddButtonBehaviour(final Button button, final Config config) {
+        switch(config.clickBehaviour) {
             case SEND_KEY:
-                button.setOnClickListener(view -> Actions.SendKeyCode(btnConfig.keyCode, parentView));
+                button.setOnClickListener(view -> Actions.SendKeyCode(config.keyCode, this.view));
                 break;
 
             case SEND_MOUSE:
-                button.setOnClickListener(view -> Actions.SendMouseEvent(btnConfig.mouseEvent.Value(), lastEventPos));
+                button.setOnClickListener(view -> Actions.SendMouseEvent(config.mouseEvent.Value(), mousePos));
                 break;
 
             case OVERLAY_TOGGLE:
-                button.setOnClickListener(view -> Actions.ChangeVisibility((Button)view, buttonList, !hidden));
+                button.setOnClickListener(view -> {
+                    hidden = !hidden;
+                    Actions.ChangeVisibility((Button)view, buttons, hidden);
+                });
                 break;
 
             case KEYBOARD_TOGGLE:
-                button.setOnClickListener(view -> Actions.OpenKeyboard(parent, parentView));
+                button.setOnClickListener(view -> Actions.OpenKeyboard(activity, this.view));
                 break;
+
+            default:
+                return false;
         }
-    }
 
-    public Overlay Show() {
-        for(Button btn : buttonList)
-            btn.setVisibility(View.VISIBLE);
-        return this;
-    }
-
-    public Overlay Hide() {
-        for(Button btn : buttonList)
-            btn.setVisibility(View.GONE);
-        return this;
+        return true;
     }
 
     // Save button configs to file
-    protected void SaveButtonSettings(ButtonConfList buttons) throws IOException {
-        Path storage = Filesystem.GetInternalStoragePath(parent).Append(BUTTON_CONFIG_FILE);
+    protected void SaveButtonSettings(ConfigList buttons, Path file) throws IOException {
+        Path storage = Filesystem.GetInternalStoragePath(activity).Append(file);
 
         FileOutputStream fOut = new FileOutputStream(storage.toString());
         ObjectOutputStream oOut = new ObjectOutputStream(fOut);
@@ -132,30 +145,29 @@ public class Overlay {
     }
 
     // Read button configs from file
-    protected ButtonConfList LoadButtonSettings() throws IOException, ClassNotFoundException {
-        Path storage = Filesystem.GetInternalStoragePath(parent).Append(BUTTON_CONFIG_FILE);
+    protected ConfigList LoadButtonSettings(Path file) throws IOException, ClassNotFoundException {
+        Path storage = Filesystem.GetInternalStoragePath(activity).Append(file);
 
         FileInputStream fIn = new FileInputStream(storage.toString());
         ObjectInputStream oIn = new ObjectInputStream(fIn);
 
         Object obj = oIn.readObject();
-        if(obj instanceof ButtonConfList)
-            return (ButtonConfList)obj;
+        if(obj instanceof ConfigList)
+            return (ConfigList)obj;
 
-        return new ButtonConfList();
+        return new ConfigList();
         // throw new ClassNotFoundException("Read class is not an instance of Class<ButtonList>");
-    }
-
-    // Convert dp to pixels
-    protected int DpToPx(int dp) {
-        float density = parent.getResources().getDisplayMetrics().density;
-        return (int)(dp * density);
     }
 
     // Separate class needed to use with instanceof
     // https://stackoverflow.com/questions/10108122/how-to-instanceof-listmytype
-    protected static class ButtonConfList extends ArrayList<Config> {
+    protected static class ConfigList extends ArrayList<Config> {
         protected Class<Config> type;
+
+        public ConfigList() {}
+        public ConfigList(Config config) {
+            add(config);
+        }
 
         public Class<Config> Type() {
             return type;

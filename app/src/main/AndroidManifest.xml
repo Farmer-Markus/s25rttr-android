@@ -106,7 +106,10 @@
         <activity android:name=".LogViewActivity"
             android:exported="true"
             android:theme="@style/GameConfigTheme">
-
+        </activity>
+        <activity android:name=".OverlayConfigActivity"
+            android:exported="true"
+            android:theme="@style/GameConfigTheme">
         </activity>
         <activity android:name=".GameConfigActivity"
             android:exported="true"

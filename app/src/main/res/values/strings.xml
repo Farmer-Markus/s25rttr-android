@@ -67,4 +67,8 @@
     <string name="logview_button_back">Back</string>
     <string name="logview_button_down">Down</string>
     <string name="logview_button_up">Up</string>
+    <string name="config_updater_title" translatable="false">Updater:</string>
+    <string name="config_overlay_title" translatable="false">Overlay:</string>
+    <string name="config_overlay_enable_checkbox">Enable overlay</string>
+    <string name="config_overlay_edit_button">Edit overlay</string>
 </resources>

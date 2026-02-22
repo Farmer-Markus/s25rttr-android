@@ -1,6 +1,5 @@
-package org.s25rttr.sdl.data;
+package org.s25rttr.sdl.overlay;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import org.s25rttr.sdl.SDLActivity;
-import org.s25rttr.sdl.overlay.Config;
 
 import java.util.List;
 

@@ -2,6 +2,11 @@ package org.s25rttr.sdl;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
+import org.s25rttr.sdl.overlay.OverlayEditor;
+import org.s25rttr.sdl.utils.UiHelper;
 
 
 /*
@@ -13,11 +18,19 @@ import android.os.Bundle;
  */
 
 public class OverlayConfigActivity extends Activity {
+    private OverlayEditor oEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ViewGroup view = new FrameLayout(this);
+        setContentView(view);
+
+        oEditor = new OverlayEditor(this, view, false);
+        oEditor.Load();
     }
 
+
+    // oEditor.Save();
 }

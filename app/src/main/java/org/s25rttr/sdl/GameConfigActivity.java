@@ -45,6 +45,7 @@ public class GameConfigActivity extends Activity {
     private static final int GAME_DIR_PICKER_CODE = 1;
     private static final int PERMISSION_CODE = 2;
     private static final int UPDATER_CODE = 3;
+    private static final int OVERLAY_CODE = 4;
 
     private Settings settings;
 
@@ -99,6 +100,10 @@ public class GameConfigActivity extends Activity {
 
                 case PERMISSION_CODE:
                     // Do... Nothing? No I don't think so :-/
+                    break;
+
+                case OVERLAY_CODE:
+                    // Also not needed
                     break;
 
                 case UPDATER_CODE:
@@ -270,7 +275,17 @@ public class GameConfigActivity extends Activity {
             }, null);
         });
 
-        CheckBox checkBox = findViewById(R.id.EnableUpdaterCheckbox);
+        CheckBox checkBox = findViewById(R.id.EnableOverlayCheckbox);
+        checkBox.setOnClickListener(view -> {
+            settings.EnableOverlay = ((CheckBox)view).isChecked();
+        });
+
+        button = findViewById(R.id.OverlayEditButton);
+        button.setOnClickListener(view -> {
+            startActivityForResult(new Intent(this, OverlayConfigActivity.class), OVERLAY_CODE);
+        });
+
+        checkBox = findViewById(R.id.EnableUpdaterCheckbox);
         checkBox.setOnClickListener(view -> {
             settings.EnableUpdater = ((CheckBox)view).isChecked();
         });
@@ -324,7 +339,6 @@ public class GameConfigActivity extends Activity {
         });
         // ~Initialize orientation spinner
 
-
         // Set saved values
         ReloadUi();
     }
@@ -376,7 +390,10 @@ public class GameConfigActivity extends Activity {
         spinner.setAdapter(adapter);
         // ~Update log spinner
 
-        CheckBox checkBox = findViewById(R.id.EnableUpdaterCheckbox);
+        CheckBox checkBox = findViewById(R.id.EnableOverlayCheckbox);
+        checkBox.setChecked(settings.EnableOverlay);
+
+        checkBox = findViewById(R.id.EnableUpdaterCheckbox);
         checkBox.setChecked(settings.EnableUpdater);
     }
 

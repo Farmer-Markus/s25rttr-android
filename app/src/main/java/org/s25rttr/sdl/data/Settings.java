@@ -22,6 +22,7 @@ public class Settings implements Serializable {
     public int Orientation;
 
     public boolean ShowExitDialog;
+    public boolean EnableOverlay;
     public boolean EnableUpdater;
     public long LastUpdated;
 
@@ -34,8 +35,8 @@ public class Settings implements Serializable {
         Settings s = (Settings)obj;
         return RttrDirectory.equals(s.RttrDirectory) && GameDirectory.equals(s.GameDirectory)
                 && DefaultName.equals(s.DefaultName) && Orientation == s.Orientation
-                && ShowExitDialog == s.ShowExitDialog && EnableUpdater == s.EnableUpdater
-                && LastUpdated == s.LastUpdated;
+                && ShowExitDialog == s.ShowExitDialog && EnableOverlay == s.EnableOverlay
+                && EnableUpdater == s.EnableUpdater && LastUpdated == s.LastUpdated;
     }
 
     // Save current settings
@@ -48,6 +49,7 @@ public class Settings implements Serializable {
         edit.putString("default_name", DefaultName);
         edit.putInt("orientation", Orientation);
         edit.putBoolean("show_exit_dialog", ShowExitDialog);
+        edit.putBoolean("enable_overlay", EnableOverlay);
         edit.putBoolean("enable_updater", EnableUpdater);
         edit.putLong("last_updated", LastUpdated);
 
@@ -64,6 +66,7 @@ public class Settings implements Serializable {
         DefaultName = pref.getString("default_name", "android");
         Orientation = pref.getInt("orientation", ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         ShowExitDialog = pref.getBoolean("show_exit_dialog", true);
+        EnableOverlay = pref.getBoolean("enable_overlay", true);
         EnableUpdater = pref.getBoolean("enable_updater", true);
         LastUpdated = pref.getLong("last_updated", 0);
         return this;

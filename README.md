@@ -14,7 +14,7 @@ Planned bugfixes:
 - Virtual keyboard
 
 ## Downloads
-Download from [github releases](https://github.com/Farmer-Markus/s25rttr-android/releases) or [build it yourself](#compiling) as described below.
+Download from [GitHub releases](https://github.com/Farmer-Markus/s25rttr-android/releases) or [build it yourself](#compiling) as described below.
 
 ## Screenshots
 <img width="2400" height="1080" alt="Screenshot_2" src="https://github.com/user-attachments/assets/de717269-e9e1-4120-a8b2-efb4a004abd3" />

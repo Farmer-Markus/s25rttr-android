@@ -32,8 +32,8 @@ public class Config implements Serializable {
 
     public enum MouseEvent {
         LEFT_BUTTON(1),
-        RIGHT_BUTTON(3),
-        MIDDLE_BUTTON(2);
+        MIDDLE_BUTTON(2),
+        RIGHT_BUTTON(3);
 
         private final int value;
 

@@ -17,8 +17,8 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
         SetFullscreen();
 
         // if(settings.enableOverlay)
-        overlay = new Overlay(this, mLayout).Show();
-        overlay.LoadElements();
+        overlay = new Overlay(this, mLayout, false);
+        overlay.Load();
     }
 
     @Override

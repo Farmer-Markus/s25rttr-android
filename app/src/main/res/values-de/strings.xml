@@ -59,4 +59,6 @@
     <string name="logview_button_back">Zurück</string>
     <string name="logview_button_down">Runter</string>
     <string name="logview_button_up">Hoch</string>
+    <string name="config_overlay_enable_checkbox">Overlay aktivieren</string>
+    <string name="config_overlay_edit_button">Overlay editieren</string>
 </resources>
