@@ -1,11 +1,16 @@
 package org.s25rttr.sdl.overlay;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import org.s25rttr.sdl.SDLActivity;
 
@@ -27,23 +32,55 @@ public class Actions {
         }
     }
 
-    public static void SendMouseEvent(int button, Config.Pos pos) {
+    public static void SendMouseEvent(final int button, final Config.Pos pos) {
+        //SDLActivity.onNativeMouse(0, 2, pos.x, pos.y, false);
         // Down, then up
-        for(int action = 0; action < 1; action++)
-            SDLActivity.onNativeMouse(button, action, 0, 0, false);
+        //for(int action = 0; action < 2; action++)
+            //SDLActivity.onNativeMouse(button, action, pos.x, pos.y, false);
+
+        SDLActivity.onNativeMouse(button, 0, pos.x, pos.y, false);
+
+        //new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            SDLActivity.onNativeMouse(button, 1, pos.x, pos.y, false);
+        //}, 5);
     }
 
     public static void ChangeVisibility(Button button, List<Button> elements, boolean visible) {
-        for(Button btn : elements)
+        for(Button btn : elements) {
+            if(btn == null) continue;
             btn.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
 
         // Calling button needs to stay visible
         button.setVisibility(View.VISIBLE);
     }
 
     // https://stackoverflow.com/a/5617130
-    public static void OpenKeyboard(Context context, ViewGroup view) {
+    public static void OpenKeyboard(Runnable runnable) {
+        if(runnable != null) {
+            Handler handler = new Handler();
+            handler.post(runnable);
+        }
+
+
+        /*EditText editText = new EditText(context);
+        view.addView(editText);
+        editText.setHint("Enter text");
+        editText.setOnEditorActionListener((v, actionID, keyEvent) -> {
+            // User finished keyboard input -> Send keys to sdl
+            // Handler.post(new Runnable())
+
+            return true;
+        });
+
         InputMethodManager manager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        manager.toggleSoftInputFromWindow(view.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+        //manager.toggleSoftInputFromWindow(view.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+        manager.showSoftInput(view, InputMethodManager.SHOW_FORCED);*/
+
+
+    }
+
+    public static void OpenOverlayEditor(Context context) {
+        context.startActivity(new Intent(context, OverlayEditor.class));
     }
 }

@@ -22,7 +22,8 @@ public class GameStartActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        /*startActivity(new Intent(this, GameConfigActivity.class));
+        finish();*/
         PrepareGame(false);
     }
 

@@ -1,6 +1,10 @@
 package org.s25rttr.sdl.overlay;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -18,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Overlay {
-    protected final Activity activity;
-    protected final ViewGroup view;
+    protected Activity activity;
+    protected ViewGroup view;
     protected final FrameLayout overlay;
+    protected SoftKeyBoardInterface softKeyBoard;
 
     protected Path DEFAULT_CONFIG_PATH = new Path("overlay/buttons.bin");
     protected ConfigList configs;
@@ -51,11 +56,12 @@ public class Overlay {
         AttachListeners();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     protected void AttachListeners() {
         // Listener to keep track of mouse/touch position used for button mouseClick actions
-        view.setOnTouchListener((view, event) -> {
-            mousePos.x = event.getX();
-            mousePos.y = event.getY();
+        overlay.setOnTouchListener((view, event) -> {
+            mousePos.x = event.getRawX(0);
+            mousePos.y = event.getRawY(0);
 
             // Don't consume event, just listen
             return false;
@@ -83,48 +89,68 @@ public class Overlay {
         return ret;
     }
 
+    public void SetSoftKeyboardInterface(SoftKeyBoardInterface softKeyBoardInterface) {
+        this.softKeyBoard = softKeyBoardInterface;
+    }
+
     protected List<Button> CreateButtons(final ConfigList configs, final FrameLayout layout) {
+        return CreateButtons(configs, layout, 0);
+    }
+
+    protected List<Button> CreateButtons(final ConfigList configs, final FrameLayout layout, final int start) {
         List<Button> buttons = new ArrayList<>();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        for(Config cfg : configs) {
+        for(int i = start; i < configs.size(); i++) {
+            Config cfg;
+            if((cfg = configs.get(i)) == null)
+                continue;
+
             Button btn = new Button(activity);
             layout.addView(btn);
 
+            btn.getBackground().setAlpha(cfg.opacity);
+            btn.setTextColor(btn.getTextColors().withAlpha(cfg.textOpacity));
             btn.setText(cfg.text);
+
             btn.setX(cfg.pos.x);
             btn.setY(cfg.pos.y);
             btn.setLayoutParams(params);
 
-            AddButtonBehaviour(btn, cfg);
+            AddButtonBehaviour(btn, i);
             buttons.add(btn);
         }
 
         return buttons;
     }
 
-    protected boolean AddButtonBehaviour(final Button button, final Config config) {
-        switch(config.clickBehaviour) {
-            case SEND_KEY:
+    protected boolean AddButtonBehaviour(final Button button, final int configID) {
+        final Config config = configs.get(configID);
+        switch(config.clickBehaviour.behaviour) {
+            case Config.ClickBehaviour.SEND_KEY:
                 button.setOnClickListener(view -> Actions.SendKeyCode(config.keyCode, this.view));
                 break;
 
-            case SEND_MOUSE:
-                button.setOnClickListener(view -> Actions.SendMouseEvent(config.mouseEvent.Value(), mousePos));
+            case Config.ClickBehaviour.SEND_MOUSE:
+                button.setOnClickListener(view -> Actions.SendMouseEvent(config.mouseEvent.event, GetMousePos()));
                 break;
 
-            case OVERLAY_TOGGLE:
-                button.setOnClickListener(view -> {
-                    hidden = !hidden;
-                    Actions.ChangeVisibility((Button)view, buttons, hidden);
-                });
+            case Config.ClickBehaviour.OVERLAY:
+                if(config.overlayEvent.event == Config.OverlayEvent.TOGGLE) {
+                    button.setOnClickListener(view -> {
+                        hidden = !hidden;
+                        Actions.ChangeVisibility((Button)view, buttons, hidden);
+                    });
+                } else if(config.overlayEvent.event == Config.OverlayEvent.EDIT)
+                    button.setOnClickListener(view -> Actions.OpenOverlayEditor(activity));
                 break;
 
-            case KEYBOARD_TOGGLE:
-                button.setOnClickListener(view -> Actions.OpenKeyboard(activity, this.view));
+            case Config.ClickBehaviour.KEYBOARD_TOGGLE:
+                if(softKeyBoard != null)
+                    button.setOnClickListener(view -> softKeyBoard.ShowTextInput(0, 0, 500, 500));
                 break;
 
             default:
@@ -134,14 +160,29 @@ public class Overlay {
         return true;
     }
 
+    protected Config.Pos GetMousePos() {
+        return mousePos;
+    }
+
     // Save button configs to file
-    protected void SaveButtonSettings(ConfigList buttons, Path file) throws IOException {
+    protected void SaveButtonSettings(final ConfigList buttons, final Path file) throws IOException {
         Path storage = Filesystem.GetInternalStoragePath(activity).Append(file);
+        final ConfigList finalButtons = new ConfigList();
+        // Sort out null configs
+        for(Config cfg : buttons)
+            if(cfg != null) finalButtons.add(cfg);
+
+        Path parent = storage.GetParent();
+        if(!parent.Exists())
+            parent.Mkdirs();
+
+        if(!storage.Exists())
+            storage.CreateNewFile();
 
         FileOutputStream fOut = new FileOutputStream(storage.toString());
         ObjectOutputStream oOut = new ObjectOutputStream(fOut);
 
-        oOut.writeObject(buttons);
+        oOut.writeObject(finalButtons);
     }
 
     // Read button configs from file
@@ -157,6 +198,12 @@ public class Overlay {
 
         return new ConfigList();
         // throw new ClassNotFoundException("Read class is not an instance of Class<ButtonList>");
+    }
+
+
+    @FunctionalInterface
+    public interface SoftKeyBoardInterface {
+        boolean ShowTextInput(int x, int y, int w, int h);
     }
 
     // Separate class needed to use with instanceof

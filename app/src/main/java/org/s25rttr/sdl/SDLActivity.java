@@ -16,8 +16,8 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
         super.onCreate(savedInstanceState);
         SetFullscreen();
 
-        // if(settings.enableOverlay)
         overlay = new Overlay(this, mLayout, false);
+        overlay.SetSoftKeyboardInterface(SDLActivity::showTextInput);
         overlay.Load();
     }
 
@@ -54,37 +54,4 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
             }
         }
     }
-
-    /*private void SendKeyCode(int keyCode, boolean pressed) {
-        int action = pressed ? KeyEvent.ACTION_DOWN : KeyEvent.ACTION_UP;
-
-        KeyEvent event = new KeyEvent(
-                System.currentTimeMillis(),
-                System.currentTimeMillis(),
-                action,
-                keyCode,
-                0
-        );
-
-        mLayout.dispatchKeyEvent(event);
-    }
-
-    private void SetupOverlay() {
-        //mLayout
-        LinearLayout overlay = new LinearLayout(this);
-        overlay.setOrientation(LinearLayout.VERTICAL);
-        overlay.setGravity(Gravity.END);
-        overlay.setPadding(8, 8, 8, 8);
-
-        Button btn = new Button(this);
-        btn.setText("test");
-        btn.setOnClickListener(view -> {
-            SendKeyCode(KeyEvent.KEYCODE_SPACE, true);
-            SendKeyCode(KeyEvent.KEYCODE_SPACE, false);
-        });
-
-
-        overlay.addView(btn);
-        mLayout.addView(overlay);
-    }*/
 }

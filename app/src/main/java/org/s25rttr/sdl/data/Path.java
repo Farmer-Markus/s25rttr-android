@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.io.File;
+import java.io.IOException;
 
 // Simple path class (no java Path for compatibility)
 public class Path implements Parcelable {
@@ -161,6 +162,10 @@ public class Path implements Parcelable {
      * <code>null</code> otherwise
      */
     public String[] List() { return new File(data).list(); }
+
+    public boolean CreateNewFile() throws IOException {
+        return new File(data).createNewFile();
+    }
 
     /**
      * Get name of destination (file or directory)
