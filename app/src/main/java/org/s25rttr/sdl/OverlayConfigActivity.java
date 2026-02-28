@@ -1,12 +1,15 @@
 package org.s25rttr.sdl;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import org.s25rttr.sdl.overlay.OverlayEditor;
 import org.s25rttr.sdl.utils.UiHelper;
@@ -27,14 +30,28 @@ public class OverlayConfigActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SetFullscreen();
+        //UiHelper.SetFullscreen(this);
 
-        ViewGroup view = new FrameLayout(this);
+        /*FrameLayout view = new FrameLayout(this);
+        setContentView(view, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        ));*/
+        ViewGroup view = new RelativeLayout(this);
+
         setContentView(view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            view.setOnApplyWindowInsetsListener((v, insets) -> {
+
+                return WindowInsets.CONSUMED;
+            });
+        }
+
+        UiHelper.SetFullscreen(this);
 
         // Restore editor or load new one
         if(savedInstanceState == null || (oEditor = (OverlayEditor)savedInstanceState.getSerializable(EDITOR_KEY)) == null) {
-            oEditor = new OverlayEditor(this, view, false);
+            oEditor = new OverlayEditor(this, view, null, false);
             oEditor.Load();
         } else
             oEditor.Restore(this, view);
@@ -55,17 +72,6 @@ public class OverlayConfigActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        SetFullscreen();
+        UiHelper.SetFullscreen(this);
     }
-
-    private void SetFullscreen() {
-        getWindow().getDecorView().setSystemUiVisibility(ViewGroup.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | ViewGroup.SYSTEM_UI_FLAG_FULLSCREEN | ViewGroup.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
-
-
-    // oEditor.Save();
 }

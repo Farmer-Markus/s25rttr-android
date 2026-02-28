@@ -33,16 +33,8 @@ public class Actions {
     }
 
     public static void SendMouseEvent(final int button, final Config.Pos pos) {
-        //SDLActivity.onNativeMouse(0, 2, pos.x, pos.y, false);
-        // Down, then up
-        //for(int action = 0; action < 2; action++)
-            //SDLActivity.onNativeMouse(button, action, pos.x, pos.y, false);
-
         SDLActivity.onNativeMouse(button, 0, pos.x, pos.y, false);
-
-        //new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            SDLActivity.onNativeMouse(button, 1, pos.x, pos.y, false);
-        //}, 5);
+        SDLActivity.onNativeMouse(0, 1, pos.x, pos.y, false);
     }
 
     public static void ChangeVisibility(Button button, List<Button> elements, boolean visible) {

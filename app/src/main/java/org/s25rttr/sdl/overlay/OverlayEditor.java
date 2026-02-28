@@ -7,17 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,8 +28,8 @@ import java.io.Serializable;
 
 public class OverlayEditor extends Overlay implements Serializable {
 
-    public OverlayEditor(Activity activity, ViewGroup view, boolean hidden) {
-        super(activity, view, hidden);
+    public OverlayEditor(Activity activity, ViewGroup view, SurfaceView surface, boolean hidden) {
+        super(activity, view, surface, hidden);
         TextView textView = new TextView(activity);
         textView.setText("Tab anywhere to create button\nPortrait");
         textView.setGravity(Gravity.CENTER);
@@ -43,8 +41,6 @@ public class OverlayEditor extends Overlay implements Serializable {
     @SuppressLint("ClickableViewAccessibility")
     protected void AttachListeners() {
         overlay.setOnTouchListener((v, event) -> {
-            mousePos.x = event.getRawX();
-            mousePos.y = event.getRawY();
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 OpenGeneralMenu(v, event);
             }
@@ -360,8 +356,9 @@ public class OverlayEditor extends Overlay implements Serializable {
     }
 
     // Create a single button at mouse position
-    private void CreateButton(final FrameLayout layout) {
+    private void CreateButton(final OverlayLayout layout) {
         Config config = new Config();
+        Config.Pos mousePos = layout.GetMousePos();
         config.pos.x = mousePos.x;
         config.pos.y = mousePos.y;
         config.text = "Button " + configs.size();

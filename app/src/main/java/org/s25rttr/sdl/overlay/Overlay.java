@@ -2,9 +2,7 @@ package org.s25rttr.sdl.overlay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.util.DisplayMetrics;
+import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -22,34 +20,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Overlay {
+    protected Path DEFAULT_CONFIG_PATH = new Path("overlay/buttons.bin");
+
+    // SDLActivity variables
     protected Activity activity;
     protected ViewGroup view;
-    protected final FrameLayout overlay;
-    protected SoftKeyBoardInterface softKeyBoard;
+    //protected final SurfaceView surface;
 
-    protected Path DEFAULT_CONFIG_PATH = new Path("overlay/buttons.bin");
+    protected final OverlayLayout overlay;
     protected ConfigList configs;
     protected List<Button> buttons;
+    protected SoftKeyBoardInterface softKeyBoard;
 
-    protected Config.Pos mousePos;
     protected boolean hidden;
 
 
-    public Overlay(final Activity activity, final ViewGroup view, boolean hidden) {
+    public Overlay(final Activity activity, final ViewGroup view, SurfaceView surface, boolean hidden) {
         this.activity = activity;
         this.view = view;
 
         configs = new ConfigList();
         buttons = new ArrayList<>();
-        mousePos = new Config.Pos();
 
-        overlay = new FrameLayout(activity);
+        overlay = new OverlayLayout(activity, surface);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         );
         overlay.setLayoutParams(params);
         overlay.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        overlay.setFitsSystemWindows(false);
         view.addView(overlay);
         this.hidden = hidden;
 
@@ -59,13 +59,15 @@ public class Overlay {
     @SuppressLint("ClickableViewAccessibility")
     protected void AttachListeners() {
         // Listener to keep track of mouse/touch position used for button mouseClick actions
-        overlay.setOnTouchListener((view, event) -> {
-            mousePos.x = event.getRawX(0);
-            mousePos.y = event.getRawY(0);
+        /*overlay.setOnTouchListener((view, event) -> {
+            // Pass event down to sdl
+            MotionEvent evCopy = MotionEvent.obtain(event);
+            view.onTouchEvent(evCopy);
+            evCopy.recycle();
 
-            // Don't consume event, just listen
-            return false;
-        });
+            // Consume event so we get down, move and up events
+            return true;
+        });*/
     }
 
     /**
@@ -89,15 +91,19 @@ public class Overlay {
         return ret;
     }
 
-    public void SetSoftKeyboardInterface(SoftKeyBoardInterface softKeyBoardInterface) {
+    public void SetSoftKeyboardInterface(final SoftKeyBoardInterface softKeyBoardInterface) {
         this.softKeyBoard = softKeyBoardInterface;
     }
 
-    protected List<Button> CreateButtons(final ConfigList configs, final FrameLayout layout) {
+    /*public void SetMousePosInterface(final MousePosInterface mousePosInterface) {
+        this.mousePosInterface = mousePosInterface;
+    }*/
+
+    protected List<Button> CreateButtons(final ConfigList configs, final OverlayLayout layout) {
         return CreateButtons(configs, layout, 0);
     }
 
-    protected List<Button> CreateButtons(final ConfigList configs, final FrameLayout layout, final int start) {
+    protected List<Button> CreateButtons(final ConfigList configs, final OverlayLayout layout, final int start) {
         List<Button> buttons = new ArrayList<>();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -135,7 +141,7 @@ public class Overlay {
                 break;
 
             case Config.ClickBehaviour.SEND_MOUSE:
-                button.setOnClickListener(view -> Actions.SendMouseEvent(config.mouseEvent.event, GetMousePos()));
+                    button.setOnClickListener(view -> Actions.SendMouseEvent(config.mouseEvent.event, overlay.GetMousePos()));
                 break;
 
             case Config.ClickBehaviour.OVERLAY:
@@ -158,10 +164,6 @@ public class Overlay {
         }
 
         return true;
-    }
-
-    protected Config.Pos GetMousePos() {
-        return mousePos;
     }
 
     // Save button configs to file
@@ -205,6 +207,11 @@ public class Overlay {
     public interface SoftKeyBoardInterface {
         boolean ShowTextInput(int x, int y, int w, int h);
     }
+
+    /*@FunctionalInterface
+    public interface MousePosInterface {
+        Config.Pos GetMousePos();
+    }*/
 
     // Separate class needed to use with instanceof
     // https://stackoverflow.com/questions/10108122/how-to-instanceof-listmytype

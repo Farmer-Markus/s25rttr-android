@@ -1,6 +1,8 @@
 package org.s25rttr.sdl.overlay;
 
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 // Store user defined buttons and locations
@@ -16,9 +18,28 @@ public class Config implements Serializable {
     public OverlayEvent overlayEvent = new OverlayEvent();
 
 
-    public static class Pos implements Serializable {
-        float x;
-        float y;
+    public static class Pos implements Serializable, Cloneable {
+        public float x;
+        public float y;
+
+        public Pos() {}
+        public Pos(float x, float y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        @NonNull
+        public Pos clone() {
+            try {
+                Pos clone = (Pos) super.clone();
+                clone.x = x;
+                clone.y = y;
+                return clone;
+            } catch (CloneNotSupportedException e) {
+                throw new AssertionError();
+            }
+        }
     }
 
     public static class ClickBehaviour implements Serializable {
@@ -42,21 +63,6 @@ public class Config implements Serializable {
         public MouseEvent() { this.event = LEFT_BUTTON; }
     }
 
-    /*public enum MouseEvent {
-        LEFT_BUTTON(1),
-        MIDDLE_BUTTON(2),
-        RIGHT_BUTTON(3);
-
-        private final int value;
-
-        MouseEvent(final int value) {
-            this.value = value;
-        }
-        public int Value() {
-            return value;
-        }
-    }*/
-
     public static class OverlayEvent implements Serializable {
         public static final int TOGGLE = 0;
         public static final int EDIT = 1;
@@ -72,7 +78,9 @@ public class Config implements Serializable {
         if(!(obj instanceof Config)) return false;
 
         Config c = (Config)obj;
-        return text.equals(c.text) && pos.equals(c.pos) && clickBehaviour == c.clickBehaviour
-                && keyCode == c.keyCode && mouseEvent == c.mouseEvent;
+        return text.equals(c.text) && pos.equals(c.pos) && opacity == c.opacity
+                && textOpacity == c.textOpacity && clickBehaviour.behaviour == c.clickBehaviour.behaviour
+                && keyCode == c.keyCode && mouseEvent.event == c.mouseEvent.event
+                && overlayEvent.event == c.overlayEvent.event;
     }
 }

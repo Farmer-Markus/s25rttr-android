@@ -53,9 +53,9 @@ public class ActionFillers {
     public static List<UiHelper.SpinnerItem> GetMouseItems() {
         final List<UiHelper.SpinnerItem> items = new ArrayList<>();
 
-        items.add(new UiHelper.SpinnerItem(Config.MouseEvent.LEFT_BUTTON, "LEFT"));
-        items.add(new UiHelper.SpinnerItem(Config.MouseEvent.MIDDLE_BUTTON, "MIDDLE"));
-        items.add(new UiHelper.SpinnerItem(Config.MouseEvent.RIGHT_BUTTON, "RIGHT"));
+        items.add(new UiHelper.SpinnerItem(1, "LEFT"));
+        items.add(new UiHelper.SpinnerItem(2, "RIGHT"));
+        items.add(new UiHelper.SpinnerItem(3, "MIDDLE"));
         return items;
     }
 }
