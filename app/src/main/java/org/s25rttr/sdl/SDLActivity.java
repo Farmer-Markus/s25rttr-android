@@ -1,6 +1,7 @@
 package org.s25rttr.sdl;
 
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 
 import org.s25rttr.sdl.overlay.Overlay;
@@ -22,7 +23,8 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        UiHelper.SetFullscreen(this);
+        if(mFullscreenModeActive)
+            UiHelper.SetFullscreen(this);
     }
 
     @Override

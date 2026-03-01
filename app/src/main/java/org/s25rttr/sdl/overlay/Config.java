@@ -40,6 +40,11 @@ public class Config implements Serializable {
                 throw new AssertionError();
             }
         }
+
+        public boolean InRange(Pos pos, float distance) {
+            double dist = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow(y - pos.y, 2));
+            return dist <= distance;
+        }
     }
 
     public static class ClickBehaviour implements Serializable {

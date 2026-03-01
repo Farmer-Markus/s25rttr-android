@@ -1,6 +1,7 @@
 package org.s25rttr.sdl;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,24 +31,13 @@ public class OverlayConfigActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //UiHelper.SetFullscreen(this);
 
-        /*FrameLayout view = new FrameLayout(this);
+        FrameLayout view = new FrameLayout(this);
         setContentView(view, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
-        ));*/
-        ViewGroup view = new RelativeLayout(this);
-
+        ));
         setContentView(view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            view.setOnApplyWindowInsetsListener((v, insets) -> {
-
-                return WindowInsets.CONSUMED;
-            });
-        }
-
-        UiHelper.SetFullscreen(this);
 
         // Restore editor or load new one
         if(savedInstanceState == null || (oEditor = (OverlayEditor)savedInstanceState.getSerializable(EDITOR_KEY)) == null) {
@@ -73,5 +63,13 @@ public class OverlayConfigActivity extends Activity {
     protected void onResume() {
         super.onResume();
         UiHelper.SetFullscreen(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R && hasFocus)
+            UiHelper.SetFullscreen(this);
     }
 }

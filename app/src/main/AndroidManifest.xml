@@ -108,7 +108,8 @@
             android:theme="@style/GameConfigTheme">
         </activity>
         <activity android:name=".OverlayConfigActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/GameConfigTheme">
         </activity>
         <activity android:name=".GameConfigActivity"
             android:exported="true"
@@ -117,7 +118,6 @@
         <activity android:name=".AssetManagerActivity"
             android:exported="true"
             android:theme="@style/GameConfigTheme">
-
         </activity>
         <activity android:name=".GameStartActivity"
             android:exported="true"

@@ -22,9 +22,9 @@ public class GameStartActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(this, GameConfigActivity.class));
-        finish();
-        //PrepareGame(false);
+        // startActivity(new Intent(this, GameConfigActivity.class));
+        // finish();
+        PrepareGame(false);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class GameStartActivity extends Activity {
             UiHelper.AlertDialog(
                     this,
                     "Critical error",
-                    "Failed to set essential environment variables. If your running in an emulator ensure you are using the right(native) ABI!" + e.toString(),
+                    "Failed to set essential environment variables. If your running in an emulator ensure you are using the right(native) ABI!" + e,
                     this::Exit
             );
             return;

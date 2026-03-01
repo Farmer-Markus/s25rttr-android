@@ -155,7 +155,7 @@ public class Overlay {
                 break;
 
             case Config.ClickBehaviour.KEYBOARD_TOGGLE:
-                if(softKeyBoard != null)
+                if(softKeyBoard != null) // I don't really know what these vars are doing
                     button.setOnClickListener(view -> softKeyBoard.ShowTextInput(0, 0, 500, 500));
                 break;
 

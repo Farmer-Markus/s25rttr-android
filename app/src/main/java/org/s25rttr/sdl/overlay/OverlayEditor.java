@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 public class OverlayEditor extends Overlay implements Serializable {
+    private static final float CLICK_DISTANCE = 5.0f;
 
     public OverlayEditor(Activity activity, ViewGroup view, SurfaceView surface, boolean hidden) {
         super(activity, view, surface, hidden);
@@ -40,13 +41,26 @@ public class OverlayEditor extends Overlay implements Serializable {
     @Override
     @SuppressLint("ClickableViewAccessibility")
     protected void AttachListeners() {
-        overlay.setOnTouchListener((v, event) -> {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                OpenGeneralMenu(v, event);
-            }
+        overlay.setOnTouchListener(new View.OnTouchListener() {
+            final Config.Pos startPos = new Config.Pos();
 
-            // Don't consume event
-            return false;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startPos.x = event.getRawX();
+                        startPos.y = event.getRawY();
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if(startPos.InRange(new Config.Pos(event.getRawX(), event.getRawY()), CLICK_DISTANCE))
+                            OpenGeneralMenu(v, event);
+                        break;
+                }
+
+                // Don't consume event
+                return false;
+            }
         });
     }
 
@@ -55,21 +69,22 @@ public class OverlayEditor extends Overlay implements Serializable {
     @SuppressLint("ClickableViewAccessibility")
     protected boolean AddButtonBehaviour(final Button button, final int configID) {
         button.setOnTouchListener(new View.OnTouchListener() {
-            boolean dragged;
+            final Config.Pos startPos = new Config.Pos();
             float diffX, diffY;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        dragged = false;
-                        diffX = v.getX() - event.getRawX();
-                        diffY = v.getY() - event.getRawY();
+                        startPos.x = event.getRawX();
+                        startPos.y = event.getRawY();
+                        diffX = v.getX() - startPos.x;
+                        diffY = v.getY() - startPos.y;
                         v.bringToFront();
                         return true;
 
                     case MotionEvent.ACTION_UP:
-                        if(!dragged) {
+                        if(startPos.InRange(new Config.Pos(event.getRawX(), event.getRawY()), CLICK_DISTANCE)) {
                             OpenButtonMenu((Button)v, configID);
                             return true;
                         } else {
@@ -78,7 +93,6 @@ public class OverlayEditor extends Overlay implements Serializable {
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        dragged = true;
                         v.setX(event.getRawX() + diffX);
                         v.setY(event.getRawY() + diffY);
                         return true;
