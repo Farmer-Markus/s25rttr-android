@@ -1,5 +1,5 @@
 
-## I'm currently rewriting the whole project [here](https://github.com/Farmer-Markus/s25rttr-android/tree/rewrite)
+# This version is deprecated please use the [main branch](https://github.com/Farmer-Markus/s25rttr-android/tree/main) instead.
 
 # s25rttr-android
 Unofficial Android port of [s25client](https://github.com/Return-To-The-Roots/s25client).
