@@ -21,7 +21,7 @@ public class Filesystem {
         /storage/0/ <folder>            // Internal storage
         /storage/<????-????>/ <folder>  // Sdcard
      */
-    // I really hate this function but I don't know how to do this properly. Do you know? Please let me know :D
+    // I really hate this function, but I don't know how to do this properly. Do you know? Please let me know :D
     public static String UriToRealPath(Uri uri) {
         if(uri == null) return "";
 
@@ -31,6 +31,11 @@ public class Filesystem {
         int treePos = path.indexOf("/tree/");
         if(treePos >= 0) // Remove "/tree/"
             path = path.substring(treePos + 6);
+
+        // In some android versiones there can be a 'raw' instead of primary
+        int rawPos = path.indexOf("raw:");
+        if(rawPos >= 0)
+            return path.substring(rawPos + 4);
 
         int colonPos = path.indexOf(":");
         if(colonPos < 0)

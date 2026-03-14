@@ -1,11 +1,13 @@
 package org.s25rttr.sdl.overlay;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.view.KeyEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -17,9 +19,9 @@ import org.s25rttr.sdl.SDLActivity;
 import java.util.List;
 
 public class Actions {
-    public static void SendKeyCode(int keyCode, ViewGroup view) {
+    public static void SendKeyCode(int keyCode, SurfaceView surface) {
         // First down, then up
-        for(int action = 0; action < 1; action++) {
+        for(int action = 0; action < 2; action++) {
             KeyEvent event = new KeyEvent(
                     System.currentTimeMillis(),
                     System.currentTimeMillis(),
@@ -28,7 +30,7 @@ public class Actions {
                     0
             );
 
-            view.dispatchKeyEvent(event);
+            surface.dispatchKeyEvent(event);
         }
     }
 
@@ -47,29 +49,14 @@ public class Actions {
         button.setVisibility(View.VISIBLE);
     }
 
-    // https://stackoverflow.com/a/5617130
-    public static void OpenKeyboard(Runnable runnable) {
-        if(runnable != null) {
-            Handler handler = new Handler();
-            handler.post(runnable);
-        }
+    public static void ToggleKeyboard(KeyboardView view, Context context) {
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-
-        /*EditText editText = new EditText(context);
-        view.addView(editText);
-        editText.setHint("Enter text");
-        editText.setOnEditorActionListener((v, actionID, keyEvent) -> {
-            // User finished keyboard input -> Send keys to sdl
-            // Handler.post(new Runnable())
-
-            return true;
-        });
-
-        InputMethodManager manager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        //manager.toggleSoftInputFromWindow(view.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-        manager.showSoftInput(view, InputMethodManager.SHOW_FORCED);*/
-
-
+        if(view.hasFocus()) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            view.clearFocus();
+        } else if(view.requestFocus())
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
     public static void OpenOverlayEditor(Context context) {

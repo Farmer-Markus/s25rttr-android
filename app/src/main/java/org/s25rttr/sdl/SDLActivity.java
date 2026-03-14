@@ -15,8 +15,6 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
         super.onCreate(savedInstanceState);
 
         overlay = new Overlay(this, mLayout, mSurface, false);
-        // Tell overlay which fn to use to open the keyboard
-        overlay.SetSoftKeyboardInterface(SDLActivity::showTextInput);
         overlay.Load();
     }
 

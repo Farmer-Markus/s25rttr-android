@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -21,7 +22,8 @@ public class Permissions {
         // Old permission system
         int readPrm = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
         int writePrm = context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        return readPrm == 0 && writePrm == 0;
+
+        return readPrm == PackageManager.PERMISSION_GRANTED && writePrm == PackageManager.PERMISSION_GRANTED;
     }
 
     public static boolean RequestPermission(Context context, int activityCode) {

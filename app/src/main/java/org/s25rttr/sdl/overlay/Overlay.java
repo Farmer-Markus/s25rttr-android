@@ -2,8 +2,10 @@ package org.s25rttr.sdl.overlay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -25,12 +27,12 @@ public class Overlay {
     // SDLActivity variables
     protected Activity activity;
     protected ViewGroup view;
-    //protected final SurfaceView surface;
+    protected final SurfaceView surface;
 
     protected final OverlayLayout overlay;
     protected ConfigList configs;
     protected List<Button> buttons;
-    protected SoftKeyBoardInterface softKeyBoard;
+    protected KeyboardView keyboardView;
 
     protected boolean hidden;
 
@@ -38,6 +40,7 @@ public class Overlay {
     public Overlay(final Activity activity, final ViewGroup view, SurfaceView surface, boolean hidden) {
         this.activity = activity;
         this.view = view;
+        this.surface = surface;
 
         configs = new ConfigList();
         buttons = new ArrayList<>();
@@ -58,16 +61,13 @@ public class Overlay {
 
     @SuppressLint("ClickableViewAccessibility")
     protected void AttachListeners() {
-        // Listener to keep track of mouse/touch position used for button mouseClick actions
-        /*overlay.setOnTouchListener((view, event) -> {
-            // Pass event down to sdl
-            MotionEvent evCopy = MotionEvent.obtain(event);
-            view.onTouchEvent(evCopy);
-            evCopy.recycle();
+        overlay.setOnTouchListener((view, event) -> {
+            // Hide keyboard if shown & clicked outside
+            if(keyboardView != null && keyboardView.hasFocus())
+                Actions.ToggleKeyboard(keyboardView, activity);
 
-            // Consume event so we get down, move and up events
-            return true;
-        });*/
+            return false;
+        });
     }
 
     /**
@@ -90,14 +90,6 @@ public class Overlay {
         buttons.addAll(CreateButtons(configs, overlay));
         return ret;
     }
-
-    public void SetSoftKeyboardInterface(final SoftKeyBoardInterface softKeyBoardInterface) {
-        this.softKeyBoard = softKeyBoardInterface;
-    }
-
-    /*public void SetMousePosInterface(final MousePosInterface mousePosInterface) {
-        this.mousePosInterface = mousePosInterface;
-    }*/
 
     protected List<Button> CreateButtons(final ConfigList configs, final OverlayLayout layout) {
         return CreateButtons(configs, layout, 0);
@@ -137,7 +129,7 @@ public class Overlay {
         final Config config = configs.get(configID);
         switch(config.clickBehaviour.behaviour) {
             case Config.ClickBehaviour.SEND_KEY:
-                button.setOnClickListener(view -> Actions.SendKeyCode(config.keyCode, this.view));
+                button.setOnClickListener(view -> Actions.SendKeyCode(config.keyCode, this.surface));
                 break;
 
             case Config.ClickBehaviour.SEND_MOUSE:
@@ -155,8 +147,13 @@ public class Overlay {
                 break;
 
             case Config.ClickBehaviour.KEYBOARD_TOGGLE:
-                if(softKeyBoard != null) // I don't really know what these vars are doing
-                    button.setOnClickListener(view -> softKeyBoard.ShowTextInput(0, 0, 500, 500));
+                // We have a keyboard button
+                if(keyboardView == null) {
+                    keyboardView = new KeyboardView(surface);
+                    overlay.addView(keyboardView);
+                }
+
+                button.setOnClickListener(view -> Actions.ToggleKeyboard(keyboardView, activity));
                 break;
 
             default:
@@ -199,19 +196,7 @@ public class Overlay {
             return (ConfigList)obj;
 
         return new ConfigList();
-        // throw new ClassNotFoundException("Read class is not an instance of Class<ButtonList>");
     }
-
-
-    @FunctionalInterface
-    public interface SoftKeyBoardInterface {
-        boolean ShowTextInput(int x, int y, int w, int h);
-    }
-
-    /*@FunctionalInterface
-    public interface MousePosInterface {
-        Config.Pos GetMousePos();
-    }*/
 
     // Separate class needed to use with instanceof
     // https://stackoverflow.com/questions/10108122/how-to-instanceof-listmytype
@@ -228,9 +213,3 @@ public class Overlay {
         }
     }
 }
-
-/*
-Implement customizer to dynamically let user add/remove buttons.
-Overwrite touch functions to let user drag buttons around to specific positions.
-Store positions/text/keyboard-key inside overlay.Config somehow
- */
