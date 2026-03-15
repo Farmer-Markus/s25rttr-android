@@ -16,6 +16,10 @@ import java.io.Serializable;
   paths and username
  */
 public class Settings implements Serializable {
+    public static boolean DEFAULT_GL_VSYNC = false;
+    public static int DEFAULT_GL_BATCH = 0;
+    public static int GL_BATCH_MAX = 100;
+
     public String RttrDirectory;
     public String GameDirectory;
     public String DefaultName;
@@ -25,6 +29,12 @@ public class Settings implements Serializable {
     public boolean EnableOverlay;
     public boolean EnableUpdater;
     public long LastUpdated;
+
+    public boolean FeatureShown;
+
+    // Experimental settings
+    public boolean GlVsync;
+    public int GlBatch;
 
 
     @Override
@@ -36,7 +46,9 @@ public class Settings implements Serializable {
         return RttrDirectory.equals(s.RttrDirectory) && GameDirectory.equals(s.GameDirectory)
                 && DefaultName.equals(s.DefaultName) && Orientation == s.Orientation
                 && ShowExitDialog == s.ShowExitDialog && EnableOverlay == s.EnableOverlay
-                && EnableUpdater == s.EnableUpdater && LastUpdated == s.LastUpdated;
+                && EnableUpdater == s.EnableUpdater && LastUpdated == s.LastUpdated
+                && FeatureShown == s.FeatureShown
+                && GlVsync == s.GlVsync && GlBatch == s.GlBatch;
     }
 
     // Save current settings
@@ -52,6 +64,10 @@ public class Settings implements Serializable {
         edit.putBoolean("enable_overlay", EnableOverlay);
         edit.putBoolean("enable_updater", EnableUpdater);
         edit.putLong("last_updated", LastUpdated);
+        edit.putBoolean("feature_shown", FeatureShown);
+
+        edit.putBoolean("gl_vsync", GlVsync);
+        edit.putInt("gl_batch", GlBatch);
 
         edit.apply();
         return this;
@@ -69,6 +85,10 @@ public class Settings implements Serializable {
         EnableOverlay = pref.getBoolean("enable_overlay", true);
         EnableUpdater = pref.getBoolean("enable_updater", true);
         LastUpdated = pref.getLong("last_updated", 0);
+        FeatureShown = pref.getBoolean("feature_shown", false);
+
+        GlVsync = pref.getBoolean("gl_vsync", DEFAULT_GL_VSYNC);
+        GlBatch = pref.getInt("gl_batch", DEFAULT_GL_BATCH);
         return this;
     }
 

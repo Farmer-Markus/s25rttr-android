@@ -73,9 +73,21 @@
     <string name="overlay_config_menu_clear">Alle löschen</string>
     <string name="overlay_config_menu_reset">Zurücksetzen</string>
     <string name="overlay_config_menu_back">Zurück</string>
-    <string name="overlay_config_width_title">Min. Breite</string>
-    <string name="overlay_config_height_title">Min. Höhe</string>
+    <string name="overlay_config_width_title">Min. Breite:</string>
+    <string name="overlay_config_height_title">Min. Höhe:</string>
     <string name="overlay_config_orientation_info">Querformat/Hochformat beeinflusst dieses Menü</string>
     <string name="overlay_toast_saved">Overlay gespeichert nach %1$s</string>
-    <string name="overlay_toast_loaded">Overlay geladen aus %1$s</string>
+    <string name="overlay_toast_loaded">Overlay geladen von %1$s</string>
+    <string name="overlay_config_action_keypress">Tastendruck</string>
+    <string name="overlay_config_action_mouse">Maus</string>
+    <string name="overlay_config_action_keyboard">Tastatur ein/aus</string>
+    <string name="overlay_config_keyaction_space">LEERTASTE</string>
+    <string name="overlay_config_keyaction_enter">ENTER</string>
+    <string name="overlay_config_keyaction_ctrl">STRG</string>
+    <string name="overlay_config_mouseaction_left">LINKS</string>
+    <string name="overlay_config_mouseaction_right">RECHTS</string>
+    <string name="overlay_config_mouseaction_middle">MITTE</string>
+    <string name="features_overlay_title">Overlay jetzt verfügbar</string>
+    <string name="features_overlay_message">Dieses Update beinhaltet ein neues overlay System. Erstelle und verschiebe buttons um Tastatur, Maus und andere Events zu simulieren. Berühre lange das App Icon und klicke auf Konfigurieren dann kannst du das overlay Einstellen. Danke fürs Spielen :)</string>
+    <string name="config_experimental_title">Experimentell: (Kann Fehler verursachen)</string>
 </resources>

@@ -83,9 +83,29 @@
     <string name="overlay_config_menu_clear">Clear config</string>
     <string name="overlay_config_menu_reset">Reset</string>
     <string name="overlay_config_menu_back">Back</string>
-    <string name="overlay_config_width_title">Min. width</string>
-    <string name="overlay_config_height_title">Min. height</string>
+    <string name="overlay_config_width_title">Min. width:</string>
+    <string name="overlay_config_height_title">Min. height:</string>
     <string name="overlay_config_orientation_info">Landscape/Portrait will affect this menu</string>
     <string name="overlay_toast_saved">Overlay saved to %1$s</string>
     <string name="overlay_toast_loaded">Overlay loaded from %1$s</string>
+    <string name="overlay_config_action_keypress">Keypress</string>
+    <string name="overlay_config_action_mouse">Mouse</string>
+    <string name="overlay_config_action_overlay" translatable="false">Overlay</string>
+    <string name="overlay_config_action_keyboard">Toggle keyboard</string>
+    <string name="overlay_config_keyaction_space">SPACE</string>
+    <string name="overlay_config_keyaction_enter">RETURN</string>
+    <string name="overlay_config_keyaction_escape" translatable="false">ESCAPE</string>
+    <string name="overlay_config_keyaction_tab" translatable="false">TAB</string>
+    <string name="overlay_config_keyaction_alt" translatable="false">ALT</string>
+    <string name="overlay_config_keyaction_ctrl">CTRL</string>
+    <string name="overlay_config_overlayaction_edid" translatable="false">EDID</string>
+    <string name="overlay_config_overlayaction_toggle" translatable="false">TOGGLE</string>
+    <string name="overlay_config_mouseaction_left">LEFT</string>
+    <string name="overlay_config_mouseaction_right">RIGHT</string>
+    <string name="overlay_config_mouseaction_middle">MIDDLE</string>
+    <string name="features_overlay_title">Overlay available now</string>
+    <string name="features_overlay_message">This update includes a new overlay system. Create and drag buttons to emulate key, mouse and other events. Long press on the app icon and tap configure then configure the overlay. Thanks for playing :)</string>
+    <string name="config_experimental_title">Experimental: (may create bugs)</string>
+    <string name="config_experimental_glvsync_title" translatable="false">GL-Vsync</string>
+    <string name="config_experimental_glbatch_title" translatable="false">GL-Batch</string>
 </resources>

@@ -4,6 +4,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Overlay {
+    public static int OVERLAY_CONFIG_CODE = 0;
     protected Path DEFAULT_CONFIG_DIR = new Path("overlay");
 
     // SDLActivity variables
@@ -101,6 +103,22 @@ public class Overlay {
         return true;
     }
 
+    /**
+     * Detach/remove buttons & config
+     */
+    public void Detach() {
+        for(Button btn : buttons) {
+            OverlayLayout ol = (OverlayLayout)btn.getParent();
+            if(ol == null)
+                continue;
+
+            ol.removeView(btn);
+        }
+
+        buttons.clear();
+        configs.clear();
+    }
+
     protected List<Button> CreateButtons(final ConfigList configs, final OverlayLayout layout) {
         return CreateButtons(configs, layout, 0);
     }
@@ -153,10 +171,10 @@ public class Overlay {
                 if(config.overlayEvent.event == Config.OverlayEvent.TOGGLE) {
                     button.setOnClickListener(view -> {
                         hidden = !hidden;
-                        Actions.ChangeVisibility((Button)view, buttons, hidden);
+                        Actions.ChangeVisibility((Button)view, buttons, !hidden);
                     });
                 } else if(config.overlayEvent.event == Config.OverlayEvent.EDIT)
-                    button.setOnClickListener(view -> Actions.OpenOverlayEditor(activity));
+                    button.setOnClickListener(view -> Actions.OpenOverlayEditor(activity, OVERLAY_CONFIG_CODE));
                 break;
 
             case Config.ClickBehaviour.KEYBOARD_TOGGLE:

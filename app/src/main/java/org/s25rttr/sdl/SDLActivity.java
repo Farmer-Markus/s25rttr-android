@@ -1,5 +1,6 @@
 package org.s25rttr.sdl;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,8 +20,10 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
         settings = new Settings().Load(this);
         if(settings.EnableOverlay) {
             overlay = new Overlay(this, mLayout, mSurface, false, settings);
-            overlay.Load();
+            overlay.Load(true);
         }
+
+
     }
 
     @Override
@@ -28,6 +31,15 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
         super.onResume();
         if(mFullscreenModeActive)
             UiHelper.SetFullscreen(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if(requestCode == Overlay.OVERLAY_CONFIG_CODE) {
+            // Reload everything
+            overlay.Detach();
+            overlay.Load();
+        }
     }
 
     @Override

@@ -22,8 +22,6 @@ public class GameStartActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // startActivity(new Intent(this, GameConfigActivity.class));
-        // finish();
         PrepareGame(false);
     }
 
@@ -47,6 +45,17 @@ public class GameStartActivity extends Activity {
 
     private void PrepareGame(boolean updated) {
         Settings s = new Settings().Load(this);
+
+        if(!s.FeatureShown && AssetHelper.AppWasUpdated(this, s))
+        {
+            // New feature message
+            UiHelper.AlertDialog(this, getString(R.string.features_overlay_title), getString(R.string.features_overlay_message), ()->{
+                s.FeatureShown = true;
+                s.Save(this);
+                PrepareGame(false);
+            });
+            return;
+        }
 
         if(!Filesystem.IsPathWritable(s.RttrDirectory) || s.RttrDirectory.isEmpty()) {
             if(s.RttrDirectory.isEmpty() && (s.RttrDirectory = Settings.COMPAT_GetOld(this)) != null) {
@@ -116,6 +125,10 @@ public class GameStartActivity extends Activity {
             Os.setenv("RTTR_DRIVER_DIR", RttrHelper.GetDriverDir(this).toString(), true);
             Os.setenv("RTTR_RTTR_DIR", AssetHelper.GetExternalAssetDirPath(s).toString(), true);
             Os.setenv("RTTR_GAME_DIR", s.GameDirectory, true);
+
+            // gl4es experimental vars
+            Os.setenv("LIBGL_BATCH", String.valueOf(s.GlBatch), true);
+            Os.setenv("LIBGL_VSYNC", String.valueOf(s.GlVsync), true);
 
         } catch (ErrnoException e) {
             UiHelper.AlertDialog(

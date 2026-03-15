@@ -109,6 +109,11 @@ public class UiHelper {
     public static void SetFullscreen(Activity activity) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             activity.getWindow().setDecorFitsSystemWindows(false);
+
+            WindowManager.LayoutParams params = activity.getWindow().getAttributes();
+            params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            activity.getWindow().setAttributes(params);
+
             WindowInsetsController controller = activity.getWindow().getInsetsController();
             if(controller != null) {
                 controller.hide(WindowInsets.Type.systemBars());

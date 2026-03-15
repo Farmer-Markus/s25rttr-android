@@ -8,10 +8,10 @@ Features:
 - Mouse works fine like on pc
 - App config menu to create/choose folder, set default username, orientation and view/delete log files
 - Detect app update & update game files
+- Overlay to add/move around buttons to emulate keyboard, mouse and other events. Also allows to open android keyboard
 
 Planned bugfixes:
 - Working multiplayer
-- Virtual keyboard
 
 ## Downloads
 Download from [GitHub releases](https://github.com/Farmer-Markus/s25rttr-android/releases) or [build it yourself](#compiling) as described below.

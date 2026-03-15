@@ -114,9 +114,8 @@
             android:id="@+id/WidthEditTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="262dp"
             android:text="@string/overlay_config_width_title"
-            app:layout_constraintEnd_toStartOf="@+id/HeightEditTitle"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/TextOpacityEdit" />
 
         <EditText

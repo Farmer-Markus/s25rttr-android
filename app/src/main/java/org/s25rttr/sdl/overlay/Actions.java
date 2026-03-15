@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.s25rttr.sdl.OverlayConfigActivity;
 import org.s25rttr.sdl.SDLActivity;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class Actions {
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    public static void OpenOverlayEditor(Context context) {
-        context.startActivity(new Intent(context, OverlayEditor.class));
+    public static void OpenOverlayEditor(Activity activity, int code) {
+        activity.startActivityForResult(new Intent(activity, OverlayConfigActivity.class), code);
     }
 }

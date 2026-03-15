@@ -210,7 +210,7 @@ public class OverlayEditor extends Overlay implements Serializable {
         ArrayAdapter<UiHelper.SpinnerItem> adapter = new ArrayAdapter<>(
                 activity,
                 android.R.layout.simple_spinner_dropdown_item,
-                ActionFillers.GetEventBehaviourItems()
+                ActionFillers.GetEventBehaviourItems(activity)
         );
         spinner.setAdapter(adapter);
         UiHelper.SpinnerItem.SelectItemById(spinner, config.clickBehaviour.behaviour);
@@ -284,7 +284,7 @@ public class OverlayEditor extends Overlay implements Serializable {
                 ArrayAdapter<UiHelper.SpinnerItem> adapter = new ArrayAdapter<>(
                         activity,
                         android.R.layout.simple_spinner_dropdown_item,
-                        ActionFillers.GetKeyItems()
+                        ActionFillers.GetKeyItems(activity)
                 );
 
                 spinner.setAdapter(adapter);
@@ -308,7 +308,7 @@ public class OverlayEditor extends Overlay implements Serializable {
                 ArrayAdapter<UiHelper.SpinnerItem> adapter = new ArrayAdapter<>(
                         activity,
                         android.R.layout.simple_spinner_dropdown_item,
-                        ActionFillers.GetMouseItems()
+                        ActionFillers.GetMouseItems(activity)
                 );
                 spinner.setAdapter(adapter);
                 UiHelper.SpinnerItem.SelectItemById(spinner, config.mouseEvent.event);
@@ -331,7 +331,7 @@ public class OverlayEditor extends Overlay implements Serializable {
                 ArrayAdapter<UiHelper.SpinnerItem> adapter = new ArrayAdapter<>(
                         activity,
                         android.R.layout.simple_spinner_dropdown_item,
-                        ActionFillers.GetOverlayItems()
+                        ActionFillers.GetOverlayItems(activity)
                 );
                 spinner.setAdapter(adapter);
                 UiHelper.SpinnerItem.SelectItemById(spinner, config.overlayEvent.event);

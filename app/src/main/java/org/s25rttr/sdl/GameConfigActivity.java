@@ -28,10 +28,8 @@ import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.RttrHelper;
 import org.s25rttr.sdl.utils.UiHelper;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /*
   Config activity.
@@ -261,23 +259,6 @@ public class GameConfigActivity extends Activity {
             }
         });
 
-        button = findViewById(R.id.LogOpenButton);
-        button.setOnClickListener(view -> {
-            OpenSelectedLog();
-        });
-
-        button = findViewById(R.id.LogDeleteButton);
-        button.setOnClickListener(view -> {
-            UiHelper.QuestionDialog(this, getString(R.string.config_log_delete_button), getString(R.string.config_dialog_log_delete_message), () -> {
-                Path logDir = RttrHelper.GetLogDir(settings);
-                if(logDir.Exists()) { // not really needed
-                    Filesystem.DeleteDirectory(logDir);
-                    ReloadUi();
-                }
-
-            }, null);
-        });
-
         CheckBox checkBox = findViewById(R.id.EnableOverlayCheckbox);
         checkBox.setOnClickListener(view -> {
             settings.EnableOverlay = ((CheckBox)view).isChecked();
@@ -298,6 +279,54 @@ public class GameConfigActivity extends Activity {
         button = findViewById(R.id.UpdaterButton);
         button.setOnClickListener(view -> {
             startActivityForResult(new Intent(this, AssetManagerActivity.class), UPDATER_CODE);
+        });
+
+        button = findViewById(R.id.LogOpenButton);
+        button.setOnClickListener(view -> {
+            OpenSelectedLog();
+        });
+
+        button = findViewById(R.id.LogDeleteButton);
+        button.setOnClickListener(view -> {
+            UiHelper.QuestionDialog(this, getString(R.string.config_log_delete_button), getString(R.string.config_dialog_log_delete_message), () -> {
+                Path logDir = RttrHelper.GetLogDir(settings);
+                if(logDir.Exists()) { // not really needed
+                    Filesystem.DeleteDirectory(logDir);
+                    ReloadUi();
+                }
+
+            }, null);
+        });
+
+        // Experimental
+        // Gl4es vsync
+        checkBox = findViewById(R.id.GlVsyncCheckbox);
+        checkBox.setHint(String.valueOf(Settings.DEFAULT_GL_VSYNC));
+        checkBox.setOnClickListener(view -> {
+            settings.GlVsync = ((CheckBox)view).isChecked();
+        });
+
+        // Gl4es batching
+        et = findViewById(R.id.GlBatchEdit);
+        et.setHint(Settings.DEFAULT_GL_BATCH + " - " + Settings.GL_BATCH_MAX);
+        et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int val;
+                try {
+                    val = Integer.parseUnsignedInt(editable.toString());
+                } catch (NumberFormatException ignore) {
+                    return;
+                }
+                if(val >= 0 && val <= Settings.GL_BATCH_MAX)
+                    settings.GlBatch = val;
+            }
+        });
+        et.setOnFocusChangeListener((view, hasFocus) -> {
+            // Probably finished editing
+            if(!hasFocus) {
+                ReloadUi();
+            }
         });
 
         button = findViewById(R.id.GameStartButton);
@@ -350,16 +379,16 @@ public class GameConfigActivity extends Activity {
 
     private void CheckRttrDirUi() {
         if(Filesystem.IsPathWritable(settings.RttrDirectory))
-            ((EditText)findViewById(R.id.RttrDirEditText)).setBackgroundColor(Color.GREEN);
+            findViewById(R.id.RttrDirEditText).setBackgroundColor(Color.GREEN);
         else
-            ((EditText)findViewById(R.id.RttrDirEditText)).setBackgroundColor(Color.RED);
+            findViewById(R.id.RttrDirEditText).setBackgroundColor(Color.RED);
     }
 
     private void CheckGameDirUi() {
         if(RttrHelper.CheckS2Files(settings))
-            ((EditText)findViewById(R.id.GameDirEditText)).setBackgroundColor(Color.GREEN);
+            findViewById(R.id.GameDirEditText).setBackgroundColor(Color.GREEN);
         else
-            ((EditText)findViewById(R.id.GameDirEditText)).setBackgroundColor(Color.RED);
+            findViewById(R.id.GameDirEditText).setBackgroundColor(Color.RED);
     }
 
     private void ReloadUi() {
@@ -376,6 +405,12 @@ public class GameConfigActivity extends Activity {
 
         Spinner spinner = findViewById(R.id.OrientationSpinner);
         UiHelper.SpinnerItem.SelectItemById(spinner, settings.Orientation);
+
+        CheckBox checkBox = findViewById(R.id.EnableOverlayCheckbox);
+        checkBox.setChecked(settings.EnableOverlay);
+
+        checkBox = findViewById(R.id.EnableUpdaterCheckbox);
+        checkBox.setChecked(settings.EnableUpdater);
 
         // Update log spinner
         spinner = findViewById(R.id.LogSpinner);
@@ -395,11 +430,12 @@ public class GameConfigActivity extends Activity {
         spinner.setAdapter(adapter);
         // ~Update log spinner
 
-        CheckBox checkBox = findViewById(R.id.EnableOverlayCheckbox);
-        checkBox.setChecked(settings.EnableOverlay);
+        // Update experimental settings
+        checkBox = findViewById(R.id.GlVsyncCheckbox);
+        checkBox.setChecked(settings.GlVsync);
 
-        checkBox = findViewById(R.id.EnableUpdaterCheckbox);
-        checkBox.setChecked(settings.EnableUpdater);
+        editText = findViewById(R.id.GlBatchEdit);
+        editText.setText(String.valueOf(settings.GlBatch));
     }
 
     // Did settings change?
