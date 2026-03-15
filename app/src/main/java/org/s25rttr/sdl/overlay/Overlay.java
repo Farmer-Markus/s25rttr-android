@@ -195,12 +195,12 @@ public class Overlay {
     }
 
     protected Path GetSaveFileFromRotation() {
-        int ori = settings.Orientation;
+        int ori = settings.Orientation; // :/
         boolean landscape = ori == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE ||
                 ori == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ||
                 ori == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
 
-        if(landscape)
+        if(landscape) // :(
             return DEFAULT_CONFIG_DIR.Append("overlay-landscape.bin");
         return DEFAULT_CONFIG_DIR.Append("overlay.bin");
     }

@@ -18,7 +18,9 @@ import java.io.Serializable;
 public class Settings implements Serializable {
     public static boolean DEFAULT_GL_VSYNC = false;
     public static int DEFAULT_GL_BATCH = 0;
+    public static int DEFAULT_GL_FB = 0;
     public static int GL_BATCH_MAX = 100;
+    public static int GL_FB_MAX = 3;
 
     public String RttrDirectory;
     public String GameDirectory;
@@ -35,6 +37,7 @@ public class Settings implements Serializable {
     // Experimental settings
     public boolean GlVsync;
     public int GlBatch;
+    public int GlFb;
 
 
     @Override
@@ -48,7 +51,7 @@ public class Settings implements Serializable {
                 && ShowExitDialog == s.ShowExitDialog && EnableOverlay == s.EnableOverlay
                 && EnableUpdater == s.EnableUpdater && LastUpdated == s.LastUpdated
                 && FeatureShown == s.FeatureShown
-                && GlVsync == s.GlVsync && GlBatch == s.GlBatch;
+                && GlVsync == s.GlVsync && GlBatch == s.GlBatch && GlFb == s.GlFb;
     }
 
     // Save current settings
@@ -68,6 +71,7 @@ public class Settings implements Serializable {
 
         edit.putBoolean("gl_vsync", GlVsync);
         edit.putInt("gl_batch", GlBatch);
+        edit.putInt("gl_fb", GlFb);
 
         edit.apply();
         return this;
@@ -89,6 +93,7 @@ public class Settings implements Serializable {
 
         GlVsync = pref.getBoolean("gl_vsync", DEFAULT_GL_VSYNC);
         GlBatch = pref.getInt("gl_batch", DEFAULT_GL_BATCH);
+        GlFb = pref.getInt("gl_fb", DEFAULT_GL_FB);
         return this;
     }
 

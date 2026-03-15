@@ -298,35 +298,41 @@ public class GameConfigActivity extends Activity {
             }, null);
         });
 
-        // Experimental
-        // Gl4es vsync
-        checkBox = findViewById(R.id.GlVsyncCheckbox);
-        checkBox.setHint(String.valueOf(Settings.DEFAULT_GL_VSYNC));
-        checkBox.setOnClickListener(view -> {
-            settings.GlVsync = ((CheckBox)view).isChecked();
-        });
-
+        // Experimental https://github.com/ptitSeb/gl4es/blob/master/USAGE.md
         // Gl4es batching
         et = findViewById(R.id.GlBatchEdit);
         et.setHint(Settings.DEFAULT_GL_BATCH + " - " + Settings.GL_BATCH_MAX);
         et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
-                int val;
-                try {
-                    val = Integer.parseUnsignedInt(editable.toString());
-                } catch (NumberFormatException ignore) {
-                    return;
-                }
-                if(val >= 0 && val <= Settings.GL_BATCH_MAX)
-                    settings.GlBatch = val;
+                settings.GlBatch = EditableParseInt(editable, 0, settings.GlBatch, Settings.GL_BATCH_MAX);
             }
         });
         et.setOnFocusChangeListener((view, hasFocus) -> {
             // Probably finished editing
-            if(!hasFocus) {
+            if(!hasFocus)
                 ReloadUi();
+        });
+
+        // Gl4es framebuffer
+        et = findViewById(R.id.GlFbEdit);
+        et.setHint(Settings.DEFAULT_GL_FB + " - " + Settings.GL_FB_MAX);
+        et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                settings.GlFb = EditableParseInt(editable, 0, settings.GlFb, Settings.GL_FB_MAX);
             }
+        });
+        et.setOnFocusChangeListener((view, hasFocus) -> {
+            if(!hasFocus)
+                ReloadUi();
+        });
+
+        // Gl4es vsync
+        checkBox = findViewById(R.id.GlVsyncCheckbox);
+        checkBox.setHint(String.valueOf(Settings.DEFAULT_GL_VSYNC));
+        checkBox.setOnClickListener(view -> {
+            settings.GlVsync = ((CheckBox)view).isChecked();
         });
 
         button = findViewById(R.id.GameStartButton);
@@ -431,11 +437,27 @@ public class GameConfigActivity extends Activity {
         // ~Update log spinner
 
         // Update experimental settings
-        checkBox = findViewById(R.id.GlVsyncCheckbox);
-        checkBox.setChecked(settings.GlVsync);
-
         editText = findViewById(R.id.GlBatchEdit);
         editText.setText(String.valueOf(settings.GlBatch));
+
+        editText = findViewById(R.id.GlFbEdit);
+        editText.setText(String.valueOf(settings.GlFb));
+
+        checkBox = findViewById(R.id.GlVsyncCheckbox);
+        checkBox.setChecked(settings.GlVsync);
+    }
+
+    private int EditableParseInt(Editable edit, int min, int curr, int max) {
+        int var;
+        try {
+            var = Integer.parseInt(edit.toString());
+        } catch (NumberFormatException ignore) {
+            return curr;
+        }
+
+        if(var >= min && var <= max)
+            return var;
+        return curr;
     }
 
     // Did settings change?

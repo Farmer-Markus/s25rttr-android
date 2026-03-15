@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.overlay.Overlay;
+import org.s25rttr.sdl.overlay.OverlayEditor;
 import org.s25rttr.sdl.utils.UiHelper;
 
 public class SDLActivity extends org.libsdl.app.SDLActivity {
@@ -22,8 +24,6 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
             overlay = new Overlay(this, mLayout, mSurface, false, settings);
             overlay.Load(true);
         }
-
-
     }
 
     @Override

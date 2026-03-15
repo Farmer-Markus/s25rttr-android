@@ -129,6 +129,7 @@ public class GameStartActivity extends Activity {
             // gl4es experimental vars
             Os.setenv("LIBGL_BATCH", String.valueOf(s.GlBatch), true);
             Os.setenv("LIBGL_VSYNC", String.valueOf(s.GlVsync), true);
+            Os.setenv("LIBGL_FB", String.valueOf(s.GlFb), true);
 
         } catch (ErrnoException e) {
             UiHelper.AlertDialog(

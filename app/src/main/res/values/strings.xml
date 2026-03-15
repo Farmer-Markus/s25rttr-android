@@ -108,4 +108,5 @@
     <string name="config_experimental_title">Experimental: (may create bugs)</string>
     <string name="config_experimental_glvsync_title" translatable="false">GL-Vsync</string>
     <string name="config_experimental_glbatch_title" translatable="false">GL-Batch</string>
+    <string name="config_experimental_glfb_title" translatable="false">GL-Fb</string>
 </resources>

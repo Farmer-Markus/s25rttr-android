@@ -205,7 +205,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -328,7 +328,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:paddingBottom="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -346,12 +346,61 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/GlBatchLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ExperimentalTitle">
+
+                    <TextView
+                        android:id="@+id/GlBatchTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/config_experimental_glbatch_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/GlBatchEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number|numberDecimal|numberSigned"
+                        app:layout_constraintTop_toBottomOf="@id/GlBatchTitle" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/GlFbLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/GlBatchLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/ExperimentalTitle">
+
+                    <TextView
+                        android:id="@+id/GlFbTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/config_experimental_glfb_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/GlFbEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number|numberDecimal|numberSigned"
+                        app:layout_constraintTop_toBottomOf="@id/GlFbTitle" />
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
                     android:id="@+id/GlVsyncLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    app:layout_constraintEnd_toStartOf="@+id/GlBatchLayout"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ExperimentalTitle">
+                    app:layout_constraintTop_toBottomOf="@id/GlBatchLayout">
 
                     <TextView
                         android:id="@+id/GlVsyncTitle"
@@ -369,31 +418,6 @@
                         android:inputType="number|numberDecimal|numberSigned"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/GlVsyncTitle" />
-                </android.support.constraint.ConstraintLayout>
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/GlBatchLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/GlVsyncLayout"
-                    app:layout_constraintTop_toBottomOf="@id/ExperimentalTitle">
-
-                    <TextView
-                        android:id="@+id/GlBatchTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/config_experimental_glbatch_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <EditText
-                        android:id="@+id/GlBatchEdit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="number|numberDecimal|numberSigned"
-                        app:layout_constraintTop_toBottomOf="@id/GlBatchTitle" />
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.constraint.ConstraintLayout>
