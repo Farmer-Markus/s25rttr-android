@@ -71,4 +71,21 @@
     <string name="config_overlay_title" translatable="false">Overlay:</string>
     <string name="config_overlay_enable_checkbox">Enable overlay</string>
     <string name="config_overlay_edit_button">Edit overlay</string>
+    <string name="overlay_dialog_remove">Remove</string>
+    <string name="overlay_config_button_name_hint">Button name</string>
+    <string name="overlay_config_action_title">Action:</string>
+    <string name="overlay_config_subaction_title">Sub-action:</string>
+    <string name="overlay_config_opacity_title">Opacity:</string>
+    <string name="overlay_config_textopacity_title">Text opacity:</string>
+    <string name="overlay_confg_addbutton_info">Tap to create button</string>
+    <string name="overlay_config_menu_addbtn">Add button</string>
+    <string name="overlay_config_menu_save">Save config</string>
+    <string name="overlay_config_menu_clear">Clear config</string>
+    <string name="overlay_config_menu_reset">Reset</string>
+    <string name="overlay_config_menu_back">Back</string>
+    <string name="overlay_config_width_title">Min. width</string>
+    <string name="overlay_config_height_title">Min. height</string>
+    <string name="overlay_config_orientation_info">Landscape/Portrait will affect this menu</string>
+    <string name="overlay_toast_saved">Overlay saved to %1$s</string>
+    <string name="overlay_toast_loaded">Overlay loaded from %1$s</string>
 </resources>

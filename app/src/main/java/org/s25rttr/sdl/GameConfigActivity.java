@@ -40,6 +40,9 @@ import java.util.List;
   TODO: Sometimes rttr's fps are going down to 4 and suddenly up again. Try debugging rttr (breakpoint in videodriver)
  */
 public class GameConfigActivity extends Activity {
+    // Used to pass using intent.addParcela...
+    public static final String SETTINGS_ID = "settings";
+    public static final String LOGPATH_ID = "log_path";
     // Activity result codes
     private static final int RTTR_DIR_PICKER_CODE = 0;
     private static final int GAME_DIR_PICKER_CODE = 1;
@@ -213,7 +216,7 @@ public class GameConfigActivity extends Activity {
         }
 
         Intent intent = new Intent(this, LogViewActivity.class);
-        intent.putExtra("log_path", RttrHelper.GetLogDir(settings).Append(item.label));
+        intent.putExtra(LOGPATH_ID, RttrHelper.GetLogDir(settings).Append(item.label));
         startActivity(intent);
     }
 
@@ -282,7 +285,9 @@ public class GameConfigActivity extends Activity {
 
         button = findViewById(R.id.OverlayEditButton);
         button.setOnClickListener(view -> {
-            startActivityForResult(new Intent(this, OverlayConfigActivity.class), OVERLAY_CODE);
+            Intent intent = new Intent(this, OverlayConfigActivity.class);
+            intent.putExtra(SETTINGS_ID, this.settings);
+            startActivityForResult(intent, OVERLAY_CODE);
         });
 
         checkBox = findViewById(R.id.EnableUpdaterCheckbox);

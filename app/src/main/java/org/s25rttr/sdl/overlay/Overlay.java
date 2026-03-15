@@ -1,16 +1,20 @@
 package org.s25rttr.sdl.overlay;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import org.s25rttr.sdl.R;
 import org.s25rttr.sdl.data.Filesystem;
 import org.s25rttr.sdl.data.Path;
+import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.UiHelper;
 
 import java.io.FileInputStream;
@@ -22,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Overlay {
-    protected Path DEFAULT_CONFIG_PATH = new Path("overlay/buttons.bin");
+    protected Path DEFAULT_CONFIG_DIR = new Path("overlay");
 
     // SDLActivity variables
     protected Activity activity;
@@ -33,14 +37,16 @@ public class Overlay {
     protected ConfigList configs;
     protected List<Button> buttons;
     protected KeyboardView keyboardView;
+    protected Settings settings;
 
     protected boolean hidden;
 
 
-    public Overlay(final Activity activity, final ViewGroup view, SurfaceView surface, boolean hidden) {
+    public Overlay(final Activity activity, final ViewGroup view, SurfaceView surface, boolean hidden, Settings settings) {
         this.activity = activity;
         this.view = view;
         this.surface = surface;
+        this.settings = settings;
 
         configs = new ConfigList();
         buttons = new ArrayList<>();
@@ -70,25 +76,29 @@ public class Overlay {
         });
     }
 
+    public boolean Load() {
+        return Load(false);
+    }
+
     /**
      * Load config and buttons (Will overwrite all previous loaded buttons/configs)
      * @return <code>true</code> if config was loaded successfully,
      * <code>false</code> otherwise
      */
-    public boolean Load() {
-        boolean ret = true;
+    public boolean Load(boolean hideErrors) {
         configs.clear();
         buttons.clear();
 
         try {
-            configs = LoadButtonSettings(DEFAULT_CONFIG_PATH);
+            configs = LoadButtonSettings(GetSaveFileFromRotation());
         } catch (IOException | ClassNotFoundException e) {
-            UiHelper.AlertDialog(activity, "Overlay error", e.toString(), null);
-            ret = false;
+            if(!hideErrors)
+                UiHelper.AlertDialog(activity, "Overlay error", e.toString(), null);
+            return false;
         }
 
         buttons.addAll(CreateButtons(configs, overlay));
-        return ret;
+        return true;
     }
 
     protected List<Button> CreateButtons(final ConfigList configs, final OverlayLayout layout) {
@@ -113,9 +123,12 @@ public class Overlay {
             btn.getBackground().setAlpha(cfg.opacity);
             btn.setTextColor(btn.getTextColors().withAlpha(cfg.textOpacity));
             btn.setText(cfg.text);
+            btn.setAllCaps(false);
 
             btn.setX(cfg.pos.x);
             btn.setY(cfg.pos.y);
+            btn.setMinWidth(cfg.size.w);
+            btn.setMinHeight(cfg.size.h);
             btn.setLayoutParams(params);
 
             AddButtonBehaviour(btn, i);
@@ -163,6 +176,17 @@ public class Overlay {
         return true;
     }
 
+    protected Path GetSaveFileFromRotation() {
+        int ori = settings.Orientation;
+        boolean landscape = ori == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE ||
+                ori == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ||
+                ori == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+
+        if(landscape)
+            return DEFAULT_CONFIG_DIR.Append("overlay-landscape.bin");
+        return DEFAULT_CONFIG_DIR.Append("overlay.bin");
+    }
+
     // Save button configs to file
     protected void SaveButtonSettings(final ConfigList buttons, final Path file) throws IOException {
         Path storage = Filesystem.GetInternalStoragePath(activity).Append(file);
@@ -182,6 +206,8 @@ public class Overlay {
         ObjectOutputStream oOut = new ObjectOutputStream(fOut);
 
         oOut.writeObject(finalButtons);
+
+        Toast.makeText(activity, activity.getString(R.string.overlay_toast_saved, storage.toString()), LENGTH_SHORT).show();
     }
 
     // Read button configs from file
@@ -192,8 +218,10 @@ public class Overlay {
         ObjectInputStream oIn = new ObjectInputStream(fIn);
 
         Object obj = oIn.readObject();
-        if(obj instanceof ConfigList)
-            return (ConfigList)obj;
+        if(obj instanceof ConfigList) {
+            Toast.makeText(activity, activity.getString(R.string.overlay_toast_loaded, storage.toString()), LENGTH_SHORT).show();
+            return (ConfigList) obj;
+        }
 
         return new ConfigList();
     }

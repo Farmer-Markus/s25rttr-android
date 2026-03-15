@@ -22,7 +22,7 @@ import org.s25rttr.sdl.R;
 import java.util.Objects;
 
 public class UiHelper {
-    public static interface DialogCallback {
+    public interface DialogCallback {
         void Callback();
     }
 
@@ -179,7 +179,4 @@ public class UiHelper {
         @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override public void afterTextChanged(Editable editable) {}
     }
-
-
-
 }

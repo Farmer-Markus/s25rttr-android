@@ -60,5 +60,22 @@
     <string name="logview_button_down">Runter</string>
     <string name="logview_button_up">Hoch</string>
     <string name="config_overlay_enable_checkbox">Overlay aktivieren</string>
-    <string name="config_overlay_edit_button">Overlay editieren</string>
+    <string name="config_overlay_edit_button">Overlay anpassen</string>
+    <string name="overlay_dialog_remove">Löschen</string>
+    <string name="overlay_config_button_name_hint">Button name</string>
+    <string name="overlay_config_action_title">Aktion:</string>
+    <string name="overlay_config_subaction_title">Unteraktion:</string>
+    <string name="overlay_config_opacity_title">Transparenz:</string>
+    <string name="overlay_config_textopacity_title">Text Transparenz:</string>
+    <string name="overlay_confg_addbutton_info">Tippen um button zu erstellen</string>
+    <string name="overlay_config_menu_addbtn">Button hinzufügen</string>
+    <string name="overlay_config_menu_save">Speichern</string>
+    <string name="overlay_config_menu_clear">Alle löschen</string>
+    <string name="overlay_config_menu_reset">Zurücksetzen</string>
+    <string name="overlay_config_menu_back">Zurück</string>
+    <string name="overlay_config_width_title">Min. Breite</string>
+    <string name="overlay_config_height_title">Min. Höhe</string>
+    <string name="overlay_config_orientation_info">Querformat/Hochformat beeinflusst dieses Menü</string>
+    <string name="overlay_toast_saved">Overlay gespeichert nach %1$s</string>
+    <string name="overlay_toast_loaded">Overlay geladen aus %1$s</string>
 </resources>

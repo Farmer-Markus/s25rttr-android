@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.s25rttr.sdl.R;
+import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.UiHelper;
 
 import java.io.IOException;
@@ -28,14 +29,18 @@ import java.io.Serializable;
 
 public class OverlayEditor extends Overlay implements Serializable {
     private static final float CLICK_DISTANCE = 5.0f;
+    private final TextView buttonInfoView;
 
-    public OverlayEditor(Activity activity, ViewGroup view, SurfaceView surface, boolean hidden) {
-        super(activity, view, surface, hidden);
-        TextView textView = new TextView(activity);
-        textView.setText("Tab anywhere to create button\nPortrait");
-        textView.setGravity(Gravity.CENTER);
+    public OverlayEditor(Activity activity, ViewGroup view, SurfaceView surface, boolean hidden, Settings settings) {
+        super(activity, view, surface, hidden, settings);
 
-        overlay.addView(textView);
+        activity.setRequestedOrientation(settings.Orientation);
+
+        buttonInfoView = new TextView(activity);
+        buttonInfoView.setText(activity.getString(R.string.overlay_confg_addbutton_info) + "\n" +
+                activity.getString(R.string.overlay_config_orientation_info));
+        buttonInfoView.setGravity(Gravity.CENTER);
+        overlay.addView(buttonInfoView);
     }
 
     @Override
@@ -134,29 +139,59 @@ public class OverlayEditor extends Overlay implements Serializable {
         pos.y = button.getY() / overlay.getHeight();*/
     }
 
+    // Reload stuff
     public void Restore(final Activity activity, final ViewGroup view) {
         this.activity = activity;
         this.view = view;
-        ((ViewGroup)overlay.getParent()).removeView(overlay);
+
+        activity.setRequestedOrientation(settings.Orientation);
+
+        ViewGroup vgParent = (ViewGroup)overlay.getParent();
+        if(vgParent != null)
+            vgParent.removeView(overlay);
         view.addView(overlay);
         AttachListeners();
 
-        // Redraw buttons to meet possible new display size(rotated)
         overlay.removeAllViews();
+
+        // Redraw info text
+        OverlayLayout olParent = (OverlayLayout)buttonInfoView.getParent();
+        if(olParent != null)
+            olParent.removeView(buttonInfoView);
+        overlay.addView(buttonInfoView);
+
+        // Redraw buttons to meet possible new display size(rotated)
         buttons.clear();
         buttons.addAll(CreateButtons(configs, overlay));
     }
 
     private void OpenButtonMenu(final Button button, final int configID) {
         final Config config = configs.get(configID);
-        if(config == null)
-            return;
+
+        if(config.size.w < 1)
+            config.size.w = button.getWidth();
+        if(config.size.h < 1)
+            config.size.h = button.getHeight();
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(config.text);
 
         View view = activity.getLayoutInflater().inflate(R.layout.overlay_button_config, null);
         builder.setView(view);
         builder.setTitle(config.text);
+
+        builder.setPositiveButton(activity.getString(R.string.dialog_ok), (dialog, btn) -> {
+            dialog.dismiss();
+        });
+
+        builder.setNeutralButton(activity.getString(R.string.overlay_dialog_remove), (dialog, btn) -> {
+            // Just set to null and clean up later
+            configs.set(configID, null);
+            buttons.set(configID, null);
+            ((ViewGroup)button.getParent()).removeView(button);
+            dialog.dismiss();
+        });
+
         final AlertDialog dialog = builder.show();
 
         EditText editText = view.findViewById(R.id.ButtonNameEdit);
@@ -198,7 +233,7 @@ public class OverlayEditor extends Overlay implements Serializable {
         editText.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
-                config.opacity = ToOpacity(editable, config.opacity);
+                config.opacity = EditToOpacity(editable, config.opacity);
                 button.getBackground().setAlpha(config.opacity);
             }
         });
@@ -208,26 +243,35 @@ public class OverlayEditor extends Overlay implements Serializable {
         editText.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
-                config.textOpacity = ToOpacity(editable, config.textOpacity);
+                config.textOpacity = EditToOpacity(editable, config.textOpacity);
                 button.setTextColor(button.getTextColors().withAlpha(config.textOpacity));
             }
         });
 
-        Button btn = view.findViewById(R.id.CloseButton);
-        btn.setOnClickListener(v -> {
-            dialog.dismiss();
+        editText = view.findViewById(R.id.WidthEdit);
+        editText.setText(String.valueOf(config.size.w));
+        editText.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String st = editable.toString();
+                if(!st.isEmpty()) {
+                    config.size = EditToSize(editable, -1, config.size.h);
+                    button.setWidth(config.size.w);
+                }
+            }
         });
 
-        btn = view.findViewById(R.id.DeleteButton);
-        btn.setOnClickListener(v -> {
-            // Just set to null and clean up later
-            configs.set(configID, null);
-            buttons.set(configID, null);
-            ((ViewGroup)button.getParent()).removeView(button);
-            dialog.dismiss();
-            // overlay.removeAllViews();
-            // Reload buttons
-            // CreateButtons(configs, overlay);
+        editText = view.findViewById(R.id.HeightEdit);
+        editText.setText(String.valueOf(config.size.h));
+        editText.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String st = editable.toString();
+                if(!st.isEmpty()) {
+                    config.size = EditToSize(editable, config.size.w, -1);
+                    button.setHeight(config.size.h);
+                }
+            }
         });
     }
 
@@ -313,13 +357,36 @@ public class OverlayEditor extends Overlay implements Serializable {
         }
     }
 
-    private int ToOpacity(final Editable editable, final int opacity) {
+    private Config.Size EditToSize(final Editable editable, final int w, final int h) {
+        String str = editable.toString();
+        if(str.isEmpty())
+            return new Config.Size(w, h);
+
+        Config.Size newSize = new Config.Size(w, h);
+        if(w == -1) {
+            try {
+                newSize.w = Integer.parseUnsignedInt(str);
+            } catch (NumberFormatException ignore) {
+                newSize.w = 10;
+            }
+        } else if(h == -1) {
+            try {
+                newSize.h = Integer.parseUnsignedInt(str);
+            } catch (NumberFormatException ignore) {
+                newSize.h = 10;
+            }
+        }
+
+        return newSize;
+    }
+
+    private int EditToOpacity(final Editable editable, final int opacity) {
         if(editable.toString().isEmpty())
             return opacity;
 
         int newOpacity;
         try {
-            newOpacity = Integer.parseInt(editable.toString());
+            newOpacity = Integer.parseUnsignedInt(editable.toString());
         } catch (NumberFormatException e) {
             return 255;
         }
@@ -340,7 +407,7 @@ public class OverlayEditor extends Overlay implements Serializable {
             } else if(id == R.id.SaveButtons) {
                 // Save button configuration to file
                 try {
-                    SaveButtonSettings(configs, DEFAULT_CONFIG_PATH);
+                    SaveButtonSettings(configs, GetSaveFileFromRotation());
                 } catch (IOException e) {
                     UiHelper.FatalError(activity, e.toString());
                 }
@@ -349,6 +416,12 @@ public class OverlayEditor extends Overlay implements Serializable {
                 Intent intent = activity.getIntent();
                 activity.finish();
                 activity.startActivity(intent);
+            } else if(id == R.id.ClearButtons) {
+                configs.clear();
+                buttons.clear();
+                Restore(activity, this.view);
+            } else if(id == R.id.BackButton) {
+                activity.finish();
             }
             return true;
         });
@@ -375,19 +448,20 @@ public class OverlayEditor extends Overlay implements Serializable {
         Config.Pos mousePos = layout.GetMousePos();
         config.pos.x = mousePos.x;
         config.pos.y = mousePos.y;
-        config.text = "Button " + configs.size();
+        config.size = new Config.Size();
         int start = configs.size();
+        config.text = "Button " + start;
+
         configs.add(config);
         buttons.addAll(CreateButtons(configs, layout, start));
+        // Get default size the button was created with
+        config.size.w = buttons.get(start).getWidth();
+        config.size.h = buttons.get(start).getHeight();
     }
 
     // Convert dp to pixels
     private int DpToPx(int dp) {
         float density = activity.getResources().getDisplayMetrics().density;
         return (int)(dp * density);
-    }
-
-    public void Save() throws IOException {
-        SaveButtonSettings(configs, DEFAULT_CONFIG_PATH);
     }
 }

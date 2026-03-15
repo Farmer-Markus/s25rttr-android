@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.overlay.OverlayEditor;
 import org.s25rttr.sdl.utils.UiHelper;
 
@@ -27,22 +28,23 @@ import org.s25rttr.sdl.utils.UiHelper;
 public class OverlayConfigActivity extends Activity {
     private static final String EDITOR_KEY = "editor";
     private OverlayEditor oEditor;
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FrameLayout view = new FrameLayout(this);
-        setContentView(view, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-        ));
+        settings = (Settings)getIntent().getSerializableExtra(GameConfigActivity.SETTINGS_ID);
+        if(settings == null)
+            settings = new Settings().Load(this);
+
+        RelativeLayout view = new RelativeLayout(this);
         setContentView(view);
 
         // Restore editor or load new one
         if(savedInstanceState == null || (oEditor = (OverlayEditor)savedInstanceState.getSerializable(EDITOR_KEY)) == null) {
-            oEditor = new OverlayEditor(this, view, null, false);
-            oEditor.Load();
+            oEditor = new OverlayEditor(this, view, null, false, settings);
+            oEditor.Load(true);
         } else
             oEditor.Restore(this, view);
     }

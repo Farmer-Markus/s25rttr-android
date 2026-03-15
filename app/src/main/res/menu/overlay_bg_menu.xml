@@ -4,11 +4,17 @@
 
     <item
         android:id="@+id/AddButton"
-        android:title="Add button" />
+        android:title="@string/overlay_config_menu_addbtn" />
     <item
         android:id="@+id/SaveButtons"
-        android:title="Save" />
+        android:title="@string/overlay_config_menu_save" />
     <item
         android:id="@+id/ResetButtons"
-        android:title="Reset" />
+        android:title="@string/overlay_config_menu_reset" />
+    <item
+        android:id="@+id/ClearButtons"
+        android:title="@string/overlay_config_menu_clear" />
+    <item
+        android:id="@+id/BackButton"
+        android:title="@string/overlay_config_menu_back" />
 </menu>

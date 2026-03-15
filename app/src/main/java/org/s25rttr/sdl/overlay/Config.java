@@ -6,16 +6,37 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 
 // Store user defined buttons and locations
-public class Config implements Serializable {
+public class Config implements Serializable, Cloneable {
     public String text;
     public int opacity = 255;
     public int textOpacity = 255;
     public Pos pos = new Pos();
+    public Size size = new Size();
 
     public ClickBehaviour clickBehaviour = new ClickBehaviour();
     public int keyCode = -1;
     public MouseEvent mouseEvent = new MouseEvent();
     public OverlayEvent overlayEvent = new OverlayEvent();
+
+    @Override
+    @NonNull
+    public Config clone() {
+        try {
+            Config clone = (Config)super.clone();
+            clone.text = text;
+            clone.opacity = opacity;
+            clone.textOpacity = textOpacity;
+            clone.pos = pos;
+            clone.size = size;
+            clone.clickBehaviour = clickBehaviour;
+            clone.keyCode = keyCode;
+            clone.mouseEvent = mouseEvent;
+            clone.overlayEvent = overlayEvent;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 
 
     public static class Pos implements Serializable, Cloneable {
@@ -44,6 +65,30 @@ public class Config implements Serializable {
         public boolean InRange(Pos pos, float distance) {
             double dist = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow(y - pos.y, 2));
             return dist <= distance;
+        }
+    }
+
+    public static class Size implements Serializable, Cloneable {
+        public int w;
+        public int h;
+
+        public Size() {}
+        public Size(int w, int h) {
+            this.w = w;
+            this.h = h;
+        }
+
+        @Override
+        @NonNull
+        public Size clone() {
+            try {
+                Size clone = (Size) super.clone();
+                clone.w = w;
+                clone.h = h;
+                return clone;
+            } catch (CloneNotSupportedException e) {
+                throw new AssertionError();
+            }
         }
     }
 

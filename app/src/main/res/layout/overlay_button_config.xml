@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:fadeScrollbars="false"
+    android:scrollbars="vertical">
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginEnd="8dp">
 
         <EditText
             android:id="@+id/ButtonNameEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Button name"
+            android:hint="@string/overlay_config_button_name_hint"
+            android:imeOptions="actionDone"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,8 @@
             android:id="@+id/ActionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Action:"
+            android:layout_marginTop="8dp"
+            android:text="@string/overlay_config_action_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ButtonNameEdit" />
 
@@ -44,7 +45,7 @@
             android:id="@+id/SubActionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SubAction:"
+            android:text="@string/overlay_config_subaction_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ActionSpinner" />
 
@@ -60,8 +61,9 @@
             android:id="@+id/OpacityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:inputType="text"
-            android:text="Button opacity:"
+            android:text="@string/overlay_config_opacity_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/SubActionSpinner" />
 
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp"
             android:hint="255"
+            android:imeOptions="actionDone"
             android:inputType="number"
             app:layout_constraintEnd_toStartOf="@+id/TextOpacityEdit"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +83,7 @@
             android:id="@+id/OpacityHelpTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="0 - 255"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +93,8 @@
             android:id="@+id/TextOpacityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text opacity:"
+            android:layout_marginTop="8dp"
+            android:text="@string/overlay_config_textopacity_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/SubActionSpinner" />
 
@@ -99,27 +104,51 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:hint="255"
+            android:imeOptions="actionDone"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/OpacityEdit"
             app:layout_constraintTop_toBottomOf="@id/TextOpacityTitle" />
 
-        <Button
-            android:id="@+id/DeleteButton"
+        <TextView
+            android:id="@+id/WidthEditTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:text="Delete"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/OpacityEdit" />
+            android:layout_marginEnd="262dp"
+            android:text="@string/overlay_config_width_title"
+            app:layout_constraintEnd_toStartOf="@+id/HeightEditTitle"
+            app:layout_constraintTop_toBottomOf="@id/TextOpacityEdit" />
 
-        <Button
-            android:id="@+id/CloseButton"
+        <EditText
+            android:id="@+id/WidthEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@+id/HeightEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/WidthEditTitle" />
+
+        <TextView
+            android:id="@+id/HeightEditTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Close"
+            android:text="@string/overlay_config_height_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextOpacityEdit" />
+            app:layout_constraintTop_toBottomOf="@id/OpacityEdit" />
+
+        <EditText
+            android:id="@+id/HeightEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/WidthEdit"
+            app:layout_constraintTop_toBottomOf="@id/HeightEditTitle" />
+
     </android.support.constraint.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

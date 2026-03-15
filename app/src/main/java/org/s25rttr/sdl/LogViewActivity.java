@@ -32,7 +32,7 @@ public class LogViewActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_viewer);
 
-        Path logPath = getIntent().getParcelableExtra("log_path");
+        Path logPath = getIntent().getParcelableExtra(GameConfigActivity.LOGPATH_ID);
         if(logPath == null) {
             UiHelper.FatalError(this, "Failed to get log path: 'getIntent().getParcelableExtra(\"log_path\");' is null!");
             return;

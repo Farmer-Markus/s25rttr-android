@@ -265,6 +265,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/config_overlay_edit_button"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/EnableOverlayCheckbox"
                     app:layout_constraintStart_toStartOf="parent"

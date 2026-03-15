@@ -4,18 +4,23 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 
+import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.overlay.Overlay;
 import org.s25rttr.sdl.utils.UiHelper;
 
 public class SDLActivity extends org.libsdl.app.SDLActivity {
     private Overlay overlay;
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overlay = new Overlay(this, mLayout, mSurface, false);
-        overlay.Load();
+        settings = new Settings().Load(this);
+        if(settings.EnableOverlay) {
+            overlay = new Overlay(this, mLayout, mSurface, false, settings);
+            overlay.Load();
+        }
     }
 
     @Override
