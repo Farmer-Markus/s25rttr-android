@@ -12,6 +12,7 @@ public class Config implements Serializable, Cloneable {
     public int textOpacity = 255;
     public Pos pos = new Pos();
     public Size size = new Size();
+    public boolean ignoreHide = false;
 
     public ClickBehaviour clickBehaviour = new ClickBehaviour();
     public int keyCode = -1;

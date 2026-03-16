@@ -148,6 +148,14 @@
             app:layout_constraintStart_toEndOf="@+id/WidthEdit"
             app:layout_constraintTop_toBottomOf="@id/HeightEditTitle" />
 
+        <CheckBox
+            android:id="@+id/IgnoreHideCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/overlay_config_ignorehide_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/WidthEdit" />
+
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -272,6 +273,12 @@ public class OverlayEditor extends Overlay implements Serializable {
                     button.setHeight(config.size.h);
                 }
             }
+        });
+
+        CheckBox checkBox = view.findViewById(R.id.IgnoreHideCheckbox);
+        checkBox.setChecked(config.ignoreHide);
+        checkBox.setOnClickListener(v -> {
+            config.ignoreHide = ((CheckBox)v).isChecked();
         });
     }
 

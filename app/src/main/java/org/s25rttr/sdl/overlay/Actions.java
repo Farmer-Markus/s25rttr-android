@@ -40,14 +40,18 @@ public class Actions {
         SDLActivity.onNativeMouse(0, 1, pos.x, pos.y, false);
     }
 
-    public static void ChangeVisibility(Button button, List<Button> elements, boolean visible) {
-        for(Button btn : elements) {
-            if(btn == null) continue;
-            btn.setVisibility(visible ? View.VISIBLE : View.GONE);
-        }
+    public static void ChangeVisibility(Button button, List<Button> buttons, Overlay.ConfigList configs, boolean visible) {
+        for(int i = 0; i < buttons.size(); i++) {
+            Button btn = buttons.get(i);
+            Config cfg = configs.get(i);
 
-        // Calling button needs to stay visible
-        button.setVisibility(View.VISIBLE);
+            if(btn != null) {
+                // Calling button needs to stay visible
+                if(cfg == null || cfg.ignoreHide || button == btn)
+                    continue;
+                btn.setVisibility(visible ? View.VISIBLE : View.GONE);
+            }
+        }
     }
 
     public static void ToggleKeyboard(KeyboardView view, Context context) {

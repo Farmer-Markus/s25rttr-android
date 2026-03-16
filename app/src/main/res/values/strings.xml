@@ -109,4 +109,6 @@
     <string name="config_experimental_glvsync_title" translatable="false">GL-Vsync</string>
     <string name="config_experimental_glbatch_title" translatable="false">GL-Batch</string>
     <string name="config_experimental_glfb_title" translatable="false">GL-Fb</string>
+    <string name="overlay_toast_classnotfound">Failed to load overlay config. Could happen on app update</string>
+    <string name="overlay_config_ignorehide_checkbox">Ignore hide request</string>
 </resources>

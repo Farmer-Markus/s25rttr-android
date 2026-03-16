@@ -90,4 +90,6 @@
     <string name="features_overlay_title">Overlay jetzt verfügbar</string>
     <string name="features_overlay_message">Dieses Update beinhaltet ein neues overlay System. Erstelle und verschiebe buttons um Tastatur, Maus und andere Events zu simulieren. Berühre lange das App Icon und klicke auf Konfigurieren dann kannst du das overlay Einstellen. Danke fürs Spielen :)</string>
     <string name="config_experimental_title">Experimentell: (Kann Fehler verursachen)</string>
+    <string name="overlay_toast_classnotfound">Overlay Konfig konnte nicht geladen werden. Kann bei einem App Update passieren</string>
+    <string name="overlay_config_ignorehide_checkbox">Verstecken ignorieren</string>
 </resources>

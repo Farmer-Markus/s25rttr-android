@@ -93,9 +93,12 @@ public class Overlay {
 
         try {
             configs = LoadButtonSettings(GetSaveFileFromRotation());
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             if(!hideErrors)
                 UiHelper.AlertDialog(activity, "Overlay error", e.toString(), null);
+            return false;
+        } catch (ClassNotFoundException e) {
+            Toast.makeText(activity, activity.getString(R.string.overlay_toast_classnotfound), LENGTH_SHORT).show();
             return false;
         }
 
@@ -171,7 +174,7 @@ public class Overlay {
                 if(config.overlayEvent.event == Config.OverlayEvent.TOGGLE) {
                     button.setOnClickListener(view -> {
                         hidden = !hidden;
-                        Actions.ChangeVisibility((Button)view, buttons, !hidden);
+                        Actions.ChangeVisibility((Button)view, buttons, configs, !hidden);
                     });
                 } else if(config.overlayEvent.event == Config.OverlayEvent.EDIT)
                     button.setOnClickListener(view -> Actions.OpenOverlayEditor(activity, OVERLAY_CONFIG_CODE));
