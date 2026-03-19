@@ -35,7 +35,6 @@ import java.util.Collections;
   Config activity.
   Allows user to set various settings, open logs
   pick folders
-  TODO: Sometimes rttr's fps are going down to 4 and suddenly up again. Try debugging rttr (breakpoint in videodriver)
  */
 public class GameConfigActivity extends Activity {
     // Used to pass using intent.addParcela...

@@ -183,7 +183,7 @@ tasks.register("buildDependencies") {
                     "-DCMAKE_TOOLCHAIN_FILE=$ndkDir/build/cmake/android.toolchain.cmake",
                     "-DANDROID_ABI=$abi",
                     "-DANDROID_PLATFORM=android-28",
-                    "-DCMAKE_BUILD_TYPE=Release")
+                    "-DCMAKE_BUILD_TYPE=Debug")
             }
 
             exec {
