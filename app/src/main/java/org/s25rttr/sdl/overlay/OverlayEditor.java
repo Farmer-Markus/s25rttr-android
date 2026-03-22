@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.s25rttr.sdl.R;
+import org.s25rttr.sdl.data.Path;
 import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.UiHelper;
 
@@ -414,8 +415,10 @@ public class OverlayEditor extends Overlay implements Serializable {
             } else if(id == R.id.SaveButtons) {
                 // Save button configuration to file
                 try {
-                    SaveButtonSettings(configs, GetSaveFileFromRotation());
-                } catch (IOException e) {
+                    if(!configs.Save(GetSaveFileFromRotation()))
+                        throw new Exception("Failed to save overlay. File error");
+
+                } catch (Exception e) {
                     UiHelper.FatalError(activity, e.toString());
                 }
             } else if(id == R.id.ResetButtons) {

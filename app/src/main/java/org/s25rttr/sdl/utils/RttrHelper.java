@@ -93,6 +93,7 @@ public class RttrHelper {
     public static boolean CheckS2Files(Settings settings) {
         return CheckS2Files(settings.GameDirectory);
     }
+
     public static boolean CheckS2Files(String path) {
         if(!path.endsWith("/"))
             path += "/";

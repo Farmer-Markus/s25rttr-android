@@ -4,7 +4,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
@@ -13,18 +12,18 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.s25rttr.sdl.R;
+import org.s25rttr.sdl.data.ConfigInterface;
 import org.s25rttr.sdl.data.Filesystem;
 import org.s25rttr.sdl.data.Path;
 import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.UiHelper;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Overlay {
     public static int OVERLAY_CONFIG_CODE = 0;
@@ -92,13 +91,12 @@ public class Overlay {
         buttons.clear();
 
         try {
-            configs = LoadButtonSettings(GetSaveFileFromRotation());
-        } catch (IOException e) {
+            if(!configs.Load(GetSaveFileFromRotation()))
+                throw new Exception("Failed to load overlay. File error");
+
+        } catch (Exception e) {
             if(!hideErrors)
                 UiHelper.AlertDialog(activity, "Overlay error", e.toString(), null);
-            return false;
-        } catch (ClassNotFoundException e) {
-            Toast.makeText(activity, activity.getString(R.string.overlay_toast_classnotfound), LENGTH_SHORT).show();
             return false;
         }
 
@@ -198,17 +196,18 @@ public class Overlay {
     }
 
     protected Path GetSaveFileFromRotation() {
+        Path dir = new Path(settings.RttrDirectory);
         int ori = settings.Orientation; // :/
         boolean landscape = ori == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE ||
                 ori == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ||
                 ori == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
 
         if(landscape) // :(
-            return DEFAULT_CONFIG_DIR.Append("overlay-landscape.bin");
-        return DEFAULT_CONFIG_DIR.Append("overlay.bin");
+            return dir.Append("overlay-landscape.conf");
+        return dir.Append("overlay.conf");
     }
 
-    // Save button configs to file
+    /*// Save button configs to file
     protected void SaveButtonSettings(final ConfigList buttons, final Path file) throws IOException {
         Path storage = Filesystem.GetInternalStoragePath(activity).Append(file);
         final ConfigList finalButtons = new ConfigList();
@@ -223,10 +222,7 @@ public class Overlay {
         if(!storage.Exists())
             storage.CreateNewFile();
 
-        FileOutputStream fOut = new FileOutputStream(storage.toString());
-        ObjectOutputStream oOut = new ObjectOutputStream(fOut);
 
-        oOut.writeObject(finalButtons);
 
         Toast.makeText(activity, activity.getString(R.string.overlay_toast_saved, storage.toString()), LENGTH_SHORT).show();
     }
@@ -245,7 +241,7 @@ public class Overlay {
         }
 
         return new ConfigList();
-    }
+    }*/
 
     // Separate class needed to use with instanceof
     // https://stackoverflow.com/questions/10108122/how-to-instanceof-listmytype
@@ -259,6 +255,67 @@ public class Overlay {
 
         public Class<Config> Type() {
             return type;
+        }
+
+        public boolean Load(final Path path) throws Exception {
+            clear(); // clear config
+            ConfigInterface cif = new ConfigInterface();
+
+            cif.LoadFromPath(path);
+
+            Set<String> groups = cif.GetGroupKeys();
+            // For every group create config for button
+            for(String group : groups) {
+                Config cfg = new Config();
+
+                cfg.text = cif.GetString(group, "btn_text", "Button");
+                cfg.opacity = cif.GetInt(group, "btn_opacity", Config.DEF_OPACITY);
+                cfg.textOpacity = cif.GetInt(group, "btn_text_opacity", Config.DEF_TEXT_OPACITY);
+                cfg.pos.x = cif.GetFloat(group, "btn_pos_x", 0);
+                cfg.pos.y = cif.GetFloat(group, "btn_pos_y", 0);
+                cfg.size.w = cif.GetInt(group, "btn_size_w", 0);
+                cfg.size.h = cif.GetInt(group, "btn_size_h", 0);
+                cfg.ignoreHide = cif.GetBoolean(group, "btn_ignore_hide", Config.DEF_IGNORE_HIDE);
+
+                cfg.clickBehaviour = new Config.ClickBehaviour(cif.GetInt(group, "btn_click_behaviour", 0));
+                cfg.keyCode = cif.GetInt(group, "btn_keycode", Config.DEF_KEY_CODE);
+                cfg.mouseEvent = new Config.MouseEvent(cif.GetInt(group, "btn_mouse_event", 0));
+                cfg.overlayEvent = new Config.OverlayEvent(cif.GetInt(group, "btn_overlay_event", 0));
+
+                // Add button cfg to list
+                add(cfg);
+            }
+
+
+            return true;
+        }
+
+        public boolean Save(final Path path) throws Exception {
+            ConfigInterface cif = new ConfigInterface();
+
+            // For every button create group and fill in values
+            for(int i = 0; i < size(); i++) {
+                String group = "Button" + i;
+                Config cfg = get(i);
+
+                cif.SetString(group, "btn_text", cfg.text);
+                cif.SetInt(group, "btn_opacity", cfg.opacity);
+                cif.SetInt(group, "btn_text_opacity", cfg.textOpacity);
+                cif.SetFloat(group, "btn_pos_x", cfg.pos.x);
+                cif.SetFloat(group, "btn_pos_y", cfg.pos.y);
+                cif.SetInt(group, "btn_size_w", cfg.size.w);
+                cif.SetInt(group, "btn_size_h", cfg.size.h);
+                cif.SetBoolean(group, "btn_ignore_hide", cfg.ignoreHide);
+
+                cif.SetInt(group, "btn_click_behaviour", cfg.clickBehaviour.behaviour);
+                cif.SetInt(group, "btn_keycode", cfg.keyCode);
+                cif.SetInt(group, "btn_mouse_event", cfg.mouseEvent.event);
+                cif.SetInt(group, "btn_overlay_event", cfg.overlayEvent.event);
+            }
+
+            cif.SaveToPath(path);
+
+            return true;
         }
     }
 }

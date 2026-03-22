@@ -22,7 +22,9 @@ import org.s25rttr.sdl.utils.UiHelper;
     to save config, cancel, add button
     Click on Button -> open popup menu to delete button, configure button(which will open an ErrorDialog or something
     with all the settings, spinner, text, etc.)
-    Also set callback to backButtonPressed to show dialog(save, continue)
+    TODO: Also set callback to backButtonPressed to show dialog(save, continue)
+
+    All done in OverlayEditor
  */
 
 public class OverlayConfigActivity extends Activity {

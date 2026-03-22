@@ -4,9 +4,9 @@
     <string name="shortcut_config_name">Configure</string>
     <string name="config_title_text">Return to the Roots configuration</string>
     <string name="config_rttr_dir_title">RTTR game directory:</string>
-    <string name="config_rttr_dir_info">Directory to store gamedate (settings, logs, saves)</string>
+    <string name="config_rttr_dir_info">Directory to store gamedata (overlay, settings, logs, saves)</string>
     <string name="config_game_dir_title">Settlers 2 directory:</string>
-    <string name="config_game_dir_info">Original Settlers 2 Gold Edition (msdos) installation. Needed by RTTR to run</string>
+    <string name="config_game_dir_info">Original Settlers 2 Gold Edition (msdos) installation (DATA, GFX folder). Needed by RTTR to run</string>
     <string name="config_default_name_title">Default name: (set before first startup)</string>
     <string name="config_orientation_title">Orientation:</string>
     <string name="config_log_title" translatable="false">Logs:</string>
@@ -111,4 +111,5 @@
     <string name="config_experimental_glfb_title" translatable="false">GL-Fb</string>
     <string name="overlay_toast_classnotfound">Failed to load overlay config. Could happen on app update</string>
     <string name="overlay_config_ignorehide_checkbox">Ignore hide request</string>
+    <string name="config_dialog_first_choose_rttrdir">Please first create and/or choose an empty/previous folder as RTTR game directory to proceed</string>
 </resources>

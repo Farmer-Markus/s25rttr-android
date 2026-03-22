@@ -3,9 +3,9 @@
     <string name="shortcut_config_name">Konfigurieren</string>
     <string name="config_title_text">Return to the Roots Konfiguration</string>
     <string name="config_rttr_dir_title">RTTR Spielordner:</string>
-    <string name="config_rttr_dir_info">In diesem Ordner werden Spieldateien gespeichert (Einstellungen, Logs, Speicherstände)</string>
+    <string name="config_rttr_dir_info">Ordner um Spieldateien zu speichern (Overlay, Einstellungen, Logs, Speicherstände)</string>
     <string name="config_game_dir_title">Siedler 2 Ordner:</string>
-    <string name="config_game_dir_info">Originale Siedler 2 Gold Edition (msdos) Installation. Wird von RTTR benötigt</string>
+    <string name="config_game_dir_info">Originale Siedler 2 Gold Edition (msdos) Installation (DATA, GFX Ordner). Wird von RTTR benötigt</string>
     <string name="config_default_name_title">Standard Name: (Vor erstem Start setzen)</string>
     <string name="config_orientation_title">Ausrichtung:</string>
     <string name="config_log_delete_button">Logs löschen</string>
@@ -92,4 +92,5 @@
     <string name="config_experimental_title">Experimentell: (Kann Fehler verursachen)</string>
     <string name="overlay_toast_classnotfound">Overlay Konfig konnte nicht geladen werden. Kann bei einem App Update passieren</string>
     <string name="overlay_config_ignorehide_checkbox">Verstecken ignorieren</string>
+    <string name="config_dialog_first_choose_rttrdir">Bitte erstelle und/oder wähle erst einen leeren/früheren Ordner als RTTR Spielordner um fortzufahren</string>
 </resources>

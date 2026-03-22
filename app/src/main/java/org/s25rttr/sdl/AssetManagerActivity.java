@@ -64,7 +64,7 @@ public class AssetManagerActivity extends Activity {
                 } catch (IOException e) {
                     dialog.dismiss();
                     runOnUiThread(()->{
-                        CopyError(e.toString());
+                        CopyErrorMsg(e.toString());
                     });
                     return;
                 }
@@ -74,9 +74,7 @@ public class AssetManagerActivity extends Activity {
             return;
         }
 
-
         // Check for updates
-
         Dialog dialog = UiHelper.ManualDialog(
                 this,
                 getString(R.string.assets_dialog_searching_title),
@@ -90,12 +88,12 @@ public class AssetManagerActivity extends Activity {
             } catch (IOException e) {
                 dialog.dismiss();
                 runOnUiThread(()->{
-                    UpdateError(e.toString());
+                    UpdateErrorMsg(e.toString());
                 });
                 return;
             }
 
-            runOnUiThread(this::UpdateReady);
+            runOnUiThread(this::UpdateReadyMsg);
             dialog.dismiss();;
         }).start();
     }
@@ -115,7 +113,7 @@ public class AssetManagerActivity extends Activity {
     }
 
     private boolean ReadHashFileList(List<String> hashes, List<String> paths, AssetManager manager) throws IOException {
-        // hashes, pathsHolds = hashvals & paths read from file (created at compile time with gradle)
+        // hashes, paths are hashvals & paths read from file (created at compile time with gradle)
         InputStream hashInStream = manager.open(AssetHelper.GetAssetHashFilePath().toString());
         BufferedReader hashReader = new BufferedReader(new InputStreamReader(hashInStream));
 
@@ -172,37 +170,7 @@ public class AssetManagerActivity extends Activity {
         }
     }
 
-    // Check for updates
-    /*public void CheckDir(TextView status) throws IOException {
-        CheckDir(getAssets(), "RTTR", false, status);
-    }
-
-    // Index files where update is needed or just copy all assets over(simpleCopy = true)
-    private void CheckDir(AssetManager manager, String currPath, boolean simpleCopy, TextView status) throws IOException {
-        runOnUiThread(()->{
-            status.setText(currPath);
-        });
-        String[] dirContent = manager.list(currPath);
-        if(dirContent == null)
-            throw new IOException("Could not get Assets from " + currPath);
-
-        // Must be a file
-        if(dirContent.length == 0) {
-            if(simpleCopy)
-                CopyFile(manager, currPath);
-            else {
-                if(!CompareFiles(manager, currPath))
-                    toUpdate.add(currPath);
-            }
-            return;
-        }
-
-        // If is folder
-        for(String entry : dirContent)
-            CheckDir(manager, currPath + "/" + entry, simpleCopy, status);
-    }*/
-
-    private void DisableUpdater() {
+    private void DisableUpdaterMsg() {
         UiHelper.QuestionDialog(
                 this,
                 getString(R.string.assets_dialog_updater_disable_title),
@@ -217,7 +185,7 @@ public class AssetManagerActivity extends Activity {
         );
     }
 
-    private void CopyError(String error) {
+    private void CopyErrorMsg(String error) {
         UiHelper.AlertDialog(
                 this,
                 getString(R.string.assets_dialog_copy_failed_title),
@@ -226,7 +194,7 @@ public class AssetManagerActivity extends Activity {
         );
     }
 
-    private void UpdateError(String error) {
+    private void UpdateErrorMsg(String error) {
         UiHelper.AlertDialog(
                 this,
                 getString(R.string.assets_dialog_update_failed_title),
@@ -235,7 +203,7 @@ public class AssetManagerActivity extends Activity {
         );
     }
 
-    private void UpdateFiles() {
+    private void UpdateFilesMsg() {
         Dialog dialog = UiHelper.ManualDialog(
                 this,
                 getString(R.string.assets_dialog_updating_title),
@@ -253,7 +221,7 @@ public class AssetManagerActivity extends Activity {
                 if(!(tmpFile = tmpFile.GetParent()).Exists() && !tmpFile.Mkdirs()) {
                     dialog.dismiss();
                     runOnUiThread(()->{
-                        UpdateError("Failed to create directory: " + AssetHelper.GetExternalAssetDirPath(settings, file).toString());
+                        UpdateErrorMsg("Failed to create directory: " + AssetHelper.GetExternalAssetDirPath(settings, file).toString());
                     });
                     return;
                 }
@@ -263,7 +231,7 @@ public class AssetManagerActivity extends Activity {
                 } catch (IOException e) {
                     dialog.dismiss();
                     runOnUiThread(() -> {
-                        UpdateError(e.toString());
+                        UpdateErrorMsg(e.toString());
                     });
                     return;
                 }
@@ -291,7 +259,7 @@ public class AssetManagerActivity extends Activity {
     }
 
     // Checked every file, now ready to update or dismiss
-    private void UpdateReady() {
+    private void UpdateReadyMsg() {
         if(toUpdate.isEmpty()) {
             if(short_dialog) {
                 Toast.makeText(this, getString(R.string.assets_toast_no_updates), LENGTH_SHORT).show();
@@ -313,11 +281,11 @@ public class AssetManagerActivity extends Activity {
                     this,
                     getString(R.string.assets_dialog_update_ready_title),
                     getString(R.string.assets_dialog_update_message, toUpdate.size()),
-                    this::UpdateFiles,
+                    this::UpdateFilesMsg,
                     ()->{
                         // Only ask to disable if currently enabled
                         if(settings.EnableUpdater)
-                            DisableUpdater();
+                            DisableUpdaterMsg();
                         else
                             Success();
                     }

@@ -34,14 +34,6 @@ public class SDLActivity extends org.libsdl.app.SDLActivity {
             overlay.Load(true);
         }
     }
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        if(mFullscreenModeActive)
-            UiHelper.SetFullscreen(this);
-    }*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if(requestCode == Overlay.OVERLAY_CONFIG_CODE) {

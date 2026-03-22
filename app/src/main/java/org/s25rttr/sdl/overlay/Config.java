@@ -3,21 +3,29 @@ package org.s25rttr.sdl.overlay;
 
 import android.support.annotation.NonNull;
 
+import org.s25rttr.sdl.data.ConfigInterface;
+
 import java.io.Serializable;
 
 // Store user defined buttons and locations
 public class Config implements Serializable, Cloneable {
+    public static int DEF_OPACITY = 255;
+    public static int DEF_TEXT_OPACITY = 255;
+    public static boolean DEF_IGNORE_HIDE = false;
+    public static int DEF_KEY_CODE = -1;
+
     public String text;
-    public int opacity = 255;
-    public int textOpacity = 255;
+    public int opacity = DEF_OPACITY;
+    public int textOpacity = DEF_TEXT_OPACITY;
     public Pos pos = new Pos();
     public Size size = new Size();
-    public boolean ignoreHide = false;
+    public boolean ignoreHide = DEF_IGNORE_HIDE;
 
     public ClickBehaviour clickBehaviour = new ClickBehaviour();
-    public int keyCode = -1;
+    public int keyCode = DEF_KEY_CODE;
     public MouseEvent mouseEvent = new MouseEvent();
     public OverlayEvent overlayEvent = new OverlayEvent();
+
 
     @Override
     @NonNull
@@ -38,7 +46,6 @@ public class Config implements Serializable, Cloneable {
             throw new AssertionError();
         }
     }
-
 
     public static class Pos implements Serializable, Cloneable {
         public float x;

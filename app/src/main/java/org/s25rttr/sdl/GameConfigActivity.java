@@ -33,7 +33,7 @@ import java.util.Collections;
 
 /*
   Config activity.
-  Allows user to set various settings, open logs
+  Allows user to set various settings, open logs and
   pick folders
  */
 public class GameConfigActivity extends Activity {
@@ -265,9 +265,14 @@ public class GameConfigActivity extends Activity {
 
         button = findViewById(R.id.OverlayEditButton);
         button.setOnClickListener(view -> {
-            Intent intent = new Intent(this, OverlayConfigActivity.class);
-            intent.putExtra(SETTINGS_ID, this.settings);
-            startActivityForResult(intent, OVERLAY_CODE);
+            if(Filesystem.IsPathWritable(settings.RttrDirectory)) {
+                Intent intent = new Intent(this, OverlayConfigActivity.class);
+                intent.putExtra(SETTINGS_ID, this.settings);
+                startActivityForResult(intent, OVERLAY_CODE);
+                return;
+            }
+
+            UiHelper.AlertDialog(this, getString(R.string.game_dialog_missing_config_title), getString(R.string.config_dialog_first_choose_rttrdir), null);
         });
 
         checkBox = findViewById(R.id.EnableUpdaterCheckbox);
@@ -300,7 +305,7 @@ public class GameConfigActivity extends Activity {
         // Experimental https://github.com/ptitSeb/gl4es/blob/master/USAGE.md
         // Gl4es batching
         et = findViewById(R.id.GlBatchEdit);
-        et.setHint(Settings.DEFAULT_GL_BATCH + " - " + Settings.GL_BATCH_MAX);
+        et.setHint(Settings.DEF_GL_BATCH + " - " + Settings.GL_BATCH_MAX);
         et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
@@ -315,7 +320,7 @@ public class GameConfigActivity extends Activity {
 
         // Gl4es framebuffer
         et = findViewById(R.id.GlFbEdit);
-        et.setHint(Settings.DEFAULT_GL_FB + " - " + Settings.GL_FB_MAX);
+        et.setHint(Settings.DEF_GL_FB + " - " + Settings.GL_FB_MAX);
         et.addTextChangedListener(new UiHelper.SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
@@ -329,7 +334,7 @@ public class GameConfigActivity extends Activity {
 
         // Gl4es vsync
         checkBox = findViewById(R.id.GlVsyncCheckbox);
-        checkBox.setHint(String.valueOf(Settings.DEFAULT_GL_VSYNC));
+        checkBox.setHint(String.valueOf(Settings.DEF_GL_VSYNC));
         checkBox.setOnClickListener(view -> {
             settings.GlVsync = ((CheckBox)view).isChecked();
         });
