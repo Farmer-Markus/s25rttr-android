@@ -115,8 +115,6 @@ public class GameConfigActivity extends Activity {
                         settings.RttrDirectory = dDir.toString();
                         ReloadUi();
                     }
-
-
                 }
                 break;
 

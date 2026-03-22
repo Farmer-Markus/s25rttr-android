@@ -98,7 +98,7 @@
     <string name="overlay_config_keyaction_tab" translatable="false">TAB</string>
     <string name="overlay_config_keyaction_alt" translatable="false">ALT</string>
     <string name="overlay_config_keyaction_ctrl">CTRL</string>
-    <string name="overlay_config_overlayaction_edid" translatable="false">EDIT</string>
+    <string name="overlay_config_overlayaction_edit" translatable="false">EDIT</string>
     <string name="overlay_config_overlayaction_toggle" translatable="false">TOGGLE</string>
     <string name="overlay_config_mouseaction_left">LEFT</string>
     <string name="overlay_config_mouseaction_right">RIGHT</string>

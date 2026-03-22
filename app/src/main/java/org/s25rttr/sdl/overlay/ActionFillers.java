@@ -47,7 +47,7 @@ public class ActionFillers {
     public static List<UiHelper.SpinnerItem> GetOverlayItems(Context context) {
         final List<UiHelper.SpinnerItem> items = new ArrayList<>();
 
-        items.add(new UiHelper.SpinnerItem(Config.OverlayEvent.EDIT, context.getString(R.string.overlay_config_overlayaction_edid)));
+        items.add(new UiHelper.SpinnerItem(Config.OverlayEvent.EDIT, context.getString(R.string.overlay_config_overlayaction_edit)));
         items.add(new UiHelper.SpinnerItem(Config.OverlayEvent.TOGGLE, context.getString(R.string.overlay_config_overlayaction_toggle)));
         return items;
     }
