@@ -26,13 +26,13 @@ public class Permissions {
         return readPrm == PackageManager.PERMISSION_GRANTED && writePrm == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static boolean RequestPermission(Context context, int activityCode) {
+    public static boolean RequestPermission(Activity activity, int activityCode) {
         // Newer permission system
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             try {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + context.getPackageName()));
-                context.startActivity(intent);
+                intent.setData(Uri.parse("package:" + activity.getPackageName()));
+                activity.startActivityForResult(intent, activityCode);
             } catch (Exception e) {
                 Log.e("org.s25rttr.sdl", "Failed to request MANAGE_ALL_FILES permission: %s", e);
                 return false;
@@ -41,7 +41,7 @@ public class Permissions {
         }
 
         // Old permission system
-        ActivityCompat.requestPermissions((Activity)context, new String[] {
+        ActivityCompat.requestPermissions((Activity)activity, new String[] {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         }, activityCode);

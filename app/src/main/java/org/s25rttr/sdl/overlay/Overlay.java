@@ -13,21 +13,16 @@ import android.widget.Toast;
 
 import org.s25rttr.sdl.R;
 import org.s25rttr.sdl.data.ConfigInterface;
-import org.s25rttr.sdl.data.Filesystem;
 import org.s25rttr.sdl.data.Path;
 import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.UiHelper;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class Overlay {
     public static int OVERLAY_CONFIG_CODE = 0;
-    protected Path DEFAULT_CONFIG_DIR = new Path("overlay");
 
     // SDLActivity variables
     protected Activity activity;
@@ -100,6 +95,8 @@ public class Overlay {
             return false;
         }
 
+        Toast.makeText(activity, activity.getString(R.string.overlay_toast_loaded, GetSaveFileFromRotation()), LENGTH_SHORT).show();
+
         buttons.addAll(CreateButtons(configs, overlay));
         return true;
     }
@@ -157,7 +154,7 @@ public class Overlay {
         return buttons;
     }
 
-    protected boolean AddButtonBehaviour(final Button button, final int configID) {
+    protected void AddButtonBehaviour(final Button button, final int configID) {
         final Config config = configs.get(configID);
         switch(config.clickBehaviour.behaviour) {
             case Config.ClickBehaviour.SEND_KEY:
@@ -189,10 +186,8 @@ public class Overlay {
                 break;
 
             default:
-                return false;
         }
 
-        return true;
     }
 
     protected Path GetSaveFileFromRotation() {
@@ -204,7 +199,7 @@ public class Overlay {
 
         if(landscape) // :(
             return dir.Append("overlay-landscape.conf");
-        return dir.Append("overlay.conf");
+        return dir.Append("overlay-portrait.conf");
     }
 
     /*// Save button configs to file
@@ -243,8 +238,6 @@ public class Overlay {
         return new ConfigList();
     }*/
 
-    // Separate class needed to use with instanceof
-    // https://stackoverflow.com/questions/10108122/how-to-instanceof-listmytype
     protected static class ConfigList extends ArrayList<Config> {
         protected Class<Config> type;
 
@@ -261,7 +254,20 @@ public class Overlay {
             clear(); // clear config
             ConfigInterface cif = new ConfigInterface();
 
-            cif.LoadFromPath(path);
+            // Create default config
+            if(!path.Exists()) {
+                ConfigInterface defCif = new ConfigInterface();
+                String grp = "Default";
+                defCif.PutString(grp, "btn_text", "KEYBOARD");
+                defCif.PutInt(grp, "btn_opacity", 64);
+                defCif.PutInt(grp, "btn_text_opacity", 128);
+                defCif.PutInt(grp, "btn_click_behaviour", Config.ClickBehaviour.KEYBOARD_TOGGLE);
+
+                defCif.SaveToPath(path);
+            }
+
+            if(!cif.LoadFromPath(path))
+                return false;
 
             Set<String> groups = cif.GetGroupKeys();
             // For every group create config for button
@@ -286,7 +292,6 @@ public class Overlay {
                 add(cfg);
             }
 
-
             return true;
         }
 
@@ -298,24 +303,22 @@ public class Overlay {
                 String group = "Button" + i;
                 Config cfg = get(i);
 
-                cif.SetString(group, "btn_text", cfg.text);
-                cif.SetInt(group, "btn_opacity", cfg.opacity);
-                cif.SetInt(group, "btn_text_opacity", cfg.textOpacity);
-                cif.SetFloat(group, "btn_pos_x", cfg.pos.x);
-                cif.SetFloat(group, "btn_pos_y", cfg.pos.y);
-                cif.SetInt(group, "btn_size_w", cfg.size.w);
-                cif.SetInt(group, "btn_size_h", cfg.size.h);
-                cif.SetBoolean(group, "btn_ignore_hide", cfg.ignoreHide);
+                cif.PutString(group, "btn_text", cfg.text);
+                cif.PutInt(group, "btn_opacity", cfg.opacity);
+                cif.PutInt(group, "btn_text_opacity", cfg.textOpacity);
+                cif.PutFloat(group, "btn_pos_x", cfg.pos.x);
+                cif.PutFloat(group, "btn_pos_y", cfg.pos.y);
+                cif.PutInt(group, "btn_size_w", cfg.size.w);
+                cif.PutInt(group, "btn_size_h", cfg.size.h);
+                cif.PutBoolean(group, "btn_ignore_hide", cfg.ignoreHide);
 
-                cif.SetInt(group, "btn_click_behaviour", cfg.clickBehaviour.behaviour);
-                cif.SetInt(group, "btn_keycode", cfg.keyCode);
-                cif.SetInt(group, "btn_mouse_event", cfg.mouseEvent.event);
-                cif.SetInt(group, "btn_overlay_event", cfg.overlayEvent.event);
+                cif.PutInt(group, "btn_click_behaviour", cfg.clickBehaviour.behaviour);
+                cif.PutInt(group, "btn_keycode", cfg.keyCode);
+                cif.PutInt(group, "btn_mouse_event", cfg.mouseEvent.event);
+                cif.PutInt(group, "btn_overlay_event", cfg.overlayEvent.event);
             }
 
-            cif.SaveToPath(path);
-
-            return true;
+            return cif.SaveToPath(path);
         }
     }
 }

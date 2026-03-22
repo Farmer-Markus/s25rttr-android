@@ -47,6 +47,8 @@ public class GameConfigActivity extends Activity {
     private static final int UPDATER_CODE = 3;
     private static final int OVERLAY_CODE = 4;
 
+    private static final String DEF_RTTR_DIR_PATH = "/storage/emulated/0/s25rttr";
+
     private Settings settings;
 
 
@@ -88,32 +90,47 @@ public class GameConfigActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if(resultCode == RESULT_OK) {
-            switch(requestCode) {
-                case RTTR_DIR_PICKER_CODE:
+        switch(requestCode) {
+            case RTTR_DIR_PICKER_CODE:
+                if(resultCode == RESULT_OK)
                     HandleRttrDirPickerResult(resultData);
-                    break;
+                break;
 
-                case GAME_DIR_PICKER_CODE:
+            case GAME_DIR_PICKER_CODE:
+                if(resultCode == RESULT_OK)
                     HandleGameDirPickerResult(resultData);
+                break;
+
+            case PERMISSION_CODE:
+                // If no RTTR dir is set, try to use default directory
+                if(!Permissions.HasPermission(this))
                     break;
 
-                case PERMISSION_CODE:
-                    // Do... Nothing? No I don't think so :-/
-                    break;
+                if(settings.RttrDirectory.isEmpty() || !Filesystem.IsPathWritable(settings.RttrDirectory)) {
+                    Path dDir = new Path(DEF_RTTR_DIR_PATH);
+                    if(!dDir.Exists() && !dDir.Mkdir())
+                        break;
 
-                case OVERLAY_CODE:
-                    // Also not needed
-                    break;
-
-                case UPDATER_CODE:
-                    // Setting could have been disabled
-                    if(settings.EnableUpdater) {
-                        settings.EnableUpdater = new Settings().Load(this).EnableUpdater;
+                    if(dDir.Exists() && dDir.IsDirectory() && Filesystem.IsPathWritable(dDir.toString())) {
+                        settings.RttrDirectory = dDir.toString();
                         ReloadUi();
                     }
-                    break;
-            }
+
+
+                }
+                break;
+
+            case OVERLAY_CODE:
+                // Do... Nothing? No I don't think so :-/
+                break;
+
+            case UPDATER_CODE:
+                // Setting could have been disabled
+                if(resultCode == RESULT_OK && settings.EnableUpdater) {
+                    settings.EnableUpdater = new Settings().Load(this).EnableUpdater;
+                    ReloadUi();
+                }
+                break;
         }
     }
 

@@ -1,5 +1,7 @@
 package org.s25rttr.sdl.overlay;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,18 +22,20 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.s25rttr.sdl.R;
-import org.s25rttr.sdl.data.Path;
 import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.UiHelper;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class OverlayEditor extends Overlay implements Serializable {
     private static final float CLICK_DISTANCE = 5.0f;
-    private final TextView buttonInfoView;
+    private final transient TextView buttonInfoView;
 
     public OverlayEditor(Activity activity, ViewGroup view, SurfaceView surface, boolean hidden, Settings settings) {
         super(activity, view, surface, hidden, settings);
@@ -43,6 +47,17 @@ public class OverlayEditor extends Overlay implements Serializable {
                 activity.getString(R.string.overlay_config_orientation_info));
         buttonInfoView.setGravity(Gravity.CENTER);
         overlay.addView(buttonInfoView);
+    }
+
+    // Custom functions to serialize textview and prevent crash
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeObject(buttonInfoView.getText());
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        buttonInfoView.setText((String)in.readObject());
     }
 
     @Override
@@ -74,7 +89,7 @@ public class OverlayEditor extends Overlay implements Serializable {
     @Override
     @SuppressWarnings("unused")
     @SuppressLint("ClickableViewAccessibility")
-    protected boolean AddButtonBehaviour(final Button button, final int configID) {
+    protected void AddButtonBehaviour(final Button button, final int configID) {
         button.setOnTouchListener(new View.OnTouchListener() {
             final Config.Pos startPos = new Config.Pos();
             float diffX, diffY;
@@ -108,7 +123,6 @@ public class OverlayEditor extends Overlay implements Serializable {
             }
         });
 
-        return true;
     }
 
     private void ButtonSavePos(final Button button, final Config config) {
@@ -421,6 +435,7 @@ public class OverlayEditor extends Overlay implements Serializable {
                 } catch (Exception e) {
                     UiHelper.FatalError(activity, e.toString());
                 }
+                Toast.makeText(activity, activity.getString(R.string.overlay_toast_saved, GetSaveFileFromRotation()), LENGTH_SHORT).show();
             } else if(id == R.id.ResetButtons) {
                 // Restart activity
                 Intent intent = activity.getIntent();

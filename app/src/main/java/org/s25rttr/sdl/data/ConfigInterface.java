@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/*
-    My approach on writing/reading a conf file
-    Does not support nested configs!
-    1 conf per line
+/**
+ * My approach on writing/reading a conf file.
+ * Does not support nested configs, only groups!
+ * 1 conf per line
  */
 public class ConfigInterface {
     private HashMap<String, Group> data;
@@ -128,7 +128,7 @@ public class ConfigInterface {
      * @param key The key to store the value with
      * @param value The value to store
      */
-    public void Set(final String group, final String key, final String value) {
+    public void Put(final String group, final String key, final String value) {
         lastGroup = GetOrSetDefault(group);
         lastGroup.put(key, value);
     }
@@ -139,8 +139,8 @@ public class ConfigInterface {
      * @param key The key to store the value with
      * @param value The value to store
      */
-    public void SetString(final String group, final String key, final String value) {
-        Set(group, key, value);
+    public void PutString(final String group, final String key, final String value) {
+        Put(group, key, value);
     }
 
     /**
@@ -149,8 +149,8 @@ public class ConfigInterface {
      * @param key The key to store the value with
      * @param value The value to store
      */
-    public void SetInt(final String group, final String key, final int value) {
-        Set(group, key, String.valueOf(value));
+    public void PutInt(final String group, final String key, final int value) {
+        Put(group, key, String.valueOf(value));
     }
 
     /**
@@ -159,8 +159,8 @@ public class ConfigInterface {
      * @param key The key to store the value with
      * @param value The value to store
      */
-    public void SetFloat(final String group, final String key, final float value) {
-        Set(group, key, String.valueOf(value));
+    public void PutFloat(final String group, final String key, final float value) {
+        Put(group, key, String.valueOf(value));
     }
 
     /**
@@ -169,8 +169,8 @@ public class ConfigInterface {
      * @param key The key to store the value with
      * @param value The value to store
      */
-    public void SetBoolean(final String group, final String key, final boolean value) {
-        Set(group, key, String.valueOf(value));
+    public void PutBoolean(final String group, final String key, final boolean value) {
+        Put(group, key, String.valueOf(value));
     }
 
     /**
