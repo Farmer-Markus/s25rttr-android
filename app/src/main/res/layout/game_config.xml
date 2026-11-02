@@ -109,6 +109,15 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
+                <Button
+                    android:id="@+id/GameDirGogButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/config_gog_button"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/GameDirPickButton" />
+
                 <EditText
                     android:id="@+id/GameDirEditText"
                     android:layout_width="0dp"
@@ -116,7 +125,7 @@
                     android:ems="10"
                     android:hint="required"
                     android:inputType="text|textNoSuggestions"
-                    app:layout_constraintEnd_toStartOf="@+id/GameDirPickButton"
+                    app:layout_constraintEnd_toStartOf="@+id/GameDirGogButton"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/GameDirInfo" />
 

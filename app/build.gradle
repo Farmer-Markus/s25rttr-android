@@ -21,6 +21,7 @@ android {
     }
     
     compileSdkVersion 36
+    buildToolsVersion "36.0.0"
     defaultConfig {
     	archivesBaseName = "s25rttr"
     	applicationId "org.s25rttr.sdl"
@@ -30,7 +31,7 @@ android {
         versionName "2.0.2"
         externalNativeBuild {
              cmake {
-                 arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared"
+                 arguments "-DANDROID_APP_PLATFORM=android-28", "-DANDROID_STL=c++_shared", "-DCMAKE_SHARED_LINKER_FLAGS=-lc++_shared"
                  abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
                  //abiFilters 'x86_64'
              }
@@ -178,17 +179,19 @@ tasks.register("buildDependencies") {
 
             exec {
                 commandLine( cmake,
+                    "-G", "Ninja",
                     "-S", depSrc,
                     "-B", buildDir,
                     "-DCMAKE_TOOLCHAIN_FILE=$ndkDir/build/cmake/android.toolchain.cmake",
                     "-DANDROID_ABI=$abi",
                     "-DANDROID_PLATFORM=android-28",
+                    "-DCMAKE_SHARED_LINKER_FLAGS=-lc++_shared",
                     "-DCMAKE_BUILD_TYPE=Release")
             }
 
             exec {
                 workingDir(buildDir)
-                commandLine( cmake, "--build", ".", "--", "-j")
+                commandLine( cmake, "--build", ".", "--", "-j${Runtime.runtime.availableProcessors()}")
             }
         }
     }
@@ -265,4 +268,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
 }

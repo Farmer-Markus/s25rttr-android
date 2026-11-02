@@ -112,6 +112,9 @@
             android:exported="true"
             android:theme="@style/GameConfigTheme">
         </activity>
+        <activity android:name=".gog.GogLoginActivity"
+            android:exported="false"
+            android:theme="@style/GameConfigTheme" />
         <activity android:name=".AssetManagerActivity"
             android:exported="true"
             android:theme="@style/GameConfigTheme">

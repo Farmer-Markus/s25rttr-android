@@ -59,4 +59,10 @@
     <string name="logview_button_back">Zurück</string>
     <string name="logview_button_down">Runter</string>
     <string name="logview_button_up">Hoch</string>
+    <string name="config_gog_button">GOG-Download</string>
+    <string name="gog_logging_in">Anmeldung bei GOG…</string>
+    <string name="gog_starting_download">Suche nach The Settlers 2 Gold Edition…</string>
+    <string name="gog_download_complete">Download abgeschlossen</string>
+    <string name="gog_download_failed">GOG-Download fehlgeschlagen:</string>
+    <string name="gog_download_done_info">Installer heruntergeladen nach: %1$s</string>
 </resources>

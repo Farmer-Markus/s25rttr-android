@@ -23,6 +23,7 @@ import android.window.OnBackInvokedDispatcher;
 
 import org.s25rttr.sdl.data.Filesystem;
 import org.s25rttr.sdl.data.Path;
+import org.s25rttr.sdl.gog.GogLoginActivity;
 import org.s25rttr.sdl.utils.Permissions;
 import org.s25rttr.sdl.data.Settings;
 import org.s25rttr.sdl.utils.RttrHelper;
@@ -45,6 +46,7 @@ public class GameConfigActivity extends Activity {
     private static final int GAME_DIR_PICKER_CODE = 1;
     private static final int PERMISSION_CODE = 2;
     private static final int UPDATER_CODE = 3;
+    private static final int GOG_DOWNLOAD_CODE = 4;
 
     private Settings settings;
 
@@ -107,6 +109,10 @@ public class GameConfigActivity extends Activity {
                         settings.EnableUpdater = new Settings().Load(this).EnableUpdater;
                         ReloadUi();
                     }
+                    break;
+
+                case GOG_DOWNLOAD_CODE:
+                    HandleGogDownloadResult(resultData);
                     break;
             }
         }
@@ -180,6 +186,21 @@ public class GameConfigActivity extends Activity {
         }
     }
 
+    private void HandleGogDownloadResult(Intent resultData) {
+        if(resultData == null)
+            return;
+        String installerPath = resultData.getStringExtra(GogLoginActivity.EXTRA_INSTALLER_PATH);
+        if(installerPath == null)
+            return;
+        // Extraction into the Settlers 2 directory is not implemented yet
+        UiHelper.AlertDialog(
+                this,
+                getString(R.string.config_gog_button),
+                getString(R.string.gog_download_done_info, installerPath),
+                null
+        );
+    }
+
     private UiHelper.SpinnerItem[] GetAvailableLogItems() {
         if(!Filesystem.IsPathWritable(settings.RttrDirectory))
             return null;
@@ -234,6 +255,12 @@ public class GameConfigActivity extends Activity {
         button = findViewById(R.id.GameDirPickButton);
         button.setOnClickListener(view -> {
             OpenFilePicker(GAME_DIR_PICKER_CODE);
+        });
+
+        button = findViewById(R.id.GameDirGogButton);
+        button.setOnClickListener(view -> {
+            if(EnsurePermission())
+                startActivityForResult(new Intent(this, GogLoginActivity.class), GOG_DOWNLOAD_CODE);
         });
 
         et = findViewById(R.id.GameDirEditText);

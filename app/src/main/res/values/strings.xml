@@ -13,6 +13,12 @@
     <string name="config_log_delete_button">Delete logs</string>
     <string name="config_game_start_button">Start game/Save settings</string>
     <string name="config_pick_button" translatable="false">Pick</string>
+    <string name="config_gog_button">GOG download</string>
+    <string name="gog_logging_in">Logging in to GOG…</string>
+    <string name="gog_starting_download">Searching for The Settlers 2 Gold Edition…</string>
+    <string name="gog_download_complete">Download finished</string>
+    <string name="gog_download_failed">GOG download failed:</string>
+    <string name="gog_download_done_info">Installer downloaded to: %1$s</string>
     <string name="config_dialog_permission_title">Permission</string>
     <string name="config_dialog_discard_changes_title">Discard changes?</string>
     <string name="config_dialog_discard_changes_message">You have unsaved changes do you really want to exit without saving?</string>
