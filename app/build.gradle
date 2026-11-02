@@ -49,7 +49,7 @@ android {
         tasks["normalizeAssets"].mustRunAfter("externalNativeBuild${variant.name.capitalize()}")
 
         tasks[("externalNativeBuild${variant.name.capitalize()}")]
-            .dependsOn(["buildDependencies", "genAssetHashes"])
+            .dependsOn(["buildDependencies", "genAssetHashes", "patchS25client"])
     }
     if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
         sourceSets.main {
@@ -224,6 +224,23 @@ def normalizeAssetLineEndings = { File assetDir ->
         def text = f.getText("UTF-8")
         if(text.contains("\r\n"))
             f.setText(text.replace("\r\n", "\n"), "UTF-8")
+    }
+}
+
+// Applies patches/s25client-android-windows-build.patch to the s25client submodule (no-op if already applied)
+tasks.register("patchS25client") {
+    doLast {
+        def patch = file("$rootDir/patches/s25client-android-windows-build.patch")
+        def repo = file("$rootDir/app/jni/s25client")
+        def run = { List<String> args ->
+            def p = new ProcessBuilder(["git", "-C", repo.absolutePath] + args).redirectErrorStream(true).start()
+            p.inputStream.text
+            p.waitFor()
+        }
+        if(run(["apply", "--reverse", "--check", patch.absolutePath]) == 0)
+            return
+        if(run(["apply", patch.absolutePath]) != 0)
+            throw new GradleException("Failed to apply ${patch.name} to app/jni/s25client")
     }
 }
 
