@@ -40,10 +40,12 @@ import org.s25rttr.sdl.gog.GogModels.GogTokenResponse;
 public class GogLoginActivity extends Activity {
 
     public static final String EXTRA_INSTALLER_PATH = "installer_path";
+    public static final String EXTRA_GAME_DIR = "game_dir";
 
     private static final String TAG = "RttrGog";
     private static final String REDIRECT_HOST = "embed.gog.com";
     private static final String INSTALLER_NAME = "settlers2_gog_setup.exe";
+    private static final String GAME_DIR_NAME = "S2";
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -117,9 +119,17 @@ public class GogLoginActivity extends Activity {
             new GogDownloader(accessToken).download(target,
                     (status, percent) -> mainHandler.post(() -> updateProgress(status, percent)));
 
+            File gameDir = new File(getExternalFilesDir(null), GAME_DIR_NAME);
+            mainHandler.post(() -> showProgress(getString(R.string.gog_extracting), 0));
+            GogInstallerExtractor.extract(target, gameDir,
+                    (status, percent) -> mainHandler.post(() -> updateProgress(status, percent)));
+
             mainHandler.post(() -> {
                 Toast.makeText(this, R.string.gog_download_complete, Toast.LENGTH_LONG).show();
-                setResult(RESULT_OK, new Intent().putExtra(EXTRA_INSTALLER_PATH, target.getAbsolutePath()));
+                Intent result = new Intent()
+                        .putExtra(EXTRA_INSTALLER_PATH, target.getAbsolutePath())
+                        .putExtra(EXTRA_GAME_DIR, gameDir.getAbsolutePath());
+                setResult(RESULT_OK, result);
                 finish();
             });
         } catch (Exception ex) {

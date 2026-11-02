@@ -189,16 +189,20 @@ public class GameConfigActivity extends Activity {
     private void HandleGogDownloadResult(Intent resultData) {
         if(resultData == null)
             return;
-        String installerPath = resultData.getStringExtra(GogLoginActivity.EXTRA_INSTALLER_PATH);
-        if(installerPath == null)
+        String gameDir = resultData.getStringExtra(GogLoginActivity.EXTRA_GAME_DIR);
+        if(gameDir == null)
             return;
-        // Extraction into the Settlers 2 directory is not implemented yet
-        UiHelper.AlertDialog(
-                this,
-                getString(R.string.config_gog_button),
-                getString(R.string.gog_download_done_info, installerPath),
-                null
-        );
+        settings.GameDirectory = gameDir;
+        settings.Save(this);
+        ReloadUi();
+        if(!RttrHelper.CheckS2Files(settings)) {
+            UiHelper.AlertDialog(
+                    this,
+                    getString(R.string.config_dialog_s2files_title),
+                    getString(R.string.config_dialog_s2files_message),
+                    null
+            );
+        }
     }
 
     private UiHelper.SpinnerItem[] GetAvailableLogItems() {

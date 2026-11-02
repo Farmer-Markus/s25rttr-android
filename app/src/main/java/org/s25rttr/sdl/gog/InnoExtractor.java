@@ -144,6 +144,49 @@ public final class InnoExtractor {
         }
     }
 
+    /**
+     * Ein roher Datei-Eintrag aus dem Installer-Header. Wird von GOG-Installern genutzt, um
+     * die eigentlichen Spieldaten (in {tmp} mit Hash-Namen abgelegt) auf ihre Zielpfade
+     * abzubilden: Die Felder {@code beforeInstall}/{@code afterInstall} enthalten dann
+     * Ausdrücke wie {@code before_install('&lt;md5&gt;', '&lt;pfad&gt;', 1)}.
+     */
+    public static final class FileEntryInfo {
+        public final String source;
+        public final String destination;
+        public final String languages;
+        public final String check;
+        public final String afterInstall;
+        public final String beforeInstall;
+        public final long location;
+        public final boolean deleteAfterInstall;
+
+        FileEntryInfo(FileEntry fe) {
+            this.source = fe.source;
+            this.destination = fe.destination;
+            this.languages = fe.languages;
+            this.check = fe.check;
+            this.afterInstall = fe.afterInstall;
+            this.beforeInstall = fe.beforeInstall;
+            this.location = fe.location;
+            this.deleteAfterInstall = fe.deleteAfterInstall;
+        }
+    }
+
+    /** Liefert die rohen Datei-Einträge des Installers (ohne Filterung). */
+    public static List<FileEntryInfo> fileEntries(File installer) throws IOException {
+        RandomAccessFile f = new RandomAccessFile(installer, "r");
+        try {
+            Setup s = load(f);
+            List<FileEntryInfo> result = new ArrayList<FileEntryInfo>(s.files.size());
+            for (FileEntry fe : s.files) {
+                result.add(new FileEntryInfo(fe));
+            }
+            return result;
+        } finally {
+            f.close();
+        }
+    }
+
     /** Entpackt den Installer nach outDir. */
     public static void extract(File installer, File outDir, Options o, Progress progress) throws IOException {
         if (o == null) o = new Options();
@@ -172,8 +215,12 @@ public final class InnoExtractor {
     }
 
     private static final class FileEntry {
+        String source = "";
         String destination = "";
         String languages = "";
+        String check = "";
+        String afterInstall = "";
+        String beforeInstall = "";
         long location;
         boolean deleteAfterInstall;
     }
@@ -812,17 +859,17 @@ public final class InnoExtractor {
         // ---- Files
         for (long i = 0; i < fileCount; i++) {
             FileEntry fe = new FileEntry();
-            r.skipStr();                 // source
-            fe.destination = r.str();    // destination
-            r.skipStr();                 // install_font_name
-            r.skipStr();                 // strong_assembly_name (>= 5.2.5)
-            r.skipStr();                 // components
-            r.skipStr();                 // tasks
-            fe.languages = r.str();      // languages
-            r.skipStr();                 // check
-            r.skipStr();                 // after_install
-            r.skipStr();                 // before_install
-            r.skip(20);                  // winver
+            fe.source = r.str();                 // source
+            fe.destination = r.str();            // destination
+            r.skipStr();                         // install_font_name
+            r.skipStr();                         // strong_assembly_name (>= 5.2.5)
+            r.skipStr();                         // components
+            r.skipStr();                         // tasks
+            fe.languages = r.str();              // languages
+            fe.check = r.str();                  // check
+            fe.afterInstall = r.str();           // after_install
+            fe.beforeInstall = r.str();          // before_install
+            r.skip(20);                          // winver
             fe.location = r.u32();
             r.skip(4);                   // attributes
             r.skip(8);                   // external_size

@@ -16,6 +16,7 @@
     <string name="config_gog_button">GOG download</string>
     <string name="gog_logging_in">Logging in to GOG…</string>
     <string name="gog_starting_download">Searching for The Settlers 2 Gold Edition…</string>
+    <string name="gog_extracting">Extracting game data…</string>
     <string name="gog_download_complete">Download finished</string>
     <string name="gog_download_failed">GOG download failed:</string>
     <string name="gog_download_done_info">Installer downloaded to: %1$s</string>
