@@ -1,0 +1,48 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f9feb0db5..28a890225 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -255,7 +255,10 @@ if(NOT WIN32)
+     configure_executable("${CMAKE_CURRENT_SOURCE_DIR}/start.sh.cmake" . start.sh)
+ endif()
+ 
+-file(WRITE "${RTTR_S2_PLACEHOLDER_PATH}" "put your S2-Installation in here")
++# Android has an absolute RTTR_GAMEDIR inside the app assets, so no placeholder is written there
++if(NOT ANDROID)
++    file(WRITE "${RTTR_S2_PLACEHOLDER_PATH}" "put your S2-Installation in here")
++endif()
+ 
+ ################################################################################
+ # Set variables used by the release scripts and the updater:
+diff --git a/external/CMakeLists.txt b/external/CMakeLists.txt
+index 29b9de5b0..c94fd0bc5 100644
+--- a/external/CMakeLists.txt
++++ b/external/CMakeLists.txt
+@@ -51,7 +51,10 @@ add_subdirectory(liblobby)
+ add_subdirectory(libsiedler2)
+ add_subdirectory(libutil)
+ add_subdirectory(mygettext)
+-add_subdirectory(s25edit)
++# The map editor is a desktop tool and is not needed in the Android app
++if(NOT ANDROID)
++    add_subdirectory(s25edit)
++endif()
+ if(RTTR_BUILD_UPDATER)
+     add_subdirectory(s25update)
+ endif()
+diff --git a/extras/CMakeLists.txt b/extras/CMakeLists.txt
+index edbac0174..9edb54c2a 100644
+--- a/extras/CMakeLists.txt
++++ b/extras/CMakeLists.txt
+@@ -11,7 +11,10 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
+ 
+ add_subdirectory(audioDrivers)
+ add_subdirectory(videoDrivers)
+-add_subdirectory(ai-battle)
++# Headless AI test tool is a desktop-only executable
++if(NOT ANDROID)
++    add_subdirectory(ai-battle)
++endif()
+ if(RTTR_BUNDLE AND APPLE)
+     add_subdirectory(macosLauncher)
+ endif()
