@@ -45,7 +45,8 @@ android {
     }
     applicationVariants.all { variant ->
         tasks[("merge${variant.name.capitalize()}Assets")]
-            .dependsOn("externalNativeBuild${variant.name.capitalize()}")
+            .dependsOn("externalNativeBuild${variant.name.capitalize()}", "normalizeAssets")
+        tasks["normalizeAssets"].mustRunAfter("externalNativeBuild${variant.name.capitalize()}")
 
         tasks[("externalNativeBuild${variant.name.capitalize()}")]
             .dependsOn(["buildDependencies", "genAssetHashes"])
@@ -214,6 +215,23 @@ static def WriteAssetHashes(fileList, File hashFile) {
     }
 }
 
+// A Windows checkout with core.autocrlf=true yields CRLF text assets (e.g. sound.scs),
+// which RTTR's line based parsers reject ("No index or value").
+def normalizeAssetLineEndings = { File assetDir ->
+    if(!assetDir.exists())
+        return
+    fileTree(assetDir).matching { include "**/*.scs", "**/*.lua", "**/*.ini", "**/*.txt" }.each { File f ->
+        def text = f.getText("UTF-8")
+        if(text.contains("\r\n"))
+            f.setText(text.replace("\r\n", "\n"), "UTF-8")
+    }
+}
+
+tasks.register("normalizeAssets") {
+    def assetDir = file("$rootDir/app/src/main/assets/RTTR")
+    doLast { normalizeAssetLineEndings(assetDir) }
+}
+
 tasks.register("genAssetHashes") {
     def assetDir = "$rootDir/app/src/main/assets/RTTR"
     def hashFile = file("$rootDir/app/src/main/assets/assetHashes")
@@ -221,6 +239,8 @@ tasks.register("genAssetHashes") {
     def files = []
 
     doLast {
+        normalizeAssetLineEndings(file(assetDir))
+
         // Generate hashes for every asset
         fileTree(assetDir).visit { FileVisitDetails details ->
             if(!details.isDirectory())
